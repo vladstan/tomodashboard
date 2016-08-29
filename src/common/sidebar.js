@@ -87,9 +87,9 @@ export default class SidebarContainer extends React.Component {
           <SidebarControlBtn bundle='fontello' glyph='chart-pie-2' sidebar={3} />
         </SidebarControls>
         <div id='sidebar-container'>
-        <Sidebar sidebar={0}>
-          <NotificationsComponent />
-        </Sidebar>
+          <Sidebar sidebar={0}>
+            <NotificationsComponent />
+          </Sidebar>
           <Sidebar sidebar={1}>
             <ChatComponent />
           </Sidebar>

@@ -7,7 +7,7 @@ import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 import Footer from './common/footer';
 import Header from './common/header';
 import Sidebar from './common/sidebar';
-
+import UserChat from './chat/UserChat';
 import Home from './routes/home';
 
 class App extends React.Component {
@@ -33,5 +33,6 @@ class App extends React.Component {
 export default (
   <Route path='/' component={App}>
     <IndexRoute component={Home} />
+    <Route path='userchat' component={UserChat} />
   </Route>
 );
