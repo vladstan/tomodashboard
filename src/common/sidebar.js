@@ -22,14 +22,20 @@ class ApplicationSidebar extends React.Component {
         <Grid>
           <Row>
             <Col xs={12}>
-              <FormControl type='text' placeholder='Search...' onChange={::this.handleChange} className='sidebar-search' style={{border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white'}} />
+              <FormControl type='text' placeholder='Search (user, tags)...' onChange={::this.handleChange} className='sidebar-search' style={{border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white'}} />
               <div className='sidebar-nav-container'>
                 <SidebarNav style={{marginBottom: 0}} ref={(c) => this._nav = c}>
 
                   { /** Pages Section */ }
-                  <div className='sidebar-header'>PAGES</div>
+                  <Col xs={12}>
+                    <div className='sidebar-header'>Messages</div>
+                    <div>The user can send new messeges from here. The selection is here: text, card, img.</div>
+                  </Col>
+{/*
+                  <SidebarNavItem glyph='icon-fontello-plus-1' name='Text' href='/' />
+                  <SidebarNavItem glyph='icon-fontello-plus-1' name='Images' href='/' />
+                  <SidebarNavItem glyph='icon-fontello-plus-1' name='Cards' href='/' /> */}
 
-                  <SidebarNavItem glyph='icon-fontello-gauge' name='Home' href='/' />
                 </SidebarNav>
               </div>
             </Col>
@@ -40,20 +46,52 @@ class ApplicationSidebar extends React.Component {
   }
 }
 
-class DummySidebar extends React.Component {
+class Stats extends React.Component {
   render() {
     return (
       <Grid>
         <Row>
           <Col xs={12}>
-            <div className='sidebar-header'>DUMMY SIDEBAR</div>
-            <LoremIpsum query='1p' />
+            <div className='sidebar-header'>Stats</div>
+            <div>This is where we can show some stats for the agent, to help him improve his skills.</div>
           </Col>
         </Row>
       </Grid>
     );
   }
 }
+
+class Messages extends React.Component {
+  render() {
+    return (
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <div className='sidebar-header'>Messages</div>
+            <div>The user can send new messeges from here. The selection is here: text, card, img.</div>
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+}
+
+class Notifications extends React.Component {
+  render() {
+    return (
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <div className='sidebar-header'>Notofications</div>
+            <div> We should list here the requests from the users.</div>
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+}
+
+
 
 @withRouter
 export default class SidebarContainer extends React.Component {
@@ -64,10 +102,10 @@ export default class SidebarContainer extends React.Component {
           <Grid>
             <Row className='fg-white'>
               <Col xs={4} collapseRight>
-                <img src='/imgs/app/avatars/avatar0.png' width='40' height='40' />
+                <img src='/imgs/app/avatars/avatar17.png' width='40' height='40' />
               </Col>
               <Col xs={8} collapseLeft id='avatar-col'>
-                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>Anna Sanchez</div>
+                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>Agent Smith</div>
                 <div>
                   <Progress id='demo-progress' value={30} color='#ffffff'/>
                   <a href='#'>
@@ -79,27 +117,19 @@ export default class SidebarContainer extends React.Component {
           </Grid>
         </div>
         <SidebarControls>
-          <SidebarControlBtn bundle='fontello' glyph='docs' sidebar={0} />
+          <SidebarControlBtn bundle='fontello' glyph='bell-5' sidebar={0} />
           <SidebarControlBtn bundle='fontello' glyph='chat-1' sidebar={1} />
           <SidebarControlBtn bundle='fontello' glyph='chart-pie-2' sidebar={2} />
-          <SidebarControlBtn bundle='fontello' glyph='th-list-2' sidebar={3} />
-          <SidebarControlBtn bundle='fontello' glyph='bell-5' sidebar={4} />
         </SidebarControls>
         <div id='sidebar-container'>
-          <Sidebar sidebar={0}>
+        <Sidebar sidebar={0}>
+          <Notifications />
+        </Sidebar>
+          <Sidebar sidebar={1}>
             <ApplicationSidebar />
           </Sidebar>
-          <Sidebar sidebar={1}>
-            <DummySidebar />
-          </Sidebar>
           <Sidebar sidebar={2}>
-            <DummySidebar />
-          </Sidebar>
-          <Sidebar sidebar={3}>
-            <DummySidebar />
-          </Sidebar>
-          <Sidebar sidebar={4}>
-            <DummySidebar />
+            <Stats />
           </Sidebar>
         </div>
       </div>
