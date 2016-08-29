@@ -8,6 +8,10 @@ import {
   SidebarDivider
 } from '@sketchpixy/rubix';
 
+import NotificationsComponent from '../notifications/notifications';
+import ChatComponent from '../chat/chat';
+import StatisticsComponent from '../stats/stats';
+
 import { Link, withRouter } from 'react-router';
 
 @withRouter
@@ -16,77 +20,37 @@ class ApplicationSidebar extends React.Component {
     this._nav.search(e.target.value);
   }
 
+  getPath(path) {
+    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
+    path = `/${dir}/${path}`;
+    return path;
+  }
+
   render() {
     return (
       <div>
+
         <Grid>
           <Row>
             <Col xs={12}>
-              <FormControl type='text' placeholder='Search (user, tags)...' onChange={::this.handleChange} className='sidebar-search' style={{border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white'}} />
+              <FormControl type='text' placeholder='Search...' onChange={::this.handleChange} className='sidebar-search' style={{border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white'}} />
               <div className='sidebar-nav-container'>
                 <SidebarNav style={{marginBottom: 0}} ref={(c) => this._nav = c}>
 
                   { /** Pages Section */ }
-                  <Col xs={12}>
-                    <div className='sidebar-header'>Messages</div>
-                    <div>The user can send new messeges from here. The selection is here: text, card, img.</div>
-                  </Col>
-{/*
-                  <SidebarNavItem glyph='icon-fontello-plus-1' name='Text' href='/' />
-                  <SidebarNavItem glyph='icon-fontello-plus-1' name='Images' href='/' />
-                  <SidebarNavItem glyph='icon-fontello-plus-1' name='Cards' href='/' /> */}
+                  <div className='sidebar-header'>Broadcasting</div>
 
+                  <SidebarNavItem glyph='icon-outlined-mail-open' name='Text' href={::this.getPath('text')} />
+                  <SidebarNavItem glyph='icon-pixelvicon-photo-gallery' name='Image' href={::this.getPath('image')} />
+                  <SidebarNavItem glyph='icon-dripicons-message' name='Card' href={::this.getPath('card')} />
+
+                  <SidebarDivider />
                 </SidebarNav>
               </div>
             </Col>
           </Row>
         </Grid>
       </div>
-    );
-  }
-}
-
-class Stats extends React.Component {
-  render() {
-    return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <div className='sidebar-header'>Stats</div>
-            <div>This is where we can show some stats for the agent, to help him improve his skills.</div>
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
-}
-
-class Messages extends React.Component {
-  render() {
-    return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <div className='sidebar-header'>Messages</div>
-            <div>The user can send new messeges from here. The selection is here: text, card, img.</div>
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
-}
-
-class Notifications extends React.Component {
-  render() {
-    return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <div className='sidebar-header'>Notofications</div>
-            <div> We should list here the requests from the users.</div>
-          </Col>
-        </Row>
-      </Grid>
     );
   }
 }
@@ -118,18 +82,22 @@ export default class SidebarContainer extends React.Component {
         </div>
         <SidebarControls>
           <SidebarControlBtn bundle='fontello' glyph='bell-5' sidebar={0} />
-          <SidebarControlBtn bundle='fontello' glyph='chat-1' sidebar={1} />
-          <SidebarControlBtn bundle='fontello' glyph='chart-pie-2' sidebar={2} />
+          <SidebarControlBtn bundle='fontello' glyph='flag-1' sidebar={1} />
+          <SidebarControlBtn bundle='fontello' glyph='chat-1' sidebar={2} />
+          <SidebarControlBtn bundle='fontello' glyph='chart-pie-2' sidebar={3} />
         </SidebarControls>
         <div id='sidebar-container'>
         <Sidebar sidebar={0}>
-          <Notifications />
+          <NotificationsComponent />
         </Sidebar>
           <Sidebar sidebar={1}>
-            <ApplicationSidebar />
+            <ChatComponent />
           </Sidebar>
           <Sidebar sidebar={2}>
-            <Stats />
+            <ApplicationSidebar />
+          </Sidebar>
+          <Sidebar sidebar={3}>
+            <StatisticsComponent />
           </Sidebar>
         </div>
       </div>
