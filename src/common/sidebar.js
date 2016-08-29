@@ -10,6 +10,7 @@ import {
 
 import NotificationsComponent from '../notifications/notifications';
 import ChatComponent from '../chat/chat';
+import BroadcastingComponent from '../broadcasting/broadcasting';
 import StatisticsComponent from '../stats/stats';
 
 import { Link, withRouter } from 'react-router';
@@ -59,6 +60,7 @@ class ApplicationSidebar extends React.Component {
 
 @withRouter
 export default class SidebarContainer extends React.Component {
+
   render() {
     return (
       <div id='sidebar' {...this.props}>
@@ -88,13 +90,13 @@ export default class SidebarContainer extends React.Component {
         </SidebarControls>
         <div id='sidebar-container'>
           <Sidebar sidebar={0}>
-            <NotificationsComponent />
+            <NotificationsComponent/>
           </Sidebar>
           <Sidebar sidebar={1}>
             <ChatComponent />
           </Sidebar>
           <Sidebar sidebar={2}>
-            <ApplicationSidebar />
+            <BroadcastingComponent />
           </Sidebar>
           <Sidebar sidebar={3}>
             <StatisticsComponent />

@@ -14,7 +14,7 @@ import {
 } from '@sketchpixy/rubix';
 
 export default class NotificationsComponent extends React.Component {
-  // href={::this.getPath('userchat')}
+
   render() {
     return (
       <div>
@@ -41,9 +41,6 @@ export default class NotificationsComponent extends React.Component {
                           <Button xs outlined bsStyle='darkgreen45'>
                             Chat
                           </Button>{' '}
-                          <Button xs outlined bsStyle='yellow'>
-                            Message
-                          </Button>
                         </div>
                       </li>
                     </ul>
@@ -72,9 +69,6 @@ export default class NotificationsComponent extends React.Component {
                           <Button xs outlined bsStyle='darkgreen45'>
                             Chat
                           </Button>{' '}
-                          <Button xs outlined bsStyle='yellow'>
-                            Message
-                          </Button>
                         </div>
                       </li>
                     </ul>
@@ -101,9 +95,6 @@ export default class NotificationsComponent extends React.Component {
                           <Button xs outlined bsStyle='darkgreen45'>
                             Chat
                           </Button>{' '}
-                          <Button xs outlined bsStyle='yellow'>
-                            Message
-                          </Button>
                         </div>
                       </li>
                     </ul>

@@ -1,149 +1,209 @@
 import React from 'react';
+import classNames from 'classnames';
+import { withRouter } from 'react-router';
 
 import {
   Row,
   Col,
   Icon,
   Grid,
+  Label,
+  Badge,
   Panel,
-  Image,
   Button,
+  PanelLeft,
   PanelBody,
-  PanelHeader,
-  PanelFooter,
-  FormControl,
+  ListGroup,
+  LoremIpsum,
+  ButtonGroup,
+  ButtonToolbar,
+  ListGroupItem,
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-class SocialBanner extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      follow: 'follow me',
-      followActive: false,
-      likeCount: 999,
-      likeActive: false,
-      likeTextStyle: 'fg-white'
-    };
-  }
-  handleFollow() {
-    this.setState({
-      follow: 'followed',
-      followActive: true
-    });
-  }
-  handleLike() {
-    this.setState({
-      likeCount: 1000,
-      likeActive: true,
-      likeTextStyle: 'fg-orange75'
-    });
-  }
+class InboxNavItem extends React.Component {
   render() {
     return (
-      <div style={{height: 350, marginTop: -25, backgroundImage: 'url(/imgs/app/shots/Blick_auf_Manhattan.JPG)', backgroundSize: 'cover', position: 'relative', marginBottom: 25, backgroundPosition: 'center'}}>
-        <div className='social-cover' style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
-        </div>
-        <div className='social-desc'>
-          <div>
-            <h1 className='fg-white'>Empire State, NY, USA</h1>
-            <h5 className='fg-white' style={{opacity: 0.8}}>- Aug 20th, 2014</h5>
-            <div style={{marginTop: 50}}>
-              <div style={{display: 'inline-block'}}>
-                <Button id='likeCount' retainBackground rounded bsStyle='orange75' active={this.state.likeActive} onClick={::this.handleLike}>
-                  <Icon glyph='icon-fontello-heart-1' />
-                </Button>
-                <label className='social-like-count' htmlFor='likeCount'><span className={this.state.likeTextStyle}>{this.state.likeCount} likes</span></label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='social-avatar'>
-          <Image src='/imgs/app/avatars/avatar.jpg' height='100' width='100' style={{display: 'block', borderRadius: 100, border: '2px solid #fff', margin: 'auto', marginTop: 50}} />
-          <h4 className='fg-white text-center'>Anna Sanchez</h4>
-          <h5 className='fg-white text-center' style={{opacity: 0.8}}>DevOps Engineer, NY</h5>
-          <hr className='border-black75' style={{borderWidth: 2}}/>
-          <div className='text-center'>
-            <Button outlined inverse retainBackground active={this.state.followActive} bsStyle='brightblue' onClick={::this.handleFollow}>
-              <span>{this.state.follow}</span>
-            </Button>
-          </div>
-        </div>
-      </div>
+      <Grid>
+        <Row>
+          <Col xs={8} collapseLeft collapseRight>
+            <Icon glyph={this.props.glyph} className='inbox-item-icon'/>
+            <span>{this.props.title}</span>
+          </Col>
+          <Col xs={4} className='text-right' collapseLeft collapseRight>
+            <div style={{marginTop: 5}}><Label className={this.props.labelClass}>{this.props.labelValue}</Label></div>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
 
-export default class UserChat extends React.Component {
-  componentDidMount() {
-    $('#body, html').addClass('social');
-    (() => {
-      // create a map in the "map" div, set the view to a given place and zoom
-      var map = L.map('map', {
-        scrollWheelZoom: false
-      }).setView([40.7127, -74.0059], 16);
-
-      // add an OpenStreetMap tile layer
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-
-      // add a marker in the given location, attach some popup content to it and open the popup
-      L.marker([40.7127, -74.0059]).addTo(map)
-          .openPopup();
-    })();
+class InboxNavTag extends React.Component {
+  render() {
+    return (
+      <Grid>
+        <Row>
+          <Col xs={12} collapseLeft collapseRight>
+            <Badge className={this.props.badgeClass}>{' '}</Badge>
+            <span>{this.props.title}</span>
+          </Col>
+        </Row>
+      </Grid>
+    );
   }
+}
 
-  componentWillUnmount() {
-    $('#body, html').removeClass('social');
+@withRouter
+class InboxItem extends React.Component {
+  handleClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.router.push('/ltr/mailbox/mail');
+  }
+  render() {
+    var classes = classNames({
+      'inbox-item': true,
+      'unread': this.props.unread
+    });
+
+    var linkProps = {
+      ...this.props,
+      href: '/ltr/mailbox/mail',
+      onClick: ::this.handleClick,
+      className: classes,
+      name: null,
+      date: null,
+      itemId: null,
+      labelClass: null,
+      labelValue: null,
+      description: null,
+    };
+
+    return (
+      <a {...linkProps}>
+        <div className='inbox-avatar'>
+          <img src={this.props.src} width='40' height='40' className={this.props.imgClass + ' hidden-xs'} />
+          <div className='inbox-avatar-name'>
+            <div className='fg-darkgrayishblue75'>{this.props.name}</div>
+            <div><small><Badge className={this.props.labelClass} style={{marginRight: 5, display: this.props.labelValue ? 'inline':'none'}}>{this.props.labelValue}</Badge><span>{this.props.description}</span></small></div>
+          </div>
+          <div className='inbox-date hidden-sm hidden-xs fg-darkgray40 text-right'>
+            <div style={{position: 'relative', top: 5}}>{this.props.date}</div>
+            <div style={{position: 'relative', top: -5}}><small>#{this.props.itemId}</small></div>
+          </div>
+        </div>
+      </a>
+    );
+  }
+}
+
+@withRouter
+export default class UserChat extends React.Component {
+  handleClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.router.push('/ltr/mailbox/compose');
   }
 
   render() {
     return (
-      <Row className='social'>
-        <Col xs={12}>
-          <Row>
-            <Col sm={6} collapseRight>
-              <PanelContainer>
-                <PanelBody style={{padding: 25, paddingTop: 12.5}}>
-                  <div className='inbox-avatar'>
-                    <img src='/imgs/app/avatars/avatar7.png' width='40' height='40' />
-                    <div className='inbox-avatar-name'>
-                      <div className='fg-darkgrayishblue75'>Toby King</div>
-                      <div className='fg-text'><small>Wisconsin, USA</small></div>
+      <div>
+        <PanelContainer className='inbox' collapseBottom>
+          <Panel>
+            <PanelBody style={{paddingTop: 0}}>
+              <Grid>
+                <Row>
+                  <Col xs={8} style={{paddingTop: 12.5}}>
+                    <ButtonToolbar className='inbox-toolbar'>
+                      <ButtonGroup>
+                        <Button bsStyle='blue' onClick={::this.handleClick}>
+                          <Icon glyph='icon-fontello-chat'/>Chat with the user
+                        </Button>
+                      </ButtonGroup>
+                      <ButtonGroup>
+                        <Button outlined onlyOnHover bsStyle='darkgreen45'><Icon glyph='icon-fontello-forward'/>&nbsp;Send a Messege</Button>
+                      </ButtonGroup>
+                      <ButtonGroup className='hidden-xs'>
+                        <Button outlined onlyOnHover bsStyle='danger' className='text-center'><Icon glyph='icon-fontello-attention-alt'/>&nbsp;Claire take it over</Button>
+                      </ButtonGroup>
+                    </ButtonToolbar>
+                  </Col>
+                  <Col xs={4} className='text-right'>
+                    <div className='inbox-avatar'>
+                      <img src='/imgs/app/avatars/avatar0.png' width='40' height='40' />
+                      <div className='inbox-avatar-name hidden-xs hidden-sm'>
+                        <div>Jordyn Ouellet</div>
+                        <div><small>User Profile</small></div>
+                      </div>
                     </div>
-                    <div className='inbox-date hidden-sm hidden-xs fg-text text-right'>
-                      <div style={{position: 'relative', top: 0}}><Icon glyph='icon-fontello-anchor icon-1-and-quarter-x'/></div>
-                      <div style={{position: 'relative', top: -10}}><small><strong>2 hours ago</strong></small></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className='fg-text'>
-                      {"Can you tell me what public transport I can get from here to the airport?"}
-                    </div>
-                  </div>
-                </PanelBody>
-              </PanelContainer>
-              <PanelContainer>
-                <PanelBody style={{padding: 12.5}}>
-                  <FormControl componentClass='textarea' rows='3' placeholder="Here is the Chat session." style={{border: 'none'}} />
-                </PanelBody>
-                <PanelFooter className='fg-black75 bg-gray' style={{padding: '12.5px 25px'}}>
+                  </Col>
+                </Row>
+              </Grid>
+              <hr style={{margin: 0}}/>
+              <Panel horizontal>
+                <PanelLeft className='panel-sm-3 inbox-nav hidden-xs'>
                   <Grid>
                     <Row>
-                      <Col xs={6} collapseLeft collapseRight>
-                      </Col>
-                      <Col xs={6} className='text-right' collapseLeft collapseRight>
-                        <Button bsStyle='darkgreen45'>send</Button>
+                      <Col xs={12}>
+                        <h6><small className='fg-darkgray'>User Profile</small></h6>
+                        <ListGroup className='list-bg-blue'>
+                          <ListGroupItem active>
+                            <InboxNavItem glyph='icon-feather-mail' title='Inbox' labelClass='bg-white fg-blue' labelValue={58} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem glyph='icon-simple-line-icons-star' title='Starred' />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem glyph='icon-dripicons-return' title='Sent' />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem glyph='icon-feather-archive' title='Drafts' />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem glyph='icon-dripicons-attachment' title='Attachments' />
+                          </ListGroupItem>
+                        </ListGroup>
+                        <hr/>
+                        <h6><small className='fg-darkgray'>OTHERS</small></h6>
+                        <ListGroup>
+                          <ListGroupItem>
+                            <InboxNavItem glyph='icon-fontello-attention-alt' title='Spam' labelClass='bg-red fg-white' labelValue={10} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem glyph='icon-fontello-trash-1' title='Trash' />
+                          </ListGroupItem>
+                        </ListGroup>
+                        <hr/>
+                        <h6><small className='fg-darkgray'>TAGS</small></h6>
+                        <ListGroup>
+                          <ListGroupItem>
+                            <InboxNavTag title='#sometag' badgeClass='bg-green fg-white' />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavTag title='#anothertag' badgeClass='bg-red fg-white' />
+                          </ListGroupItem>
+                        </ListGroup>
                       </Col>
                     </Row>
                   </Grid>
-                </PanelFooter>
-              </PanelContainer>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+                </PanelLeft>
+                <PanelBody className='panel-sm-9 panel-xs-12' style={{ paddingTop: 0 }}>
+                  <Grid>
+                    <Row>
+                      <Col xs={12}>
+                        <div>Here is the chat with the user</div>
+                      </Col>
+                    </Row>
+                  </Grid>
+                </PanelBody>
+              </Panel>
+            </PanelBody>
+          </Panel>
+        </PanelContainer>
+      </div>
     );
   }
 }
