@@ -1,7 +1,28 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
-import { SidebarBtn, Navbar, Nav, NavItem, Icon, Grid, Row, Col } from '@sketchpixy/rubix';
+import { Link, withRouter } from 'react-router';
+
+import l20n, { Entity } from '@sketchpixy/rubix/lib/L20n';
+
+import {
+  Label,
+  SidebarBtn,
+  Dispatcher,
+  NavDropdown,
+  NavDropdownHover,
+  Navbar,
+  Nav,
+  NavItem,
+  MenuItem,
+  Badge,
+  Button,
+  Icon,
+  Grid,
+  Row,
+  Radio,
+  Col } from '@sketchpixy/rubix';
 
 class Brand extends React.Component {
   render() {
@@ -9,7 +30,7 @@ class Brand extends React.Component {
       <Navbar.Header {...this.props}>
         <Navbar.Brand tabIndex='-1'>
           <a href='#'>
-            <img src='/imgs/common/robo2.png' alt='Futuristico' width='40' height='40' />
+            {/* <img src='/imgs/common/logo.png' alt='rubix' width='111' height='28' /> */}
           </a>
         </Navbar.Brand>
       </Navbar.Header>
@@ -17,18 +38,16 @@ class Brand extends React.Component {
   }
 }
 
+@withRouter
 class HeaderNavigation extends React.Component {
   render() {
-    var props = {
-      ...this.props,
-      className: classNames('pull-right', this.props.className)
-    };
-
     return (
-      <Nav {...props}>
-        <NavItem className='logout' href='#'>
-          <Icon bundle='fontello' glyph='off-1' />
-        </NavItem>
+      <Nav pullRight>
+        <Nav>
+          <NavItem className='logout' href='#'>
+            <Icon bundle='fontello' glyph='off-1' />
+          </NavItem>
+        </Nav>
       </Nav>
     );
   }

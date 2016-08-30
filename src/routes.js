@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import classNames from 'classnames';
 import { IndexRoute, Route } from 'react-router';
 
@@ -7,8 +8,11 @@ import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 import Footer from './common/footer';
 import Header from './common/header';
 import Sidebar from './common/sidebar';
-import UserChat from './chat/UserChat';
-import Home from './routes/home';
+
+import UserChatQuery from './queries/UserChatQuery';
+
+import Home from './pages/Home';
+import UserChat from './pages/UserChat';
 
 class App extends React.Component {
   render() {
@@ -25,6 +29,7 @@ class App extends React.Component {
             </Row>
           </Grid>
         </div>
+        <Footer />
       </MainContainer>
     );
   }
@@ -33,6 +38,6 @@ class App extends React.Component {
 export default (
   <Route path='/' component={App}>
     <IndexRoute component={Home} />
-    <Route path='chat/:uid' component={UserChat} />
+    <Route path='chat/:uid' component={UserChat} queries={UserChatQuery} />
   </Route>
 );

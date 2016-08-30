@@ -32,7 +32,8 @@ var entry = {
 };
 
 var plugins = [
-  new webpack.DefinePlugin({__CLIENT__: true, __SERVER__: false, __PRODUCTION__: isProduction, __DEV__: !isProduction, "process.env.NODE_ENV": '"'+process.env.NODE_ENV+'"', __DEVTOOLS__: true})
+  new webpack.DefinePlugin({__CLIENT__: true, __SERVER__: false, __PRODUCTION__: isProduction, __DEV__: !isProduction, "process.env.NODE_ENV": '"'+process.env.NODE_ENV+'"', __DEVTOOLS__: true}),
+  new webpack.IgnorePlugin(/vertx/)
 ];
 
 if (process.env.EXTRACT_TEXT_PLUGIN === 'true') {
