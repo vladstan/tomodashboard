@@ -109,6 +109,8 @@ export default class UserChat extends React.Component {
   }
 
   render() {
+    const {uid} = this.props.params;
+
     return (
       <div>
         <PanelContainer className='inbox' collapseBottom>

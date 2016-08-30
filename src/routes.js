@@ -33,6 +33,6 @@ class App extends React.Component {
 export default (
   <Route path='/' component={App}>
     <IndexRoute component={Home} />
-    <Route path='userchat' component={UserChat} />
+    <Route path='chat/:uid' component={UserChat} />
   </Route>
 );
