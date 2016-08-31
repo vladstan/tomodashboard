@@ -1,63 +1,27 @@
 import pmongo from 'promised-mongo';
 
-let MONGODB_URI = 'relaytest';
+let MONGO_URL = 'relaytest';
 
-if (process.env.MONGODB_URI) MONGODB_URI = process.env.MONGODB_URI;
+if (process.env.MONGO_URL) MONGO_URL = process.env.MONGO_URL;
 
-const db = pmongo(MONGODB_URI, {
+const db = pmongo(MONGO_URL, {
   authMechanism: 'ScramSHA1'
-}, ['users', 'todos']);
+}, ['actionmessages', 'users', 'profiles']);
 
-export function getUser() {
-  return db.users.findOne({ name: 'admin' });
+export function getActionMessagesCursor() {
+  const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
+  return db.actionmessages.find({}, options).sort({$natural: 1});
 }
 
-export function getTodos() {
-  return db.todos.find().toArray().then((docs) => docs);
+export function getUser(id) {
+  return db.users.findOne({ _id: pmongo.ObjectId(id) });
 }
 
-export function getTodo(id) {
-  return db.todos.findOne({ _id: pmongo.ObjectId(id) });
+export function getProfile(id) {
+  return db.profiles.findOne({ _id: pmongo.ObjectId(id) });
 }
 
-export function updateTodo(id, todo, completed) {
-  if (!id || !todo || typeof completed !== 'boolean') {
-    return new Promise((resolve, reject) => {
-      let message = "";
-      if (!id) {
-        message += '"id" required to update Todo Item\n';
-      }
-      if (!todo) {
-        message += '"todo" required to update Todo Item\n';
-      }
-      if (typeof completed !== 'boolean') {
-        message += '"completed" should be a boolean\n';
-      }
-
-      reject(Error(message));
-    });
-  }
-  return db.todos.update({ _id: pmongo.ObjectId(id) },
-                         { $set: { todo, completed } })
-                 .then(() => { return { todo: id }; });
-}
-
-export function addTodo(todo) {
-  if (!todo) {
-    return new Promise((resolve, reject) => {
-      let message = '"todo" cannot be empty';
-      reject(message);
-    });
-  }
-  return db.todos.insert({ todo, completed: false, user: 'admin' });
-}
-
-export function removeTodo(id) {
-  if (!id) {
-    return new Promise((resolve, reject) => {
-      reject(Error('"id" required to remove a Todo item'));
-    });
-  }
-  return db.todos.remove({ _id: pmongo.ObjectId(id) })
-                 .then(() => { return { todo: id }; });
+export function getProfileOfUser(userId) {
+  console.log('prof of user', JSON.stringify({ userId: userId }));
+  return db.profiles.findOne({ userId: userId });
 }

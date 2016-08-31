@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
 
-const UserChatQuery = {
+const UserChatQueries = {
   user: (Component, variables) => Relay.QL`
     query {
       user {
@@ -10,4 +10,4 @@ const UserChatQuery = {
   `,
 };
 
-export default UserChatQuery;
+export default UserChatQueries;

@@ -1,24 +1,5 @@
 schema {
   query: Query
-  mutation: Mutation
-}
-
-input AddTodoInput {
-  todo: String!
-  clientMutationId: String!
-}
-
-type AddTodoPayload {
-  todoEdge: TodoEdge
-  user: User
-  error: String
-  clientMutationId: String!
-}
-
-type Mutation {
-  addTodo(input: AddTodoInput!): AddTodoPayload
-  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
-  removeTodo(input: RemoveTodoInput!): RemoveTodoPayload
 }
 
 interface Node {
@@ -32,54 +13,29 @@ type PageInfo {
   endCursor: String
 }
 
-type Query {
-  node(id: ID!): Node
-  user: User
-}
-
-input RemoveTodoInput {
-  id: ID!
-  clientMutationId: String!
-}
-
-type RemoveTodoPayload {
-  todoIdToBeDeleted: ID
-  user: User
-  clientMutationId: String!
-}
-
-type Todo implements Node {
+type Profile implements Node {
   id: ID!
   _id: String
-  todo: String
-  completed: Boolean
+  userId: String
 }
 
-type TodoConnection {
+type ProfileConnection {
   pageInfo: PageInfo!
-  edges: [TodoEdge]
+  edges: [ProfileEdge]
 }
 
-type TodoEdge {
-  node: Todo
+type ProfileEdge {
+  node: Profile
   cursor: String!
 }
 
-input UpdateTodoInput {
-  id: ID!
-  todo: String!
-  completed: Boolean!
-  clientMutationId: String!
-}
-
-type UpdateTodoPayload {
-  todo: Todo
-  user: User
-  clientMutationId: String!
+type Query {
+  node(id: ID!): Node
+  user(id: String): User
 }
 
 type User implements Node {
   id: ID!
-  todos(after: String, first: Int, before: String, last: Int): TodoConnection
-  getTodo(id: String): Todo
+  _id: String
+  profile: ProfileConnection
 }

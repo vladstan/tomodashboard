@@ -1,11 +1,24 @@
 import React from 'react';
+import Relay from 'react-relay';
 
 class Home extends React.Component {
   render() {
+    console.log('this.props.user', this.props.user);
     return (
-      <div>Here is the content for Agent Smith</div>
+      <div>Here is the content for Agent Smith: {JSON.stringify(this.props.user || null)}</div>
     );
   }
 }
 
-export default Home;
+const Container = Relay.createContainer(Home, {
+  fragments: {
+    user: () => Relay.QL`
+      fragment on User {
+        id
+        profile
+      }
+    `
+  }
+});
+
+export default Container;
