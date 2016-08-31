@@ -41,6 +41,9 @@ class IncomingReqSidebarComponent extends React.Component {
                           <Button xs outlined bsStyle='darkgreen45'>
                             Chat
                           </Button>{' '}
+                          <Button xs outlined bsStyle='red'>
+                            Send to Dev
+                          </Button>
                         </div>
                       </li>
                     </ul>
@@ -69,6 +72,9 @@ class IncomingReqSidebarComponent extends React.Component {
                           <Button xs outlined bsStyle='darkgreen45'>
                             Chat
                           </Button>{' '}
+                          <Button xs outlined bsStyle='red'>
+                            Send to Dev
+                          </Button>
                         </div>
                       </li>
                     </ul>
@@ -95,6 +101,9 @@ class IncomingReqSidebarComponent extends React.Component {
                           <Button xs outlined bsStyle='darkgreen45'>
                             Chat
                           </Button>{' '}
+                          <Button xs outlined bsStyle='red'>
+                            Send to Dev
+                          </Button>
                         </div>
                       </li>
                     </ul>
