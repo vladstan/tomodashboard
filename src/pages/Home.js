@@ -15,7 +15,12 @@ const Container = Relay.createContainer(Home, {
     user: () => Relay.QL`
       fragment on User {
         id
-        profile
+        _id
+        profile {
+          id
+          _id
+          userId
+        }
       }
     `
   }

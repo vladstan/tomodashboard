@@ -22,6 +22,7 @@ export function getProfile(id) {
 }
 
 export function getProfileOfUser(userId) {
-  console.log('prof of user', JSON.stringify({ userId: userId }));
-  return db.profiles.findOne({ userId: userId });
+  return db.profiles.find({}).then((profiles) => { // TODO
+    return profiles.find(p => ('' + p.userId) === ('' + userId));
+  });
 }

@@ -1,25 +1,25 @@
 import {
   GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLBoolean,
+  // GraphQLNonNull,
+  // GraphQLBoolean,
   GraphQLSchema,
   GraphQLString,
-  GraphQLList,
-  GraphQLInt,
-  GraphQLID
+  // GraphQLList,
+  // GraphQLInt,
+  // GraphQLID
 } from 'graphql';
 
 import {
-  toGlobalId,
+  // toGlobalId,
   fromGlobalId,
   globalIdField,
-  offsetToCursor,
-  connectionArgs,
+  // offsetToCursor,
+  // connectionArgs,
   nodeDefinitions,
-  connectionFromArray,
-  connectionDefinitions,
-  connectionFromPromisedArray,
-  mutationWithClientMutationId
+  // connectionFromArray,
+  // connectionDefinitions,
+  // connectionFromPromisedArray,
+  // mutationWithClientMutationId
 } from 'graphql-relay';
 
 import {
@@ -44,9 +44,9 @@ const { nodeInterface, nodeField } = nodeDefinitions(
     }
   },
   (obj) => {
-    if ( isType(obj, 'User') ) {
+    if (isType(obj, 'User')) {
       return userType;
-    } else if ( isType(obj, 'Profile') ) {
+    } else if (isType(obj, 'Profile')) {
       return profileType;
     } else {
       return null;
@@ -59,7 +59,7 @@ const profileType = new GraphQLObjectType({
   name: 'Profile',
   description: 'A user\'s profile',
   fields: () => ({
-    id: globalIdField('Profile', ({ _id }) => _id),
+    id: globalIdField('Profile', (profile) => profile._id),
     _id: {
       type: GraphQLString,
       description: 'Profile id',
@@ -74,26 +74,31 @@ const profileType = new GraphQLObjectType({
   interfaces: [nodeInterface],
 });
 
-const {
-  connectionType: profileConnection,
-  edgeType: profileEdge
-} = connectionDefinitions({
-  name: 'Profile',
-  nodeType: profileType
-});
+// const {
+//   connectionType: profileConnection,
+//   edgeType: profileEdge
+// } = connectionDefinitions({
+//   name: 'Profile',
+//   nodeType: profileType
+// });
 
 const userType = new GraphQLObjectType({
   name: 'User',
   description: 'Main User',
   fields: () => ({
-    id: globalIdField('User', ({ _id }) => _id),
+    id: globalIdField('User', (user) => user._id),
     _id: {
       type: GraphQLString,
       description: 'User Mongo id',
       resolve: (user) => user._id,
     },
+    facebookId: {
+      type: GraphQLString,
+      description: 'Facebook id',
+      resolve: (user) => user.facebookId,
+    },
     profile: {
-      type: profileConnection,
+      type: profileType,
       description: 'The profile',
       resolve: (user) => getProfileOfUser(user._id)
     }

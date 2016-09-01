@@ -6,27 +6,10 @@ interface Node {
   id: ID!
 }
 
-type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-  endCursor: String
-}
-
 type Profile implements Node {
   id: ID!
   _id: String
   userId: String
-}
-
-type ProfileConnection {
-  pageInfo: PageInfo!
-  edges: [ProfileEdge]
-}
-
-type ProfileEdge {
-  node: Profile
-  cursor: String!
 }
 
 type Query {
@@ -37,5 +20,6 @@ type Query {
 type User implements Node {
   id: ID!
   _id: String
-  profile: ProfileConnection
+  facebookId: String
+  profile: Profile
 }

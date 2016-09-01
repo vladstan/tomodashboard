@@ -2,11 +2,7 @@ import Relay from 'react-relay';
 
 const UserChatQueries = {
   user: (Component, variables) => Relay.QL`
-    query {
-      user {
-        ${Component.getFragment('user', {...variables})}
-      }
-    }
+    query {}
   `,
 };
 
