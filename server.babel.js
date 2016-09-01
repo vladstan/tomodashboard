@@ -4,9 +4,6 @@ import graphQLHTTP from 'express-graphql';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-
 import routes from './src/routes';
 import { renderHTMLString, setNetworkLayer } from '@sketchpixy/rubix/lib/node/relay-router';
 import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddleware';
