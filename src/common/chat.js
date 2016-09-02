@@ -79,17 +79,16 @@ class Chat extends React.Component {
                 padding: 0,
                 marginTop: '50px'
               }}>
-                <ChatItem position='left' avatar='avatar0' text='Hey, get started' />
-                <ChatItem position='right' avatar='avatar17' text='Welcome, need help?' />
-                <ChatItem position='left' avatar='avatar0' text='Yes, lots of help' />
-                <ChatItem position='right' avatar='avatar17' text='What is your problem?' />
-                <ChatItem position='left' avatar='avatar0' text='Shut up' />
-                <ChatItem position='right' avatar='avatar17' text='What is your problem?' />
-                <ChatItem position='left' avatar='avatar0' text='Shut up' />
-                <ChatItem position='right' avatar='avatar17' text='What is your problem?' />
-                <ChatItem position='left' avatar='avatar0' text='Shut up' />
-                <ChatItem position='right' avatar='avatar17' text='What is your problem?' />
-                <ChatItem position='left' avatar='avatar0' text='Shut up' />
+                <ChatItem position='left' avatar='avatar0' text='I want to go with my family on a short vacation on Palma de Mallorca next month.' />
+                <ChatItem position='right' avatar='avatar17' text='Ok, do you want to stay in the city or near the beach?' />
+                <ChatItem position='left' avatar='avatar0' text='Near the beach' />
+                <ChatItem position='right' avatar='avatar17' text='Ok, do you want to fly as usual with BA?' />
+                <ChatItem position='left' avatar='avatar0' text='British Airways is perfect. ' />
+                <ChatItem position='right' avatar='avatar17' text='Do you want me to search for some activities on the island?' />
+                <ChatItem position='left' avatar='avatar0' text='Yes, mostly for kids. Also we want to have dinner with some friends so please book  a restaurant for 8.' />
+                <ChatItem position='right' avatar='avatar17' text='Ok, let me search, and I will be back.' />
+                <ChatItem position='left' avatar='avatar0' text='Awesome, thank you' />
+                <ChatItem position='right' avatar='avatar17' text='My pleasure' />
               </ul>
               <PanelContainer style={{
                 background: '#EAEDF1',
