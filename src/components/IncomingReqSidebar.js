@@ -13,6 +13,8 @@ import {
   TimelineTitle,
 } from '@sketchpixy/rubix';
 
+import { Link, withRouter } from 'react-router';
+
 class IncomingReqSidebarComponent extends React.Component {
 
   render() {
@@ -38,9 +40,11 @@ class IncomingReqSidebarComponent extends React.Component {
                         </div>
                         <br/>
                         <div className='text-center'>
-                          <Button xs outlined bsStyle='darkgreen45'>
-                            Chat
-                          </Button>{' '}
+                          <Link to='/chat/123'>
+                            <Button xs outlined bsStyle='darkgreen45'>
+                              Chat
+                            </Button>{' '}
+                          </Link>
                           <Button xs outlined bsStyle='red'>
                             Send to Dev
                           </Button>
@@ -69,9 +73,11 @@ class IncomingReqSidebarComponent extends React.Component {
                         <img border='0' src='/imgs/app/staticmap.png' alt='Points of Interest in Lower Manhattan' />
                         <br/><br/>
                         <div className='text-center'>
-                          <Button xs outlined bsStyle='darkgreen45'>
-                            Chat
-                          </Button>{' '}
+                          <Link to='/chat/123'>
+                            <Button xs outlined bsStyle='darkgreen45'>
+                              Chat
+                            </Button>{' '}
+                          </Link>
                           <Button xs outlined bsStyle='red'>
                             Send to Dev
                           </Button>
@@ -98,9 +104,11 @@ class IncomingReqSidebarComponent extends React.Component {
                         </div>
                         <br/>
                         <div className='text-center'>
-                          <Button xs outlined bsStyle='darkgreen45'>
-                            Chat
-                          </Button>{' '}
+                          <Link to='/chat/123'>
+                            <Button xs outlined bsStyle='darkgreen45'>
+                              Chat
+                            </Button>{' '}
+                          </Link>
                           <Button xs outlined bsStyle='red'>
                             Send to Dev
                           </Button>

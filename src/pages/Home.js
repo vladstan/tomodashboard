@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 
 class Home extends React.Component {
   render() {
-    console.log('this.props.user', this.props.user);
     return (
       <div>Here is the content for Agent Smith: {JSON.stringify(this.props.user || null)}</div>
     );
