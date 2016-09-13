@@ -1,6 +1,14 @@
 node_modules/
 tmp/
+dist
 .DS_Store
 server.js
 server.js.map
-tmp/
+public/fonts
+public/js/main*.js
+public/js/app.js
+public/js/plugins.js
+public/js/*.map
+public/css/main*.css
+public/css/app*.css
+public/css/*.map

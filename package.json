@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "relay-seed",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Rubix Relay Example Kit",
   "homepage": "https://rubix400.sketchpixy.com/",
   "watch": {

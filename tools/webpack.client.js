@@ -124,7 +124,7 @@ if (isProduction) {
   pluginLoaders.push('uglify');
 }
 loaders.push({
-  test: /\public\/(.*?)\.js$/,
+  test: /(\/|\\)public(\/|\\)(.*?)\.js$/,
   loaders: pluginLoaders
 });
 
