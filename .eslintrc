@@ -1,13 +1,26 @@
 {
   "root": true,
   "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "plugins": [
-    "babel"
+    "babel",
+    "react"
   ],
   "globals": {
     "log": true
   },
-  "extends": "standard",
+  extends": [
+    "standard",
+    "plugin:react/recommended"
+  ],
   "rules": {
     "generator-star-spacing": 0,
     "new-cap": 0,
@@ -26,6 +39,7 @@
     "babel/flow-object-type": 0,
     "babel/func-params-comma-dangle": 0,
 
+    "no-undef": 2,
     "no-unused-vars": 1,
     "semi": [2, "always"],
     "no-extra-semi": 2,
@@ -33,6 +47,9 @@
     "space-before-function-paren": [2, "never"],
     "comma-dangle": 0,
     "no-trailing-spaces": 1,
-    "no-console": 0
+    "no-console": 0,
+
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
   }
 }
