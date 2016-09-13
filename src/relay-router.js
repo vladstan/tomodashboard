@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import ReactRouter from 'react-router';
+// import ReactRouter from 'react-router';
 import ReactHotLoader from 'react-hot-loader';
 import Relay from 'react-relay';
 import IsomorphicRelay from 'isomorphic-relay';
@@ -9,6 +9,8 @@ import IsomorphicRelayRouter from 'isomorphic-relay-router';
 
 import onRouterSetup from '@sketchpixy/rubix/lib/node/onRouterSetup';
 import isBrowser from '@sketchpixy/rubix/lib/isBrowser';
+
+const ReactRouter = require('react-router');
 
 if (isBrowser()) {
   onRouterSetup();
@@ -89,8 +91,6 @@ function renderHTMLString(routes, req, callback) {
       });
     }
   };
-
-  console.log(ReactRouter);
 
   ReactRouter.match(matchOpts, matchCallback);
 }

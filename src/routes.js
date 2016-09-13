@@ -7,8 +7,8 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import AppSidebar from './components/AppSidebar';
 
-import UserChatQueries from './queries/UserChatQueries';
-import TestQueries from './queries/TestQueries';
+// import UserChatQueries from './queries/UserChatQueries';
+// import TestQueries from './queries/TestQueries';
 
 import Home from './pages/Home';
 import UserChat from './pages/UserChat';
@@ -36,7 +36,10 @@ class App extends React.Component {
 
 export default (
   <Route path='/' component={App}>
-    <IndexRoute component={Home} queries={TestQueries} />
-    <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
+    <IndexRoute component={Home} />
+    <Route path='chat/:uid' component={UserChat} />
   </Route>
 );
+
+// queries={TestQueries}
+// queries={UserChatQueries}

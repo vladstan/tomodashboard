@@ -70,7 +70,7 @@ class IncomingReqSidebarComponent extends React.Component {
                           <small>Can you tell me what public transport I can get from here to the airport?</small>
                         </div>
                         <br/>
-                        <img border='0' src='http://rubix400.sketchpixy.com/imgs/app/staticmap.png' alt='Points of Interest in Lower Manhattan' />
+                        <img src='http://rubix400.sketchpixy.com/imgs/app/staticmap.png' alt='Points of Interest in Lower Manhattan' />
                         <br/><br/>
                         <div className='text-center'>
                           <Link to='/chat/123'>

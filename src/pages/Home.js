@@ -13,20 +13,20 @@ class Home extends React.Component {
   }
 }
 
-const Container = Relay.createContainer(Home, {
-  fragments: {
-    user: () => Relay.QL`
-      fragment on User {
-        id
-        _id
-        profile {
-          id
-          _id
-          userId
-        }
-      }
-    `
-  }
-});
+// const Container = Relay.createContainer(Home, {
+//   fragments: {
+//     user: () => Relay.QL`
+//       fragment on User {
+//         id
+//         _id
+//         profile {
+//           id
+//           _id
+//           userId
+//         }
+//       }
+//     `
+//   }
+// });
 
-export default Container;
+export default Home;

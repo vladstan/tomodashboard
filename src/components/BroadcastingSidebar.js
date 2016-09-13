@@ -23,7 +23,7 @@ class ChatItem extends React.Component {
     if(this.props.online) status = 'border-green';
     if(status !== 'border-darkgray') isOffline = false;
     return (
-      <li tabIndex='-1' {...this.props} name={null} avatar={null} online={null}>
+      <li tabIndex='-1'>
         <a href='#' tabIndex='-1'>
           <img src={`/imgs/app/avatars/${this.props.avatar}.png`} width='30' height='30' className={status} style={{borderWidth: 2, borderStyle: 'solid', borderRadius: 100, padding: 2, position: 'relative', top: -7, opacity: isOffline ? 0.4 : 1}} />
           <span className='name' style={{position: 'relative', top: -2, opacity: isOffline ? 0.4 : 1}}>{this.props.name}</span>

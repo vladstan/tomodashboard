@@ -46,7 +46,7 @@ function notifyChange(topic, data) {
 }
 
 function startListening() {
-  getActionMessagesCursor().each(function(err, doc) {
+  getActionMessagesCursor().forEach(function(err, doc) {
     if (err) {
       console.error(err);
     }
