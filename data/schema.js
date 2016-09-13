@@ -280,8 +280,20 @@ const Subscription = new GraphQLObjectType({
   },
 });
 
-export default new GraphQLSchema({
+const schema = new GraphQLSchema({
   query: queryType,
   subscription: Subscription,
   // mutation: mutationType
 });
+
+// export default schema;
+const t1 = 5;
+const t2 = 'abc';
+const t3 = {five: 'yes'};
+// const t4 = JSON.stringify(schema);
+const t5 = Object.keys(schema);
+const t6 = schema;
+
+export {
+  t1, t2, t3, t5, t6
+};

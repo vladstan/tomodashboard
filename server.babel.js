@@ -7,11 +7,17 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import Relay from 'react-relay';
 
+import {GraphQLSchema} from 'graphql';
+
 import routes from './src/routes';
 import { renderHTMLString, setNetworkLayer } from './src/relay-router';
 import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddleware';
 import { addNotifier } from './data/database';
 import schema from './data/schema';
+import * as SS from './data/schema';
+
+console.log('schema=', schema);
+console.log('schemaSS=', SS);
 
 import GraphQLSettings from './graphql.json';
 
@@ -116,6 +122,8 @@ io.on('connection', socket => {
         topics[topic].length
       );
     }
+
+    console.log('graphqlSubscribeing', schema, schema instanceof GraphQLSchema);
 
     graphqlSubscribe({
       schema,

@@ -70,22 +70,22 @@ class AppSidebar extends React.Component {
   }
 }
 
-// const AppSidebarContainer = RelaySubscriptions.createContainer(AppSidebar, {
-//   fragments: {
-//     incomingReqs: () => Relay.QL`
-//       fragment on IncomingReq {
-//         id
-//         _id
-//         type
-//         userId
-//         messageText
-//       }
-//     `
-//   },
-//   subscriptions: [
-//     ({ incomingReq }) => new AddIncomingReqSubscription({ incomingReq }),
-//   ],
-// });
+const AppSidebarContainer = RelaySubscriptions.createContainer(AppSidebar, {
+  fragments: {
+    incomingReqs: () => Relay.QL`
+      fragment on IncomingReq {
+        id
+        _id
+        type
+        userId
+        messageText
+      }
+    `
+  },
+  subscriptions: [
+    ({ incomingReq }) => new AddIncomingReqSubscription({ incomingReq }),
+  ],
+});
 
-// export default AppSidebarContainer;
-export default AppSidebar;
+export default AppSidebarContainer;
+// export default AppSidebar;
