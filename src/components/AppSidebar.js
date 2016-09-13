@@ -1,11 +1,16 @@
 import React from 'react';
+import Relay from 'react-relay';
+import RelaySubscriptions from 'relay-subscriptions';
 
 import {
-  Sidebar, SidebarNav, SidebarNavItem,
-  SidebarControls, SidebarControlBtn,
-  LoremIpsum, Grid, Row, Col, FormControl,
-  Label, Progress, Icon,
-  SidebarDivider
+  Sidebar,
+  SidebarControls,
+  SidebarControlBtn,
+  Grid,
+  Row,
+  Col,
+  Progress,
+  Icon,
 } from '@sketchpixy/rubix';
 
 import IncomingReqSidebar from '../components/IncomingReqSidebar';
@@ -13,13 +18,15 @@ import ActiveChatsSidebar from '../components/ActiveChatsSidebar';
 import BroadcastingSidebar from '../components/BroadcastingSidebar';
 import StatsSidebar from '../components/StatsSidebar';
 
-import { Link, withRouter } from 'react-router';
+import AddIncomingReqSubscription from '../subscriptions/AddIncomingReqSubscription';
+
+import { withRouter } from 'react-router';
 
 @withRouter
-export default class SidebarContainer extends React.Component {
+class AppSidebar extends React.Component {
   render() {
     return (
-      <div id='sidebar' {...this.props}>
+      <div id='sidebar'>
         <div id='avatar'>
           <Grid>
             <Row className='fg-white'>
@@ -62,3 +69,23 @@ export default class SidebarContainer extends React.Component {
     );
   }
 }
+
+// const AppSidebarContainer = RelaySubscriptions.createContainer(AppSidebar, {
+//   fragments: {
+//     incomingReqs: () => Relay.QL`
+//       fragment on IncomingReq {
+//         id
+//         _id
+//         type
+//         userId
+//         messageText
+//       }
+//     `
+//   },
+//   subscriptions: [
+//     ({ incomingReq }) => new AddIncomingReqSubscription({ incomingReq }),
+//   ],
+// });
+
+// export default AppSidebarContainer;
+export default AppSidebar;

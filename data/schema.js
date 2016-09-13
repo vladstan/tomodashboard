@@ -17,18 +17,22 @@ import {
   // connectionArgs,
   nodeDefinitions,
   // connectionFromArray,
-  // connectionDefinitions,
+  connectionDefinitions,
   // connectionFromPromisedArray,
-  // mutationWithClientMutationId
+  // mutationWithClientMutationId,
+  cursorForObjectInConnection,
 } from 'graphql-relay';
 
 import {
   getUser,
   getProfile,
   getProfileOfUser,
+  getIncomingReqs,
+  getIncomingReq,
 } from './database';
 
 import { getWithType, isType } from '@sketchpixy/rubix/lib/node/relay-utils';
+import { subscriptionWithClientId } from 'graphql-relay-subscription';
 
 /* Interface */
 const { nodeInterface, nodeField } = nodeDefinitions(
@@ -57,17 +61,14 @@ const { nodeInterface, nodeField } = nodeDefinitions(
 /* Basic Types */
 const profileType = new GraphQLObjectType({
   name: 'Profile',
-  description: 'A user\'s profile',
   fields: () => ({
     id: globalIdField('Profile', (profile) => profile._id),
     _id: {
       type: GraphQLString,
-      description: 'Profile id',
       resolve: (profile) => profile._id,
     },
     userId: {
       type: GraphQLString,
-      description: 'The todo text',
       resolve: (profile) => profile.userId,
     }
   }),
@@ -84,30 +85,54 @@ const profileType = new GraphQLObjectType({
 
 const userType = new GraphQLObjectType({
   name: 'User',
-  description: 'Main User',
   fields: () => ({
     id: globalIdField('User', (user) => user._id),
     _id: {
       type: GraphQLString,
-      description: 'User Mongo id',
       resolve: (user) => user._id,
     },
     facebookId: {
       type: GraphQLString,
-      description: 'Facebook id',
       resolve: (user) => user.facebookId,
     },
     profile: {
       type: profileType,
-      description: 'The profile',
       resolve: (user) => getProfileOfUser(user._id)
     }
   }),
   interfaces: [nodeInterface],
 });
 
+const incomingReqType = new GraphQLObjectType({
+  name: 'IncomingReq',
+  fields: {
+    id: globalIdField('IncomingReq', (req) => req._id),
+    _id: {
+      type: GraphQLString,
+      resolve: (req) => req._id,
+    },
+    type: {
+      type: GraphQLString,
+      resolve: (req) => req.type,
+    },
+    userId: {
+      type: GraphQLString,
+      resolve: (req) => req.userId,
+    },
+    messageText: {
+      type: GraphQLString,
+      resolve: (req) => req.messageText,
+    },
+    // createdAt: {
+    //   type: GraphQLString,
+    //   resolve: (req) => req.type,
+    // },
+  },
+  interfaces: [nodeInterface],
+});
+
 // /* Mutations */
-// const AddTodoMutation = mutationWithClientMutationId({
+// const AddIncomingReqMutation = mutationWithClientMutationId({
 //   name: 'AddTodo',
 //   inputFields: {
 //     todo: { type: new GraphQLNonNull(GraphQLString) },
@@ -220,7 +245,43 @@ const queryType = new GraphQLObjectType({
 //   }),
 // });
 
+const {
+  // connectionType: incomingReqConnection,
+  edgeType: incomingReqEdge
+} = connectionDefinitions({
+  name: 'IncomingReq',
+  nodeType: incomingReqType
+});
+
+const addIncomingReqSubscription = subscriptionWithClientId({
+  name: 'AddIncomingReqSubscription',
+  outputFields: {
+    incomingReq: {
+      type: incomingReqType,
+      resolve: (req) => req,
+    },
+    incomingReqEdge: {
+      type: incomingReqEdge,
+      resolve: (req) => ({
+        cursor: cursorForObjectInConnection(getIncomingReqs(), getIncomingReq(req._id)),
+        node: req,
+      }),
+    },
+  },
+  subscribe: (input, context) => {
+    context.subscribe('add_incoming_req');
+  },
+});
+
+const Subscription = new GraphQLObjectType({
+  name: 'Subscription',
+  fields: {
+    addIncomingReqSubscription
+  },
+});
+
 export default new GraphQLSchema({
   query: queryType,
+  subscription: Subscription,
   // mutation: mutationType
 });

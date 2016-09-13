@@ -15,7 +15,7 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-class ChatItem extends React.Component {
+class ChatConversationItem extends React.Component {
   render() {
     let leftImg;
     let rightImg;
@@ -68,7 +68,7 @@ class ChatItem extends React.Component {
   }
 }
 
-class Chat extends React.Component {
+class ChatConversation extends React.Component {
   render() {
     return (
       <div>
@@ -79,16 +79,16 @@ class Chat extends React.Component {
                 padding: 0,
                 marginTop: '50px'
               }}>
-                <ChatItem position='left' avatar='avatar0' text='I want to go with my family on a short vacation on Palma de Mallorca next month.' />
-                <ChatItem position='right' avatar='avatar17' text='Ok, do you want to stay in the city or near the beach?' />
-                <ChatItem position='left' avatar='avatar0' text='Near the beach' />
-                <ChatItem position='right' avatar='avatar17' text='Ok, do you want to fly as usual with BA?' />
-                <ChatItem position='left' avatar='avatar0' text='British Airways is perfect. ' />
-                <ChatItem position='right' avatar='avatar17' text='Do you want me to search for some activities on the island?' />
-                <ChatItem position='left' avatar='avatar0' text='Yes, mostly for kids. Also we want to have dinner with some friends so please book  a restaurant for 8.' />
-                <ChatItem position='right' avatar='avatar17' text='Ok, let me search, and I will be back.' />
-                <ChatItem position='left' avatar='avatar0' text='Awesome, thank you' />
-                <ChatItem position='right' avatar='avatar17' text='My pleasure' />
+                <ChatConversationItem position='left' avatar='avatar0' text='I want to go with my family on a short vacation on Palma de Mallorca next month.' />
+                <ChatConversationItem position='right' avatar='avatar17' text='Ok, do you want to stay in the city or near the beach?' />
+                <ChatConversationItem position='left' avatar='avatar0' text='Near the beach' />
+                <ChatConversationItem position='right' avatar='avatar17' text='Ok, do you want to fly as usual with BA?' />
+                <ChatConversationItem position='left' avatar='avatar0' text='British Airways is perfect. ' />
+                <ChatConversationItem position='right' avatar='avatar17' text='Do you want me to search for some activities on the island?' />
+                <ChatConversationItem position='left' avatar='avatar0' text='Yes, mostly for kids. Also we want to have dinner with some friends so please book  a restaurant for 8.' />
+                <ChatConversationItem position='right' avatar='avatar17' text='Ok, let me search, and I will be back.' />
+                <ChatConversationItem position='left' avatar='avatar0' text='Awesome, thank you' />
+                <ChatConversationItem position='right' avatar='avatar17' text='My pleasure' />
               </ul>
               <PanelContainer style={{
                 background: '#EAEDF1',
@@ -134,4 +134,4 @@ class Chat extends React.Component {
   }
 }
 
-export default Chat;
+export default ChatConversation;

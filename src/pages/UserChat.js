@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import { withRouter } from 'react-router';
 
 import {
@@ -14,14 +13,13 @@ import {
   PanelLeft,
   PanelBody,
   ListGroup,
-  LoremIpsum,
   ButtonGroup,
   ButtonToolbar,
   ListGroupItem,
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-import Chat from '../common/chat';
+import ChatConversation from '../components/ChatConversation';
 
 class InboxNavItem extends React.Component {
   render() {
@@ -52,51 +50,6 @@ class InboxNavTag extends React.Component {
           </Col>
         </Row>
       </Grid>
-    );
-  }
-}
-
-@withRouter
-class InboxItem extends React.Component {
-  handleClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    this.props.router.push('/ltr/mailbox/mail');
-  }
-  render() {
-    var classes = classNames({
-      'inbox-item': true,
-      'unread': this.props.unread
-    });
-
-    var linkProps = {
-      ...this.props,
-      href: '/ltr/mailbox/mail',
-      onClick: ::this.handleClick,
-      className: classes,
-      name: null,
-      date: null,
-      itemId: null,
-      labelClass: null,
-      labelValue: null,
-      description: null,
-    };
-
-    return (
-      <a {...linkProps}>
-        <div className='inbox-avatar'>
-          <img src={this.props.src} width='40' height='40' className={this.props.imgClass + ' hidden-xs'} />
-          <div className='inbox-avatar-name'>
-            <div className='fg-darkgrayishblue75'>{this.props.name}</div>
-            <div><small><Badge className={this.props.labelClass} style={{marginRight: 5, display: this.props.labelValue ? 'inline':'none'}}>{this.props.labelValue}</Badge><span>{this.props.description}</span></small></div>
-          </div>
-          <div className='inbox-date hidden-sm hidden-xs fg-darkgray40 text-right'>
-            <div style={{position: 'relative', top: 5}}>{this.props.date}</div>
-            <div style={{position: 'relative', top: -5}}><small>#{this.props.itemId}</small></div>
-          </div>
-        </div>
-      </a>
     );
   }
 }
@@ -197,7 +150,7 @@ class UserChat extends React.Component {
                   <Grid>
                     <Row>
                       <Col xs={12}>
-                        <Chat />
+                        <ChatConversation />
                       </Col>
                     </Row>
                   </Grid>

@@ -1,5 +1,29 @@
 schema {
   query: Query
+  subscription: Subscription
+}
+
+input AddIncomingReqSubscriptionInput {
+  clientSubscriptionId: String
+}
+
+type AddIncomingReqSubscriptionPayload {
+  incomingReq: IncomingReq
+  incomingReqEdge: IncomingReqEdge
+  clientSubscriptionId: String
+}
+
+type IncomingReq implements Node {
+  id: ID!
+  _id: String
+  type: String
+  userId: String
+  messageText: String
+}
+
+type IncomingReqEdge {
+  node: IncomingReq
+  cursor: String!
 }
 
 interface Node {
@@ -15,6 +39,10 @@ type Profile implements Node {
 type Query {
   node(id: ID!): Node
   user(id: String): User
+}
+
+type Subscription {
+  addIncomingReqSubscription(input: AddIncomingReqSubscriptionInput!): AddIncomingReqSubscriptionPayload
 }
 
 type User implements Node {

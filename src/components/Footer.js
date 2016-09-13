@@ -6,7 +6,7 @@ import {
   Grid,
 } from '@sketchpixy/rubix';
 
-export default class Footer extends React.Component {
+class Footer extends React.Component {
   state = {
     version: 0
   };
@@ -24,7 +24,7 @@ export default class Footer extends React.Component {
         <Grid id='footer' className='text-center'>
           <Row>
             <Col xs={12}>
-              <div>© {year} SketchPixy Creative - v{this.state.version}</div>
+              <div>© {year} Futuristico v{this.state.version}</div>
             </Col>
           </Row>
         </Grid>
@@ -32,3 +32,5 @@ export default class Footer extends React.Component {
     );
   }
 }
+
+export default Footer;

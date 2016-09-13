@@ -1,16 +1,14 @@
 import React from 'react';
-import Relay from 'react-relay';
-import classNames from 'classnames';
-import { IndexRoute, Route } from 'react-router';
 
+import { IndexRoute, Route } from 'react-router';
 import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 
-import Footer from './common/footer';
-import Header from './common/header';
-import Sidebar from './common/sidebar';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import AppSidebar from './components/AppSidebar';
 
-// import UserChatQueries from './queries/UserChatQueries';
-// import TestQueries from './queries/TestQueries';
+import UserChatQueries from './queries/UserChatQueries';
+import TestQueries from './queries/TestQueries';
 
 import Home from './pages/Home';
 import UserChat from './pages/UserChat';
@@ -19,7 +17,7 @@ class App extends React.Component {
   render() {
     return (
       <MainContainer {...this.props}>
-        <Sidebar />
+        <AppSidebar />
         <Header />
         <div id='body'>
           <Grid>
@@ -38,7 +36,7 @@ class App extends React.Component {
 
 export default (
   <Route path='/' component={App}>
-    <IndexRoute component={Home} />
-    <Route path='chat/:uid' component={UserChat} />
+    <IndexRoute component={Home} queries={TestQueries} />
+    <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
   </Route>
 );

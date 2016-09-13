@@ -1,28 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-
-import { Link, withRouter } from 'react-router';
-
-import l20n, { Entity } from '@sketchpixy/rubix/lib/L20n';
+import { withRouter } from 'react-router';
 
 import {
-  Label,
   SidebarBtn,
-  Dispatcher,
-  NavDropdown,
-  NavDropdownHover,
   Navbar,
   Nav,
   NavItem,
-  MenuItem,
-  Badge,
-  Button,
   Icon,
   Grid,
   Row,
-  Radio,
-  Col } from '@sketchpixy/rubix';
+  Col,
+} from '@sketchpixy/rubix';
 
 class Brand extends React.Component {
   render() {
@@ -53,7 +41,7 @@ class HeaderNavigation extends React.Component {
   }
 }
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   render() {
     return (
       <Grid id='navbar' {...this.props}>
@@ -78,3 +66,5 @@ export default class Header extends React.Component {
     );
   }
 }
+
+export default Header;
