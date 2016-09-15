@@ -7,17 +7,11 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import Relay from 'react-relay';
 
-import {GraphQLSchema} from 'graphql';
-
 import routes from './src/routes';
 import { renderHTMLString, setNetworkLayer } from './src/relay-router';
 import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddleware';
 import { addNotifier } from './data/database';
 import schema from './data/schema';
-import * as SS from './data/schema';
-
-console.log('schema=', schema);
-console.log('schemaSS=', SS);
 
 import GraphQLSettings from './graphql.json';
 
@@ -72,10 +66,14 @@ const io = require('socket.io')(graphQLServer, {
 });
 
 io.on('connection', socket => {
+  console.log('io on connection');
+
   const topics = Object.create(null);
   const unsubscribeMap = Object.create(null);
 
   const removeNotifier = addNotifier(({ topic, data }) => {
+    console.log('notified topic', topic);
+
     const topicListeners = topics[topic];
     if (!topicListeners) return;
 
@@ -87,12 +85,15 @@ io.on('connection', socket => {
         null,
         variables
       ).then((result) => {
+        console.log('subscription update');
         socket.emit('subscription update', { id, ...result });
       });
     });
   });
 
   socket.on('subscribe', ({ id, query, variables }) => {
+    console.log('io socket on subscribe');
+
     function unsubscribe(topic, subscription) {
       const index = topics[topic].indexOf(subscription);
       if (index === -1) return;
@@ -123,8 +124,6 @@ io.on('connection', socket => {
       );
     }
 
-    console.log('graphqlSubscribeing', schema, schema instanceof GraphQLSchema);
-
     graphqlSubscribe({
       schema,
       query,
@@ -138,6 +137,8 @@ io.on('connection', socket => {
   });
 
   socket.on('unsubscribe', (id) => {
+    console.log('io socket on unsubscribe');
+
     const unsubscribe = unsubscribeMap[id];
     if (!unsubscribe) return;
 
@@ -147,7 +148,7 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    console.log('Socket disconnect');
+    console.log('io socket on disconnect');
     removeNotifier();
   });
 });

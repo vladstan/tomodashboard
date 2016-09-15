@@ -10,7 +10,7 @@ const db = pmongo(MONGO_URL, {
 
 export function getActionMessagesCursor() {
   const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
-  return db.actionmessages.find({}, options).sort({$natural: 1});
+  return db.actionmessages.find({}, {}, options).sort({$natural: 1});
 }
 
 export function getUser(id) {
@@ -28,13 +28,10 @@ export function getProfileOfUser(userId) {
 }
 
 export function getIncomingReqs() {
-  console.log('pm: getIncomingReqs');
-  // const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
-  return db.actionmessages.find({}).sort({$natural: 1});
+  return db.actionmessages.find({}).sort({$natural: 1}).toArray();
 }
 
 export function getIncomingReq(id) {
-  console.log('pm: getIncomingReq(' + id + ')');
   return db.actionmessages.findOne({ _id: pmongo.ObjectId(id) });
 }
 
@@ -46,15 +43,15 @@ function notifyChange(topic, data) {
 }
 
 function startListening() {
-  getActionMessagesCursor().forEach(function(err, doc) {
-    if (err) {
-      console.error(err);
-    }
-
-    if (doc) {
+  console.log('startListening()');
+  getActionMessagesCursor()
+    .on('data', function(doc) {
+      console.log('notifyChange(\'add_incoming_req\', ' + doc._id + ')');
       notifyChange('add_incoming_req', doc);
-    }
-  });
+    })
+    .on('error', function(err) {
+      console.error(err);
+    });
 }
 
 export function addNotifier(cb) {

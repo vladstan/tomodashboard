@@ -50,6 +50,6 @@ module.exports = {
       "public",
       "node_modules"
     ],
-    extensions: ["", ".json", ".js"]
+    extensions: ["", ".js", ".json"]
   }
 };

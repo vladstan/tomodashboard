@@ -1,4 +1,8 @@
 import React from 'react';
+import Relay from 'react-relay';
+import RelaySubscriptions from 'relay-subscriptions';
+
+import AddIncomingReqSubscription from './subscriptions/AddIncomingReqSubscription';
 
 import { IndexRoute, Route } from 'react-router';
 import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
@@ -8,7 +12,7 @@ import Header from './components/Header';
 import AppSidebar from './components/AppSidebar';
 
 // import UserChatQueries from './queries/UserChatQueries';
-// import TestQueries from './queries/TestQueries';
+import TestQueries from './queries/TestQueries';
 
 import Home from './pages/Home';
 import UserChat from './pages/UserChat';
@@ -17,7 +21,7 @@ class App extends React.Component {
   render() {
     return (
       <MainContainer {...this.props}>
-        <AppSidebar />
+        <AppSidebar user={this.props.user} />
         <Header />
         <div id='body'>
           <Grid>
@@ -34,8 +38,46 @@ class App extends React.Component {
   }
 }
 
+const AppContainer = RelaySubscriptions.createContainer(App, {
+  fragments: {
+    user: () => Relay.QL`
+      fragment on User {
+        id
+        _id
+        ${AddIncomingReqSubscription.getFragment('user')}
+        facebookId
+        profile {
+          id
+          _id
+          userId
+          name
+        }
+        incomingReqs(first: 10) {
+          edges {
+            node {
+              id
+              _id
+              type
+              userId
+              messageText
+            }
+          }
+        }
+      }
+    `
+  },
+  subscriptions: [
+    (props) => {
+      console.log('creating sub with props=', props);
+      const prps = {user: props.user};
+      console.log('prps', prps);
+      return new AddIncomingReqSubscription(prps);
+    },
+  ],
+});
+
 export default (
-  <Route path='/' component={App}>
+  <Route path='/' component={AppContainer} queries={TestQueries}>
     <IndexRoute component={Home} />
     <Route path='chat/:uid' component={UserChat} />
   </Route>

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import schema from '../data/schema.js';
+import schema from '../data/schema';
 import { graphql } from 'graphql';
 import { introspectionQuery, printSchema } from 'graphql/utilities';
 
@@ -19,7 +19,7 @@ import { introspectionQuery, printSchema } from 'graphql/utilities';
     );
     console.log('Finished writing data/schema.json');
   }
-})();
+})().catch(::console.error);
 
 // Save user readable type system shorthand of schema
 fs.writeFileSync(

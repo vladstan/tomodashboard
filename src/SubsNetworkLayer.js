@@ -9,6 +9,8 @@ class SubsNetworkLayer extends Relay.DefaultNetworkLayer {
     this._requests = Object.create(null);
 
     this._socket.on('subscription update', ({ id, data, errors }) => {
+      console.log('nl subscription update', id, data, errors);
+
       const request = this._requests[id];
       if (!request) {
         return;
@@ -22,6 +24,8 @@ class SubsNetworkLayer extends Relay.DefaultNetworkLayer {
     });
 
     this._socket.on('subscription closed', (id) => {
+      console.log('nl subscription closed', id);
+
       const request = this._requests[id];
       if (!request) {
         return;

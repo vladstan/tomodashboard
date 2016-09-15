@@ -9,7 +9,8 @@ input AddIncomingReqSubscriptionInput {
 
 type AddIncomingReqSubscriptionPayload {
   incomingReq: IncomingReq
-  incomingReqEdge: IncomingReqEdge
+  incomingReqEdge: incomingReqsEdge
+  user: User
   clientSubscriptionId: String
 }
 
@@ -21,7 +22,12 @@ type IncomingReq implements Node {
   messageText: String
 }
 
-type IncomingReqEdge {
+type incomingReqsConnection {
+  pageInfo: PageInfo!
+  edges: [incomingReqsEdge]
+}
+
+type incomingReqsEdge {
   node: IncomingReq
   cursor: String!
 }
@@ -30,19 +36,27 @@ interface Node {
   id: ID!
 }
 
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
 type Profile implements Node {
   id: ID!
   _id: String
   userId: String
+  name: String
 }
 
 type Query {
   node(id: ID!): Node
-  user(id: String): User
+  user(_id: String): User
 }
 
 type Subscription {
-  addIncomingReqSubscription(input: AddIncomingReqSubscriptionInput!): AddIncomingReqSubscriptionPayload
+  addIncomingReq(input: AddIncomingReqSubscriptionInput!): AddIncomingReqSubscriptionPayload
 }
 
 type User implements Node {
@@ -50,4 +64,5 @@ type User implements Node {
   _id: String
   facebookId: String
   profile: Profile
+  incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
 }
