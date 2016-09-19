@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 
 import {
   SidebarBtn,
@@ -26,7 +26,7 @@ class Brand extends React.Component {
   }
 }
 
-@withRouter
+// @withRouter
 class HeaderNavigation extends React.Component {
   render() {
     return (

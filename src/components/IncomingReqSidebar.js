@@ -13,7 +13,7 @@ import {
   TimelineTitle,
 } from '@sketchpixy/rubix';
 
-import { Link, withRouter } from 'react-router';
+import { Link } from 'react-router';
 
 class IncomingReqSidebarComponent extends React.Component {
 

@@ -1,6 +1,9 @@
 import React, {PropTypes} from 'react';
-import Relay from 'react-relay';
+// import Relay from 'react-relay';
 
+import { withRouter } from 'react-router';
+
+@withRouter
 class Home extends React.Component {
   static propTypes = {
     user: PropTypes.object

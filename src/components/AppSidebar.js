@@ -16,9 +16,9 @@ import ActiveChatsSidebar from '../components/ActiveChatsSidebar';
 import BroadcastingSidebar from '../components/BroadcastingSidebar';
 import StatsSidebar from '../components/StatsSidebar';
 
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 
-@withRouter
+// @withRouter
 class AppSidebar extends React.Component {
   render() {
     const user = this.props.user;

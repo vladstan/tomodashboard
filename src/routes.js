@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import RelaySubscriptions from 'relay-subscriptions';
+import { withRouter } from 'react-router';
 
 import AddIncomingReqSubscription from './subscriptions/AddIncomingReqSubscription';
 
@@ -17,6 +18,7 @@ import UserChatQueries from './queries/UserChatQueries';
 import Home from './pages/Home';
 import UserChat from './pages/UserChat';
 
+@withRouter
 class App extends React.Component {
   render() {
     return (
