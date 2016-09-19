@@ -29,7 +29,7 @@ import {
   getProfileOfUser,
   getIncomingReqs,
   getIncomingReq,
-  getMessages,
+  getMessagesForUser,
   getMessage,
 } from './database';
 
@@ -183,7 +183,7 @@ const User = new GraphQLObjectType({
     messages: {
       type: MessagesConnection,
       args: connectionArgs,
-      resolve: (doc, args) => connectionFromPromisedArray(getMessages(), args),
+      resolve: (doc, args) => connectionFromPromisedArray(getMessagesForUser(doc._id), args),
     },
   }),
   interfaces: [nodeInterface],
@@ -243,7 +243,7 @@ const AddIncomingReqSubscription = subscriptionWithClientId({
     },
     user: {
       type: User,
-      resolve: () => getUser('57b19661ea7338f8003ecf56'),
+      resolve: (doc) => getUser(doc.userId),
     },
   },
   subscribe: (input, context) => {
@@ -261,7 +261,7 @@ const AddMessageSubscription = subscriptionWithClientId({
     messageEdge: {
       type: MessageEdge,
       resolve: async (doc) => {
-        const messages = await getMessages();
+        const messages = await getMessagesForUser(doc.userId);
         const offset = messages.length - 1;
         const cursor = offsetToCursor(offset);
 
@@ -273,7 +273,7 @@ const AddMessageSubscription = subscriptionWithClientId({
     },
     user: {
       type: User,
-      resolve: () => getUser('57b19661ea7338f8003ecf56'),
+      resolve: (doc) => getUser(doc.userId),
     },
   },
   subscribe: (input, context) => {

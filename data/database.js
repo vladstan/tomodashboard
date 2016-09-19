@@ -6,7 +6,13 @@ if (process.env.MONGO_URL) MONGO_URL = process.env.MONGO_URL;
 
 const db = pmongo(MONGO_URL, {
   authMechanism: 'ScramSHA1'
-}, ['actionmessages', 'users', 'profiles', 'messages']);
+}, [
+  'actionmessages',
+  'messages',
+  'profiles',
+  'sessions',
+  'users',
+]);
 
 export function getActionMessagesCursor() {
   const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
@@ -40,8 +46,16 @@ export function getMessagesCursor() {
   return db.messages.find({}, {}, options).sort({$natural: 1});
 }
 
-export function getMessages() {
-  return db.messages.find({}).sort({$natural: 1}).toArray();
+export function getMessagesForUser(_idUser) {
+  return db.sessions.find({})
+    .then((sessions) => {
+      const session = sessions.find((s) => s.userId == _idUser);
+      if (!session || !session.userId) {
+        return [];
+      }
+      return db.messages.find({}).sort({$natural: 1}).toArray()
+        .then(messages => messages.filter(m => m.sessionId == session._id));
+    });
 }
 
 export function getMessage(_id) {

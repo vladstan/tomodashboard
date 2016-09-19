@@ -41,7 +41,7 @@ class IncomingReqSidebarComponent extends React.Component {
                           </div>
                           <br/>
                           <div className='text-center'>
-                            <Link to='/chat/123'>
+                            <Link to={'/chat/' + req.userId}>
                               <Button xs outlined bsStyle='darkgreen45'>
                                 Chat
                               </Button>{' '}
