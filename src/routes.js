@@ -11,8 +11,8 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import AppSidebar from './components/AppSidebar';
 
-// import UserChatQueries from './queries/UserChatQueries';
-import TestQueries from './queries/TestQueries';
+import AppQueries from './queries/AppQueries';
+import UserChatQueries from './queries/UserChatQueries';
 
 import Home from './pages/Home';
 import UserChat from './pages/UserChat';
@@ -67,21 +67,13 @@ const AppContainer = RelaySubscriptions.createContainer(App, {
     `
   },
   subscriptions: [
-    (props) => {
-      console.log('creating sub with props=', props);
-      const prps = {user: props.user};
-      console.log('prps', prps);
-      return new AddIncomingReqSubscription(prps);
-    },
+    ({user}) => new AddIncomingReqSubscription({user}),
   ],
 });
 
 export default (
-  <Route path='/' component={AppContainer} queries={TestQueries}>
+  <Route path='/' component={AppContainer} queries={AppQueries}>
     <IndexRoute component={Home} />
-    <Route path='chat/:uid' component={UserChat} />
+    <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
   </Route>
 );
-
-// queries={TestQueries}
-// queries={UserChatQueries}

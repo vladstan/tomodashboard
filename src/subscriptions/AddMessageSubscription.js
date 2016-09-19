@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
 import { Subscription } from 'relay-subscriptions';
 
-class AddIncomingReqSubscription extends Subscription {
+class AddMessageSubscription extends Subscription {
   static fragments = {
     user: () => Relay.QL`
       fragment on User {
@@ -14,15 +14,18 @@ class AddIncomingReqSubscription extends Subscription {
   getSubscription() {
     return Relay.QL`
       subscription {
-        addIncomingReq(input: $input) {
-          incomingReqEdge {
+        addMessage(input: $input) {
+          messageEdge {
             __typename
             node {
               id
               _id
               type
-              userId
-              messageText
+              text
+              senderId
+              receiverId
+              senderType
+              receiverType
             }
           }
           user {
@@ -39,8 +42,8 @@ class AddIncomingReqSubscription extends Subscription {
       type: 'RANGE_ADD',
       parentName: 'user',
       parentID: this.props.user.id,
-      connectionName: 'incomingReqs',
-      edgeName: 'incomingReqEdge',
+      connectionName: 'messages',
+      edgeName: 'messageEdge',
       rangeBehaviors: () => 'append',
     }];
   }
@@ -50,4 +53,4 @@ class AddIncomingReqSubscription extends Subscription {
   }
 }
 
-export default AddIncomingReqSubscription;
+export default AddMessageSubscription;

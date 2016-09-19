@@ -1,6 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
+import Relay from 'react-relay';
+import RelaySubscriptions from 'relay-subscriptions';
+import AddMessageSubscription from '../subscriptions/AddMessageSubscription';
+
 import {
   Row,
   Col,
@@ -150,7 +154,7 @@ class UserChat extends React.Component {
                   <Grid>
                     <Row>
                       <Col xs={12}>
-                        <ChatConversation />
+                        <ChatConversation messages={this.props.user.messages.edges.map(e => e.node)} />
                       </Col>
                     </Row>
                   </Grid>
@@ -164,4 +168,33 @@ class UserChat extends React.Component {
   }
 }
 
-export default UserChat;
+const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
+  fragments: {
+    user: () => Relay.QL`
+      fragment on User {
+        id
+        _id
+        ${AddMessageSubscription.getFragment('user')}
+        messages(first: 1000) {
+          edges {
+            node {
+              id
+              _id
+              type
+              text
+              senderId
+              receiverId
+              senderType
+              receiverType
+            }
+          }
+        }
+      }
+    `
+  },
+  subscriptions: [
+    ({user}) => new AddMessageSubscription({user}),
+  ],
+});
+
+export default UserChatContainer;
