@@ -33,6 +33,17 @@ export function getProfileOfUser(userId) {
   });
 }
 
+export function getSessionOfUser(userId) {
+  return db.sessions.find({}).then((sessions) => { // TODO
+    return sessions.find((s) => s.userId == userId);
+  });
+}
+
+export function switchBotAgent(_id, botMuted) {
+  // console.log('switchBotAgent(userId, botMuted)', _id, botMuted);
+  return db.users.update({ _id: pmongo.ObjectId(_id) }, { $set: { botMuted } });
+}
+
 export function getIncomingReqs() {
   return db.actionmessages.find({}).sort({$natural: 1}).toArray();
 }
@@ -51,6 +62,7 @@ export function getMessagesForUser(_idUser) {
     .then((sessions) => {
       const session = sessions.find((s) => s.userId == _idUser);
       if (!session || !session.userId) {
+        console.error('no session found for user with id', _idUser);
         return [];
       }
       return db.messages.find({}).sort({$natural: 1}).toArray()

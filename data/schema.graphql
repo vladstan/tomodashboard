@@ -67,6 +67,7 @@ type messagesEdge {
 
 type Mutation {
   sendMessage(input: SendMessageInput!): SendMessagePayload
+  switchBotAgent(input: SwitchBotAgentInput!): SwitchBotAgentPayload
 }
 
 interface Node {
@@ -99,6 +100,7 @@ input SendMessageInput {
   receiverId: String!
   senderType: String!
   receiverType: String!
+  userId: String!
   clientMutationId: String
 }
 
@@ -113,6 +115,17 @@ type Subscription {
   addMessage(input: AddMessageSubscriptionInput!): AddMessageSubscriptionPayload
 }
 
+input SwitchBotAgentInput {
+  userId: String!
+  botMuted: Boolean!
+  clientMutationId: String
+}
+
+type SwitchBotAgentPayload {
+  user: User
+  clientMutationId: String
+}
+
 type User implements Node {
   id: ID!
   _id: String
@@ -120,4 +133,5 @@ type User implements Node {
   profile: Profile
   incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
   messages(after: String, first: Int, before: String, last: Int): messagesConnection
+  botMuted: Boolean
 }

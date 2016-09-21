@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
 
-class SendMessageMutation extends Relay.Mutation {
+class SwitchBotAgentMutation extends Relay.Mutation {
   static fragments = {
     user: () => Relay.QL`
       fragment on User {
@@ -11,16 +11,16 @@ class SendMessageMutation extends Relay.Mutation {
   };
 
   getMutation() {
-    return Relay.QL`mutation { sendMessage }`;
+    return Relay.QL`mutation { switchBotAgent }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on SendMessagePayload @relay(pattern: true) {
-        messageEdge
+      fragment on SwitchBotAgentPayload @relay(pattern: true) {
         user {
           id
           _id
+          botMuted
         }
       }
     `;
@@ -28,24 +28,17 @@ class SendMessageMutation extends Relay.Mutation {
 
   getConfigs() {
     return [{
-      type: 'RANGE_ADD',
-      parentName: 'user',
-      parentID: this.props.user.id,
-      connectionName: 'messages',
-      edgeName: 'messageEdge',
-      rangeBehaviors: () => 'append',
+      type: 'FIELDS_CHANGE',
+      fieldIDs: {
+        user: this.props.user.id,
+      },
     }];
   }
 
   getVariables() {
     return {
       userId: this.props.user._id,
-      type: this.props.type,
-      text: this.props.text,
-      senderId: this.props.senderId,
-      receiverId: this.props.receiverId,
-      senderType: this.props.senderType,
-      receiverType: this.props.receiverType,
+      botMuted: this.props.botMuted,
     };
   }
 
@@ -74,4 +67,4 @@ class SendMessageMutation extends Relay.Mutation {
   // }
 }
 
-export default SendMessageMutation;
+export default SwitchBotAgentMutation;

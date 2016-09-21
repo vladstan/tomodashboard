@@ -5,7 +5,9 @@ import Relay from 'react-relay';
 import RelaySubscriptions from 'relay-subscriptions';
 
 import AddMessageSubscription from '../subscriptions/AddMessageSubscription';
+
 import SendMessageMutation from '../mutations/SendMessageMutation';
+import SwitchBotAgentMutation from '../mutations/SwitchBotAgentMutation';
 
 import {
   Row,
@@ -70,7 +72,6 @@ class UserChat extends React.Component {
   }
 
   sendMessage(messageText) {
-    console.log('send msg', messageText);
     const { relay, user } = this.props;
     relay.commitUpdate(
       new SendMessageMutation({
@@ -85,7 +86,24 @@ class UserChat extends React.Component {
     );
   }
 
+  handleSwitch(currentState) {
+    const { relay, user } = this.props;
+    console.log('swtich', {
+      user,
+      botMuted: currentState !== 'bot'
+    });
+    relay.commitUpdate(
+      new SwitchBotAgentMutation({
+        user,
+        botMuted: currentState !== 'bot'
+      }),
+    );
+  }
+
   render() {
+    const switchBotStyle = this.props.user.botMuted ? undefined : 'blue';
+    const switchAgentStyle = this.props.user.botMuted ? 'blue' : undefined;
+
     return (
       <div>
         <PanelContainer className='inbox' collapseBottom>
@@ -109,6 +127,10 @@ class UserChat extends React.Component {
                         <Button outlined onlyOnHover bsStyle='danger' className='text-center'><Icon glyph='icon-fontello-attention-alt'/></Button>
                         <Button outlined onlyOnHover bsStyle='danger'><Icon glyph='icon-fontello-trash-1'/></Button>
                       </ButtonGroup>
+                  	  <ButtonGroup>
+                    		<Button bsStyle={switchBotStyle} onClick={this.handleSwitch.bind(this, 'bot')}>Bot</Button>
+                    		<Button bsStyle={switchAgentStyle} onClick={this.handleSwitch.bind(this, 'agent')}>Agent</Button>
+                  	  </ButtonGroup>
                     </ButtonToolbar>
                   </Col>
                   <Col xs={4} className='text-right'>
@@ -195,7 +217,10 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         id
         _id
         facebookId
+        botMuted
         ${AddMessageSubscription.getFragment('user')}
+        ${SendMessageMutation.getFragment('user')}
+        ${SwitchBotAgentMutation.getFragment('user')}
         messages(first: 1000) {
           edges {
             node {

@@ -1,7 +1,7 @@
 import {
   GraphQLObjectType,
   GraphQLNonNull,
-  // GraphQLBoolean,
+  GraphQLBoolean,
   GraphQLSchema,
   GraphQLString,
   // GraphQLList,
@@ -27,10 +27,12 @@ import {
   getUser,
   getProfile,
   getProfileOfUser,
+  getSessionOfUser,
   getIncomingReqs,
   getIncomingReq,
   getMessagesForUser,
   getMessage,
+  switchBotAgent,
 } from './database';
 
 import {
@@ -189,6 +191,10 @@ const User = new GraphQLObjectType({
       args: connectionArgs,
       resolve: (doc, args) => connectionFromPromisedArray(getMessagesForUser(doc._id), args),
     },
+    botMuted: {
+      type: GraphQLBoolean,
+      resolve: (doc) => !!doc.botMuted
+    },
   }),
   interfaces: [nodeInterface],
 });
@@ -213,7 +219,6 @@ const {
 
 // MUTATIONS //
 
-
 const SendMessageMutation = mutationWithClientMutationId({
   name: 'SendMessage',
   inputFields: {
@@ -223,12 +228,14 @@ const SendMessageMutation = mutationWithClientMutationId({
     receiverId: { type: new GraphQLNonNull(GraphQLString) },
     senderType: { type: new GraphQLNonNull(GraphQLString) },
     receiverType: { type: new GraphQLNonNull(GraphQLString) },
+    userId: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     messageEdge: {
       type: MessageEdge,
       resolve: async (doc) => {
         const messages = await getMessagesForUser(doc.userId);
+        console.log('messages vs doc', '\n\n\n', messages, '\n\n\n', doc);
         const offset = messages.length - 1;
         const cursor = offsetToCursor(offset);
 
@@ -243,7 +250,35 @@ const SendMessageMutation = mutationWithClientMutationId({
       resolve: (doc) => getUser(doc.userId),
     },
   },
-  mutateAndGetPayload: (props) => sendMessage(props),
+  mutateAndGetPayload: (props) =>
+    getSessionOfUser(props.userId)
+      .then((session) => {
+        return sendMessage({
+          type: props.type,
+          text: props.text,
+          senderId: props.senderId,
+          receiverId: props.receiverId,
+          senderType: props.senderType,
+          receiverType: props.receiverType,
+          sessionId: session._id,
+        }).catch(::console.error);
+      })
+      .catch(::console.error),
+});
+
+const SwitchBotAgentMutation = mutationWithClientMutationId({
+  name: 'SwitchBotAgent',
+  inputFields: {
+    userId: { type: new GraphQLNonNull(GraphQLString) },
+    botMuted: { type: new GraphQLNonNull(GraphQLBoolean) },
+  },
+  outputFields: {
+    user: {
+      type: User,
+      resolve: (doc) => getUser(doc.userId),
+    },
+  },
+  mutateAndGetPayload: (props) => switchBotAgent(props.userId, props.botMuted).catch(::console.error),
 });
 
 // SUBSCRIPTIONS //
@@ -340,6 +375,7 @@ const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
     sendMessage: SendMessageMutation,
+    switchBotAgent: SwitchBotAgentMutation
   }),
 });
 

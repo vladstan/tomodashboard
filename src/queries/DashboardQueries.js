@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
 
-const AppQueries = {
+const DashboardQueries = {
   user: (Component, variables) => Relay.QL`
     query {
       user(_id: "57b19661ea7338f8003ecf56") {
@@ -10,4 +10,4 @@ const AppQueries = {
   `,
 };
 
-export default AppQueries;
+export default DashboardQueries;
