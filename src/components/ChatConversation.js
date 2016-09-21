@@ -5,11 +5,8 @@ import {
   Col,
   Icon,
   Grid,
-  Panel,
-  Image,
   Button,
   PanelBody,
-  PanelHeader,
   PanelFooter,
   FormControl,
   PanelContainer,
@@ -69,6 +66,25 @@ class ChatConversationItem extends React.Component {
 }
 
 class ChatConversation extends React.Component {
+  state = {
+    messageInputText: ''
+  }
+
+  onSend() {
+    if (this.state.messageInputText) {
+      this.props.sendMessage(this.state.messageInputText);
+      this.setState({
+        messageInputText: ''
+      });
+    }
+  }
+
+  onMessageTextChange(event) {
+    this.setState({
+      messageInputText: event.target.value
+    });
+  }
+
   render() {
     return (
       <div>
@@ -97,13 +113,13 @@ class ChatConversation extends React.Component {
                   padding: '15px 15px 10px',
                   display: 'block'
                 }}>
-                  <FormControl componentClass='textarea' rows='3' placeholder="What's on your mind?" style={{
+                  <FormControl componentClass='textarea' rows='3' placeholder="Send a text message..." style={{
                     border: 'none',
                     paddingTop: '10px',
                     borderRadius: '5px',
                     height: '40px',
                     width: '100%'
-                  }} />
+                  }} value={this.state.messageInputText} onChange={::this.onMessageTextChange} />
                 </PanelBody>
                 <PanelFooter className='fg-black75 bg-gray' style={{
                   padding: '12.5px 25px',
@@ -117,7 +133,7 @@ class ChatConversation extends React.Component {
                         <a href='#' style={{border: 'none'}}><Icon glyph='icon-dripicons-calendar icon-1-and-quarter-x fg-text' style={{marginRight: 25}} /></a>
                       </Col>
                       <Col xs={6} className='text-right' collapseLeft collapseRight>
-                        <Button bsStyle='darkgreen45'>send</Button>
+                        <Button bsStyle='darkgreen45' onClick={::this.onSend}>send</Button>
                       </Col>
                     </Row>
                   </Grid>

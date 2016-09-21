@@ -1,6 +1,6 @@
 import {
   GraphQLObjectType,
-  // GraphQLNonNull,
+  GraphQLNonNull,
   // GraphQLBoolean,
   GraphQLSchema,
   GraphQLString,
@@ -19,7 +19,7 @@ import {
   // connectionFromArray,
   connectionDefinitions,
   connectionFromPromisedArray,
-  // mutationWithClientMutationId,
+  mutationWithClientMutationId,
   // cursorForObjectInConnection,
 } from 'graphql-relay';
 
@@ -32,6 +32,10 @@ import {
   getMessagesForUser,
   getMessage,
 } from './database';
+
+import {
+  sendMessage,
+} from './okclaire';
 
 import { getWithType, isType } from '@sketchpixy/rubix/lib/node/relay-utils';
 import { subscriptionWithClientId } from 'graphql-relay-subscription';
@@ -209,6 +213,39 @@ const {
 
 // MUTATIONS //
 
+
+const SendMessageMutation = mutationWithClientMutationId({
+  name: 'SendMessage',
+  inputFields: {
+    type: { type: new GraphQLNonNull(GraphQLString) },
+    text: { type: new GraphQLNonNull(GraphQLString) },
+    senderId: { type: new GraphQLNonNull(GraphQLString) },
+    receiverId: { type: new GraphQLNonNull(GraphQLString) },
+    senderType: { type: new GraphQLNonNull(GraphQLString) },
+    receiverType: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    messageEdge: {
+      type: MessageEdge,
+      resolve: async (doc) => {
+        const messages = await getMessagesForUser(doc.userId);
+        const offset = messages.length - 1;
+        const cursor = offsetToCursor(offset);
+
+        return {
+          cursor: cursor,
+          node: doc,
+        };
+      },
+    },
+    user: {
+      type: User,
+      resolve: (doc) => getUser(doc.userId),
+    },
+  },
+  mutateAndGetPayload: (props) => sendMessage(props),
+});
+
 // SUBSCRIPTIONS //
 
 const AddIncomingReqSubscription = subscriptionWithClientId({
@@ -299,14 +336,12 @@ const Query = new GraphQLObjectType({
   })
 });
 
-// const Mutation = new GraphQLObjectType({
-//   name: 'Mutation',
-//   fields: () => ({
-//     addTodo: AddTodoMutation,
-//     updateTodo: UpdateTodoMutation,
-//     removeTodo: RemoveTodoMutation,
-//   }),
-// });
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: () => ({
+    sendMessage: SendMessageMutation,
+  }),
+});
 
 const Subscription = new GraphQLObjectType({
   name: 'Subscription',
@@ -318,6 +353,6 @@ const Subscription = new GraphQLObjectType({
 
 export default new GraphQLSchema({
   query: Query,
-  // mutation: Mutation,
+  mutation: Mutation,
   subscription: Subscription,
 });

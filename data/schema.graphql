@@ -1,5 +1,6 @@
 schema {
   query: Query
+  mutation: Mutation
   subscription: Subscription
 }
 
@@ -64,6 +65,10 @@ type messagesEdge {
   cursor: String!
 }
 
+type Mutation {
+  sendMessage(input: SendMessageInput!): SendMessagePayload
+}
+
 interface Node {
   id: ID!
 }
@@ -85,6 +90,22 @@ type Profile implements Node {
 type Query {
   node(id: ID!): Node
   user(_id: String): User
+}
+
+input SendMessageInput {
+  type: String!
+  text: String!
+  senderId: String!
+  receiverId: String!
+  senderType: String!
+  receiverType: String!
+  clientMutationId: String
+}
+
+type SendMessagePayload {
+  messageEdge: messagesEdge
+  user: User
+  clientMutationId: String
 }
 
 type Subscription {

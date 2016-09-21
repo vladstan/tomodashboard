@@ -3,7 +3,9 @@ import { withRouter } from 'react-router';
 
 import Relay from 'react-relay';
 import RelaySubscriptions from 'relay-subscriptions';
+
 import AddMessageSubscription from '../subscriptions/AddMessageSubscription';
+import SendMessageMutation from '../mutations/SendMessageMutation';
 
 import {
   Row,
@@ -65,6 +67,22 @@ class UserChat extends React.Component {
     e.stopPropagation();
 
     this.props.router.push('/ltr/mailbox/compose');
+  }
+
+  sendMessage(messageText) {
+    console.log('send msg', messageText);
+    const { relay, user } = this.props;
+    relay.commitUpdate(
+      new SendMessageMutation({
+        user,
+        type: 'text',
+        text: messageText,
+        senderId: '00agent00',
+        receiverId: user.facebookId,
+        senderType: 'bot',
+        receiverType: 'user',
+      }),
+    );
   }
 
   render() {
@@ -154,7 +172,9 @@ class UserChat extends React.Component {
                   <Grid>
                     <Row>
                       <Col xs={12}>
-                        <ChatConversation messages={this.props.user.messages.edges.map(e => e.node)} />
+                        <ChatConversation
+                          messages={this.props.user.messages.edges.map(e => e.node)}
+                          sendMessage={::this.sendMessage} />
                       </Col>
                     </Row>
                   </Grid>
@@ -174,6 +194,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
       fragment on User {
         id
         _id
+        facebookId
         ${AddMessageSubscription.getFragment('user')}
         messages(first: 1000) {
           edges {
