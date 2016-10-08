@@ -11,7 +11,7 @@ class DashboardHome extends React.Component {
 
   render() {
     return (
-      <div>Here is the content for Agent Smith: {JSON.stringify(this.props.user || null)}</div>
+      <div>This is the Dashboard landing {JSON.stringify(this.props.user || null)}</div>
     );
   }
 }

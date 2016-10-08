@@ -11,7 +11,14 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>Here is the content for Agent Smith: {JSON.stringify(this.props.user || null)}</div>
+      <div>
+        <ul class="nav nav-pills">
+          <li role="presentation" class="active"><a href="#">Home Page</a></li>
+          <li role="presentation"><a href="https://s3-us-west-1.amazonaws.com/ta.helloyago.com/anastasiia.html">Agent Page</a></li>
+          <li role="presentation"><a href="https://s3-us-west-1.amazonaws.com/sampletrip.yago.com/costarica.html">Offer Page</a></li>
+          <li role="presentation"><a href="/dashboard">Agent Dashboard</a></li>
+        </ul>
+      </div>
     );
   }
 }
