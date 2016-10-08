@@ -1,5 +1,134 @@
 {
   "1": {
-    "title": "123"
+    "title": "Lost treasures behind the big Italian cities",
+    "mainImg": "https://hd.unsplash.com/photo-1453747063559-36695c8771bd",
+    "nights": "9",
+    "agent": {
+      "firstName": "Alina",
+      "id": "1232232"
+    },
+    "ideal" : "Solo and Couples",
+    "cities" : "Rome- Milan - Florence",
+    "price" : 1200,
+    "itineraryImg": "http://www.reidsitaly.com/images/maps/itins-1-long.jpg",
+    "shortDescription": "What is the first thing that comes to your mind when you hear about Italy? Rome, Milan or maybe Venice? Of course, these are extremely interesting cities to visit but Italy can be very different. It is the country where it is possible to combine different ways of activities starting from national parks and ending with the ancient cities. Let yourself forget about the stereotypes and plunge into the world of unknown Italy. The main idea of this tour is to combine the scenery views of  Ligurian coast and the ancient towns of Tuscan Riviera. Let it be your start!",
+      "priceStructure" : {
+        "accommodation": 1100,
+        "accommodationDiscount": 120,
+        "transfers": 49,
+        "agencyFee": 12
+    },
+    "notIncluded": "Flight to destination, Lunch and Dinners",
+    "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking"
+  },
+  "2": {
+    "title": "A Trip to the Unkown of Borneo",
+    "mainImg": "https://hd.unsplash.com/photo-1471421455671-b9e8a4114185",
+    "nights": "11",
+    "agent": {
+      "firstName": "Anastasia",
+      "id": "1232233"
+    },
+    "ideal" : "Solo and Couples",
+    "cities" : "Kuching - Mulu - Kota Kinabalu",
+    "price" : 850,
+    "itineraryImg": "http://www.intrepidtravel.com/sites/default/files/elements/product/map/tmsxc_2016_1.gif",
+    "shortDescription": "Borneo, the third biggest island in the world which was discovered by a Magellan expedition, is one of the few places in the world which has managed to preserve its natural beauty and authenticity. It has everything the tourist can dream of: from busy cities to quiet forests and wild beaches where a person can feel solitude and appeasement. The main idea of this tour is to meet the nature and people of Borneo, see natural wonders of the world that can be met only in Borneo and combine jungle trekking with relaxation on the beach. Be prepared for the biggest adventure of your life, be open for everything new and let the journey begin",
+      "priceStructure" : {
+        "accommodation": 385,
+        "accommodationDiscount": 140,
+        "transfers": 80,
+        "agencyFee": 12
+    },
+    "notIncluded": "Flight to destination, Lunch and Dinners",
+    "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking"
+  },
+  "3": {
+    "title": "The real adventure begins where the civilization ends",
+    "mainImg": "https://hd.unsplash.com/photo-1447522760800-59f967f9083e",
+    "nights": "11",
+    "agent": {
+      "firstName": "Anastasia",
+      "id": "1232233"
+    },
+    "ideal" : "Solo and Couples",
+    "cities" : "Reykjavik - Blue Lagoon Geothermal Spa - Black beach, basalt mountains - Geysir Hot Springs  - Icy Lagoon",
+    "price" : 960,
+    "itineraryImg": "http://www.bruisedpassports.com/wordpress/wp-content/uploads/2014/06/Iceland-road-trip-itinerary-4.jpg",
+    "shortDescription": "Iceland is a country of contrasts. This is a place where you can see hot springs and icy glaciers next to each other, where during the coldest day you can jump in a warm natural lagoon, where you watch the midnight sun in the summer and colourful Northern lights in the winter. But to experience Iceland you must get out of the city and be ready for a real adventure on the road.The best way to see this country is to rent a jeep or a van and go around the coastline along the only main road on the whole island.",
+    "priceStructure" : {
+      "accommodation": 685,
+      "accommodationDiscount": 140,
+      "transfers": 80,
+      "agencyFee": 12
+    },
+    "notIncluded": "Flight to destination, Lunch and Dinners",
+    "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking"
+  },
+  "4": {
+    "title": "Cambodia wild holidays",
+    "mainImg": "http://ovationdmc.com/wp-content/uploads/2016/04/cambodia.jpg",
+    "nights": "8",
+    "agent": {
+      "firstName": "Anastasia",
+      "id": "1232234"
+    },
+    "ideal" : "Solo and Couples",
+    "cities" : "Siem Reap - Sihanoukville - Koh Rong Samloem",
+    "price" : 700,
+    "itineraryImg": "http://wanderandlearn.com/wp-content/uploads/2015/05/mapimage-cambodia.jpg",
+    "shortDescription": "Cambodia, what do we know about it? Uncrossable jungles and Hidden Tombs somewhere in SouthEast Asia. I would say you have last chance to see an unexplored wild world. But do not underestimate hospitality of this country, the tourism industry is already active in here; it will be an unbelievable journey. First of all, Angkor is spectacular temple city hidden in jungles of northern Cambodia, and it will open to you mystery of ancient Khmer empire. You have a great chance to feel like an explorer’s movie hero. Angkor is the largest and latest founded Temple complex in the world. That is not it! Cambodia is tropical paradise also. And one more thing, Cambodia is incredibly cheap.",
+    "priceStructure" : {
+      "accommodation": 685,
+      "accommodationDiscount": 140,
+      "transfers": 80,
+      "agencyFee": 12
+    },
+    "notIncluded": "Flight to destination, Lunch and Dinners",
+    "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking"
+  },
+  "5": {
+    "title": "Travel to the future without time-machine.",
+    "mainImg": "https://hd.unsplash.com/photo-1444882158336-bcfbd9298309",
+    "nights": "7",
+    "agent": {
+      "firstName": "Anastasia",
+      "id": "1232234"
+    },
+    "ideal" : "Family, Solo, Couples, Groups",
+    "cities" : "Singapore",
+    "price" : 740,
+    "itineraryImg": "http://seeyousoon.ca/wp-content/uploads/2012/12/Singapore-Map-sm.jpg",
+    "shortDescription": "As one of the biggest trade centers in the world, an island country and city-state attracts a variety of cultures, cuisines, and entertainment. Singapore is like descended city from the pages of a science fiction novel. Futuristic building, perfectly clean streets, a unique transport system, high technology is around - Singapore is so different from the rest of the Asian megacities. But just a few decades ago it was a British colony, gained independence. Located almost on the equator, Singapore has a steamy tropical climate, but no single mosquito  Short list of the top attractions in Singapore looks like this: a great zoo, where the animals are kept in almost natural conditions; one of the best in the world, the Botanical Garden with a magnificent park of orchids, a laser show of musical fountains; aquarium 'Underwater World' - the largest in throughout Southeast Asia, Bird Park, an observation deck on the tower and the famous Merlion neighborhoods of the capital, in which different ethnic groups inhabit: Chinatown, Little India, Arab quarter and the Malay village.",
+    "priceStructure" : {
+      "accommodation": 685,
+      "accommodationDiscount": 140,
+      "transfers": 80,
+      "agencyFee": 12
+    },
+    "notIncluded": "Flight to destination, Lunch and Dinners",
+    "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking"
+  },
+  "6": {
+    "title": "A journey to discover the magic of Andalucia",
+    "mainImg": "https://hd.unsplash.com/photo-1468183654773-77e2f0bb6bf9",
+    "nights": "7",
+    "agent": {
+      "firstName": "Miriam",
+      "id": "1232234"
+    },
+    "ideal" : "Family, Solo, Couples, Groups",
+    "cities" : "Singapore",
+    "price" : 740,
+    "itineraryImg": "http://seeyousoon.ca/wp-content/uploads/2012/12/Singapore-Map-sm.jpg",
+    "shortDescription": "As one of the biggest trade centers in the world, an island country and city-state attracts a variety of cultures, cuisines, and entertainment. Singapore is like descended city from the pages of a science fiction novel. Futuristic building, perfectly clean streets, a unique transport system, high technology is around - Singapore is so different from the rest of the Asian megacities. But just a few decades ago it was a British colony, gained independence. Located almost on the equator, Singapore has a steamy tropical climate, but no single mosquito  Short list of the top attractions in Singapore looks like this: a great zoo, where the animals are kept in almost natural conditions; one of the best in the world, the Botanical Garden with a magnificent park of orchids, a laser show of musical fountains; aquarium 'Underwater World' - the largest in throughout Southeast Asia, Bird Park, an observation deck on the tower and the famous Merlion neighborhoods of the capital, in which different ethnic groups inhabit: Chinatown, Little India, Arab quarter and the Malay village.",
+    "priceStructure" : {
+      "accommodation": 685,
+      "accommodationDiscount": 140,
+      "transfers": 80,
+      "agencyFee": 12
+    },
+    "notIncluded": "Flight to destination, Lunch and Dinners",
+    "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking"
   }
 }

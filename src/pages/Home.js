@@ -13,7 +13,7 @@ class Home extends React.Component {
     return (
       <div>
         <ul class="nav nav-pills">
-          <li role="presentation" class="active"><a href="#">Home Page</a></li>
+          <li role="presentation" class="active"><a href="/landing">Home Page</a></li>
           <li role="presentation"><a href="https://s3-us-west-1.amazonaws.com/ta.helloyago.com/anastasiia.html">Agent Page</a></li>
           <li role="presentation"><a href="https://s3-us-west-1.amazonaws.com/sampletrip.yago.com/costarica.html">Offer Page</a></li>
           <li role="presentation"><a href="/dashboard">Agent Dashboard</a></li>

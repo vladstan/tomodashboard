@@ -8,7 +8,7 @@ class OfferPage extends React.Component {
   render() {
     const id = this.props.params.id;
     const offer = DATA[id];
-
+    console.log(offer);
     return (
 			<div className="landing-page">
         <div id="wrapper">
@@ -16,7 +16,7 @@ class OfferPage extends React.Component {
           <header id="header">
             <div className="inner">
 
-                <a href="index.html" className="logo">
+                <a href="/landing/" className="logo">
                   <span className="symbol"><img src="/imgs/landing/logo.svg" alt="" /></span><span className="title">Yago - Unique experiences</span>
                 </a>
 
@@ -25,13 +25,38 @@ class OfferPage extends React.Component {
 
           <div id="main">
             <div className="inner">
-              <h1>About Us - Every second counts</h1>
-              <a href="https://fb.me/yago" className="btn button">Message Us</a>
-              <span className="image main"><img src="/imgs/landing/sanfran.jpeg" alt="" /></span>
-              <p>We are an early stage startup working amazing agents from all over the world. <br /> We want to connect our passionate agents with young travellers to help them build unique remarkable experiences.</p>
-              <p>The world is about people and their stories not about other things. <br /> Great people allways celebrate uniqness, diversity and of course the human connection.</p>
-              <p>Get in touch with us: <br />
-              2443 Fillmore St #380-6872, San Francisco, CA 94115 <br /> Phone +1-650-646-54-80</p>
+              <h1>{offer.title}</h1>
+              <span className="image main"><img src={offer.mainImg} alt="" /></span>
+              <p>
+                - Starting price for this trip: ${offer.price} <br/>
+                - Nights: {offer.nights} <br />
+                - Ideal for: {offer.ideal} <br />
+                - Cities: {offer.cities} <br />
+              </p>
+              <span className="title"><b>Personalize this offer with our Expert:</b></span> <br/ >
+              <a href="https://fb.me/yago" className="btn button">Chat with {offer.agent.firstName} </a> <br /><br />
+              <p>{offer.shortDescription}</p>
+              <p><b>Itinerary</b></p>
+              <span className="image main"><img src={offer.itineraryImg} alt="" /></span>
+              <p><b>${offer.price} price includes</b></p>
+              <ul>
+                <li>Transfer from the airport: ${offer.priceStructure.transfers}</li>
+                <li>Accommodation: ${offer.priceStructure.accommodation}</li>
+                <li><i>Accommodation Discount: - ${offer.priceStructure.accommodationDiscount} </i></li>
+                <li>Agency Fee (planning, booking, concierge): {offer.priceStructure.agencyFee}% - ${offer.priceStructure.agencyFee * offer.price / 100}</li>
+              </ul>
+              <p><b>Not included</b></p>
+              <ul>
+                <li>{offer.notIncluded}</li>
+              </ul>
+              <p><b>Documents and Visas</b></p>
+              <ul>
+                <li>{offer.docs}</li>
+              </ul>
+              <p><b>Description</b></p>
+              <ul>
+                <li>{offer.description}</li>
+              </ul>
             </div>
           </div>
 

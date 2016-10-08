@@ -1,18 +1,24 @@
 import React, {PropTypes} from 'react';
-
+import DATA from '../offers.json';
 import { withRouter } from 'react-router';
 
 @withRouter
 class LandingPage extends React.Component {
   render() {
+    const offerItaly = DATA[1];
+    const offerBorneo = DATA[2];
+    const offerIceland = DATA[3];
+    const offerCambodia = DATA[4];
+    const offerSingapore = DATA[5];
+    const offerAndalucia = DATA[6];
     return (
 			<div className="landing-page">
 			<div id="wrapper">
 					<header id="header">
 						<div className="inner">
 
-								<a href="index.html" className="logo">
-									<span className="symbol"><img src="/imgs/landing/logo.svg" alt="" /></span><span className="title">Yago - Personalized trips</span>
+								<a href="/landing" className="logo">
+									<span className="symbol"><img src="/imgs/landing/logo.svg" alt="" /></span><span className="title">Yago - Forever transformed</span>
 								</a>
 
 						</div>
@@ -22,17 +28,16 @@ class LandingPage extends React.Component {
 						<div className="inner">
 							<header>
 								<h1>Every traveler is unique</h1>
-								<p>Discover the world with our personalized itineraries starting from $50/day. <br />
-									Personalize your trip, from airline, train, hotels, hostels and camping to exlusive properties.
-									 <br />See bellow how you can join our private beta.</p>
+								<p>Discover the world with our personalized itineraries starting from $30/day. <br />
+									Personalize your trip, from airline, train, hotels, hostels and camping to exlusive properties.</p>
 							</header>
 							<section className="tiles">
 								<article>
 									<span className="image">
-										<img src="/imgs/landing/pic01.jpeg" alt="" />
+										<img src={offerItaly.mainImg} alt="/offers/1" />
 									</span>
 									<a href="/offers/1">
-										<h2>Discover</h2>
+										<h2>Italy <br /> From $29/ day</h2>
 										<div className="content">
 											<p>See it all, do it all.</p>
 										</div>
@@ -40,10 +45,10 @@ class LandingPage extends React.Component {
 								</article>
 								<article>
 									<span className="image">
-										<img src="/imgs/landing/pic02.jpeg" alt="" />
+											<img src={offerBorneo.mainImg} alt="/offers/2" />
 									</span>
-									<a href="#">
-										<h2>Energy</h2>
+									<a href="/offers/2">
+										<h2>Borneo <br /> From $49/ day</h2>
 										<div className="content">
 											<p>Sun, sea, sand and adventure.</p>
 										</div>
@@ -51,10 +56,10 @@ class LandingPage extends React.Component {
 								</article>
 								<article>
 									<span className="image">
-										<img src="/imgs/landing/pic03.jpeg" alt="" />
+										<img src={offerIceland.mainImg} alt="" />
 									</span>
-									<a href="#">
-										<h2>Yolo</h2>
+									<a href="/offers/3">
+										<h2>Iceland <br /> From $69/ day</h2>
 										<div className="content">
 											<p>For the off-peak adventurer.</p>
 										</div>
@@ -62,10 +67,10 @@ class LandingPage extends React.Component {
 								</article>
 								<article>
 									<span className="image">
-										<img src="/imgs/landing/pic04.jpeg" alt="" />
+										<img src={offerCambodia.mainImg} alt="" />
 									</span>
-									<a href="#">
-										<h2>Cities</h2>
+									<a href="/offers/4">
+										<h2>Cambodia <br /> From $39/ day</h2>
 										<div className="content">
 											<p>For the culturally curious</p>
 										</div>
@@ -73,10 +78,10 @@ class LandingPage extends React.Component {
 								</article>
 								<article>
 									<span className="image">
-										<img src="/imgs/landing/pic05.jpeg" alt="" />
+										<img src={offerSingapore.mainImg} alt="" />
 									</span>
-									<a href="#">
-										<h2>Easy Pace</h2>
+									<a href="/offers/5">
+										<h2>Singapore <br /> From $71/ day</h2>
 										<div className="content">
 											<p>For the tranquille traveller </p>
 										</div>
@@ -84,10 +89,10 @@ class LandingPage extends React.Component {
 								</article>
 								<article>
 									<span className="image">
-										<img src="/imgs/landing/pic06.jpeg" alt="" />
+										<img src={offerAndalucia.mainImg} alt="" />
 									</span>
-									<a href="#">
-										<h2>Hello Darling</h2>
+									<a href="/offers/6">
+										<h2>Spain <br /> From $44/ day</h2>
 										<div className="content">
 											<p>For just married couples.</p>
 										</div>
@@ -100,10 +105,11 @@ class LandingPage extends React.Component {
 					<footer id="footer">
 						<div className="inner">
 							<section>
+                <br />
 								<h2>A journey of a thousand miles begins with a single step</h2>
-
+                <p>Advanced AI techonlogy combined with human intelegince and expertise to offer you the best travel experience possible.</p>
 									<ul className="actions">
-										<li><a href="#" className="button special">Join our private beta</a></li>
+										<li><a href="#" className="button special">Ask YagoBot about your next trip</a></li>
 									</ul>
 							</section>
 
