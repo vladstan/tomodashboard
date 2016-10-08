@@ -8,6 +8,8 @@ import UserChatQueries from './queries/UserChatQueries';
 
 import App from './pages/App';
 import Home from './pages/Home';
+import LandingPage from './pages/LandingPage';
+import OfferPage from './pages/OfferPage';
 import UserChat from './pages/UserChat';
 import Dashboard from './pages/Dashboard';
 import DashboardHome from './pages/DashboardHome';
@@ -19,5 +21,7 @@ export default (
       <IndexRoute component={DashboardHome} />
       <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
     </Route>
+    <Route path='landing' component={LandingPage} />
+    <Route path='offers/:id' component={OfferPage} />
   </Route>
 );
