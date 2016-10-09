@@ -1,9 +1,9 @@
 import rp from 'request-promise';
 
-const API_URL = 'https://okclaire-87586.onmodulus.net';
+const API_URL = 'https://yagobot-91541.onmodulus.net';
 
 export function sendMessage(msg) {
-  console.log('okclaire.sendMessage()');
+  console.log('YagoBot.sendMessage()');
   return rp({
     method: 'POST',
     baseUrl: API_URL,
@@ -12,7 +12,7 @@ export function sendMessage(msg) {
       messages: [msg]
     },
   }).then((res) => {
-    console.log('sent', msg, 'to OkClaire:', res);
+    console.log('sent', msg, 'to YagoBot:', res);
     return res;
   });
 }
