@@ -27,14 +27,25 @@ class OfferPage extends React.Component {
             <div className="inner">
               <h1>{offer.title}</h1>
               <span className="image main"><img src={offer.mainImg} alt="" /></span>
+
+              <div className="offer-floating-right-chat">
+                <span className="title"><b>Personalize this offer with our Expert:</b></span><br/>
+                <a href="https://fb.me/yago" className="btn button">Chat with {offer.agent.firstName}</a>
+              </div>
+
               <p>
                 - Starting price for this trip: ${offer.price} <br/>
                 - Nights: {offer.nights} <br />
                 - Ideal for: {offer.ideal} <br />
                 - Cities: {offer.cities} <br />
               </p>
-              <span className="title"><b>Personalize this offer with our Expert:</b></span> <br/ >
-              <a href="https://fb.me/yago" className="btn button">Chat with {offer.agent.firstName} </a> <br /><br />
+              <ul>
+                {offer.bucketList.map((item) => (
+                  <li key={JSON.stringify(item)}>{item.title} — ${item.price}</li>
+                ))}
+              </ul>
+
+              <br /><br />
               <p>{offer.shortDescription}</p>
               <p><b>Itinerary</b></p>
               <span className="image main"><img src={offer.itineraryImg} alt="" /></span>
