@@ -9,8 +9,8 @@
     },
     "ideal": "Solo and Couples",
     "cities": "Rome- Milan - Florence",
-    "price": 1200,
-    "itineraryImg": "http://www.reidsitaly.com/images/maps/itins-1-long.jpg",
+    "price": 110,
+    "itineraryImg": "/imgs/landing/italyTour.png",
     "shortDescription": "What is the first thing that comes to your mind when you hear about Italy? Rome, Milan or maybe Venice? Of course, these are extremely interesting cities to visit but Italy can be very different. It is the country where it is possible to combine different ways of activities starting from national parks and ending with the ancient cities. Let yourself forget about the stereotypes and plunge into the world of unknown Italy. The main idea of this tour is to combine the scenery views of  Ligurian coast and the ancient towns of Tuscan Riviera. Let it be your start!",
     "priceStructure": {
       "accommodation": 1100,
@@ -21,11 +21,22 @@
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{
-      "title": "Conquer the world",
-      "price": 499
+      "title": "9 days accommodation",
+      "price": 1100
     }, {
-      "title": "Conquer the Earth",
-      "price": 999
+      "title": "Transfer from the Airport",
+      "price": 50
+    }, {
+      "title": "Negociated discount accommodation",
+      "price": -110
+    },
+    {
+      "title": "Agency Fee(planning, booking, concierge)",
+      "price": 144
+    },
+    {
+      "title": "Total price for this trip",
+      "price": 1184
     }]
   },
   "2": {

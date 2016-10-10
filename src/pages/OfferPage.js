@@ -17,7 +17,7 @@ class OfferPage extends React.Component {
             <div className="inner">
 
                 <a href="/landing/" className="logo">
-                  <span className="symbol"><img src="/imgs/landing/logo.svg" alt="" /></span><span className="title">Yago - Unique experiences</span>
+                  <span className="symbol"><img src="/imgs/landing/logo_yago.png" alt="" /></span><span className="title">Yago - Forever transformed</span>
                 </a>
 
             </div>
@@ -29,46 +29,53 @@ class OfferPage extends React.Component {
               <span className="image main"><img src={offer.mainImg} alt="" /></span>
 
               <div className="offer-floating-right-chat">
-                <span className="title"><b>Personalize this offer with our Expert:</b></span><br/>
-                <a href="https://fb.me/yago" className="btn button">Chat with {offer.agent.firstName}</a>
+                <p>Find out more and personalize this offer with our expert:</p>
+                <a href="http://m.me/1045932258858446" className="btn button">Chat with {offer.agent.firstName}</a>
               </div>
 
               <p>
-                - Starting price for this trip: ${offer.price} <br/>
+                - Price per day for this trip: ${offer.price} <br/>
                 - Nights: {offer.nights} <br />
                 - Ideal for: {offer.ideal} <br />
                 - Cities: {offer.cities} <br />
               </p>
-              <ul>
-                {offer.bucketList.map((item) => (
-                  <li key={JSON.stringify(item)}>{item.title} — ${item.price}</li>
-                ))}
-              </ul>
 
               <br /><br />
+              <h3>Short Description</h3>
               <p>{offer.shortDescription}</p>
-              <p><b>Itinerary</b></p>
+              <h3>Itinerary</h3>
               <span className="image main"><img src={offer.itineraryImg} alt="" /></span>
-              <p><b>${offer.price} price includes</b></p>
-              <ul>
-                <li>Transfer from the airport: ${offer.priceStructure.transfers}</li>
-                <li>Accommodation: ${offer.priceStructure.accommodation}</li>
-                <li><i>Accommodation Discount: - ${offer.priceStructure.accommodationDiscount} </i></li>
-                <li>Agency Fee (planning, booking, concierge): {offer.priceStructure.agencyFee}% - ${offer.priceStructure.agencyFee * offer.price / 100}</li>
-              </ul>
-              <p><b>Not included</b></p>
+              <section>
+                <h3>Our proposed trip to Italy costs</h3>
+                <div className="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {offer.bucketList.map((item) => (
+                        <tr>
+                          <th key={JSON.stringify(item)}>{item.title} </th>
+                          <th>${item.price}</th>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+              <h3>Not Included</h3>
               <ul>
                 <li>{offer.notIncluded}</li>
               </ul>
-              <p><b>Documents and Visas</b></p>
+              <h3>Documents and Visas</h3>
               <ul>
                 <li>{offer.docs}</li>
               </ul>
-              <p><b>Description</b></p>
-              <ul>
-                <li>{offer.description}</li>
-              </ul>
             </div>
+
           </div>
 
         </div>

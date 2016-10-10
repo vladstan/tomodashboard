@@ -18,7 +18,7 @@ class LandingPage extends React.Component {
 						<div className="inner">
 
 								<a href="/landing" className="logo">
-									<span className="symbol"><img src="/imgs/landing/logo.svg" alt="" /></span><span className="title">Yago - Forever transformed</span>
+									<span className="symbol"><img src="/imgs/landing/logo_yago.png" alt="" /></span><span className="title">Yago - Forever transformed</span>
 								</a>
 
 						</div>
@@ -28,8 +28,8 @@ class LandingPage extends React.Component {
 						<div className="inner">
 							<header>
 								<h1>Every traveler is unique</h1>
-								<p>Discover the world with our personalized itineraries starting from $30/day. <br />
-									Personalize your trip, from airline, train, hotels, hostels and camping to exlusive properties.</p>
+								<p>Discover the world with our customized itineraries starting from $30/day. <br />
+									Advanced AI techonlogy combined with human intelegince and expertise <br />to offer you personalized trips, and the best possible price. Exclusive for 18-35 enthusaists.</p>
 							</header>
 							<section className="tiles">
 								<article>
@@ -99,6 +99,8 @@ class LandingPage extends React.Component {
 									</a>
 								</article>
 							</section>
+              <br /><br />
+              <p><a href="https://m.me/1804162523163419">Inspiration and amazing deals, every week on your Facebook Messenger.</a></p>
 						</div>
 					</div>
 
@@ -115,6 +117,7 @@ class LandingPage extends React.Component {
 
 							<ul className="copyright">
 								<li>&copy; 2016 Yago. All rights reserved</li>
+                <li>Contact: 2443 Fillmore St #380-6872, San Francisco, CA 94115 Phone +1-650-646-54-80</li>
 							</ul>
 						</div>
 					</footer>
