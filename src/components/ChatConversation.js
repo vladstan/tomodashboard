@@ -85,6 +85,13 @@ class ChatConversation extends React.Component {
     });
   }
 
+  onKeyPress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.onSend();
+    }
+  }
+
   render() {
     return (
       <div>
@@ -119,7 +126,7 @@ class ChatConversation extends React.Component {
                     borderRadius: '5px',
                     height: '40px',
                     width: '100%'
-                  }} value={this.state.messageInputText} onChange={::this.onMessageTextChange} />
+                  }} value={this.state.messageInputText} onChange={::this.onMessageTextChange} onKeyPress={::this.onKeyPress} />
                 </PanelBody>
                 <PanelFooter className='fg-black75 bg-gray' style={{
                   padding: '12.5px 25px',
