@@ -79,7 +79,7 @@ const { nodeInterface, nodeField } = nodeDefinitions(
 
 const IncomingReq = new GraphQLObjectType({
   name: 'IncomingReq',
-  fields: {
+  fields: () => ({
     id: globalIdField('IncomingReq', (doc) => doc._id),
     _id: {
       type: GraphQLString,
@@ -97,11 +97,15 @@ const IncomingReq = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (doc) => doc.messageText,
     },
+    user: {
+      type: User,
+      resolve: (doc) => getUser(doc.userId),
+    },
     // createdAt: {
     //   type: GraphQLString,
     //   resolve: (doc) => doc.type,
     // },
-  },
+  }),
   interfaces: [nodeInterface],
 });
 
@@ -159,7 +163,19 @@ const Profile = new GraphQLObjectType({
     },
     name: {
       type: GraphQLString,
-      resolve: () => 'Alexander M.',
+      resolve: (doc) => doc.name,
+    },
+    firstName: {
+      type: GraphQLString,
+      resolve: (doc) => doc.firstName,
+    },
+    lastName: {
+      type: GraphQLString,
+      resolve: (doc) => doc.lastName,
+    },
+    pictureUrl: {
+      type: GraphQLString,
+      resolve: (doc) => doc.pictureUrl,
     },
   }),
   interfaces: [nodeInterface],

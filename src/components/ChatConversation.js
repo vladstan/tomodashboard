@@ -19,7 +19,7 @@ class ChatConversationItem extends React.Component {
 
     const img = (
       <img
-        src={`/imgs/app/avatars/${this.props.avatar}.png`}
+        src={this.props.avatarUrl}
         width='30'
         height='30'
         style={{
@@ -106,7 +106,7 @@ class ChatConversation extends React.Component {
                   <ChatConversationItem
                     key={m.id}
                     position={m.senderType === 'user' ? 'left' : 'right'}
-                    avatar={m.senderType === 'user' ? 'avatar0' : 'avatar17'}
+                    avatarUrl={m.senderType === 'user' ? this.props.profile.pictureUrl : '/imgs/app/avatars/avatar17.png'}
                     text={m.text} />
                 ))}
               </ul>

@@ -104,6 +104,7 @@ class UserChat extends React.Component {
     const switchBotStyle = this.props.user.botMuted ? undefined : 'blue';
     const switchAgentStyle = this.props.user.botMuted ? 'blue' : undefined;
 
+    console.log('UserCHat:', this.props.user);
     return (
       <div>
         <PanelContainer className='inbox' collapseBottom>
@@ -151,9 +152,9 @@ class UserChat extends React.Component {
                     <Row>
                       <Col xs={12}>
                         <div className='inbox-avatar'>
-                          <img src='/imgs/app/avatars/avatar0.png' width='40' height='40' />
+                          <img src={this.props.user.profile.pictureUrl} width='40' height='40' />
                           <div className='inbox-avatar-name hidden-xs hidden-sm'>
-                            <div>Anna Sanchez</div>
+                            <div>{this.props.user.profile.name}</div>
                             <div><small>Facebook</small></div>
                           </div>
                         </div>
@@ -196,6 +197,7 @@ class UserChat extends React.Component {
                       <Col xs={12}>
                         <ChatConversation
                           messages={this.props.user.messages.edges.map(e => e.node)}
+                          profile={this.props.user.profile}
                           sendMessage={::this.sendMessage} />
                       </Col>
                     </Row>
@@ -221,6 +223,10 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         ${AddMessageSubscription.getFragment('user')}
         ${SendMessageMutation.getFragment('user')}
         ${SwitchBotAgentMutation.getFragment('user')}
+        profile {
+          name
+          pictureUrl
+        }
         messages(first: 1000) {
           edges {
             node {

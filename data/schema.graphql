@@ -32,6 +32,7 @@ type IncomingReq implements Node {
   type: String
   userId: String
   messageText: String
+  user: User
 }
 
 type incomingReqsConnection {
@@ -86,6 +87,9 @@ type Profile implements Node {
   _id: String
   userId: String
   name: String
+  firstName: String
+  lastName: String
+  pictureUrl: String
 }
 
 type Query {

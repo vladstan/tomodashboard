@@ -22,6 +22,9 @@ import StatsSidebar from '../components/StatsSidebar';
 class AppSidebar extends React.Component {
   render() {
     const user = this.props.user;
+    if (!user) {
+      console.error('no user in appsidebar :p'); // save time in case it happens again
+    }
     const profile = user.profile;
     const reqs = user.incomingReqs.edges.map(e => e.node);
 

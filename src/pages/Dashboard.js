@@ -56,6 +56,14 @@ const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
               type
               userId
               messageText
+              user {
+                profile {
+                  name
+                  firstName
+                  lastName
+                  pictureUrl
+                }
+              }
             }
           }
         }

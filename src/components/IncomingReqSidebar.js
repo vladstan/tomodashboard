@@ -15,9 +15,10 @@ import {
 
 import { Link } from 'react-router';
 
-class IncomingReqSidebarComponent extends React.Component {
+class IncomingReqSidebar extends React.Component {
 
   render() {
+    console.log('IncomingReqSidebar', this.props);
     return (
       <div>
         <Grid>
@@ -27,10 +28,8 @@ class IncomingReqSidebarComponent extends React.Component {
                 <TimelineView className='border-black50 tl-blue' key={req.id}>
                   <TimelineItem>
                     <TimelineHeader>
-                      <TimelineAvatar src='/imgs/app/avatars/avatar5.png' className='border-blue' />
-                      <TimelineTitle>
-                        Jordyn Ouellet
-                      </TimelineTitle>
+                      <TimelineAvatar src={req.user.profile.pictureUrl} className='border-blue' />
+                      <TimelineTitle>{req.user.profile.name}</TimelineTitle>
                     </TimelineHeader>
                     <TimelineBody>
                       <ul>
@@ -64,4 +63,4 @@ class IncomingReqSidebarComponent extends React.Component {
   }
 }
 
-export default IncomingReqSidebarComponent;
+export default IncomingReqSidebar;
