@@ -57,8 +57,8 @@ class OfferPage extends React.Component {
                     </thead>
                     <tbody>
                       {offer.bucketList.map((item) => (
-                        <tr>
-                          <th key={JSON.stringify(item)}>{item.title} </th>
+                        <tr key={JSON.stringify(item)}>
+                          <th>{item.title} </th>
                           <th>${item.price}</th>
                         </tr>
                       ))}
