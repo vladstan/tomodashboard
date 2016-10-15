@@ -163,7 +163,7 @@ const Profile = new GraphQLObjectType({
     },
     name: {
       type: GraphQLString,
-      resolve: (doc) => doc.name,
+      resolve: (doc) => doc.firstName + ' ' + doc.lastName,
     },
     firstName: {
       type: GraphQLString,
