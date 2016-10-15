@@ -1021,6 +1021,20 @@
               "defaultValue": null
             },
             {
+              "name": "receiverFacebookId",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
               "name": "senderType",
               "description": null,
               "type": {
@@ -1359,6 +1373,16 @@
           "description": null,
           "fields": null,
           "inputFields": [
+            {
+              "name": "userId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
             {
               "name": "clientSubscriptionId",
               "description": null,

@@ -16,6 +16,7 @@ type AddIncomingReqSubscriptionPayload {
 }
 
 input AddMessageSubscriptionInput {
+  userId: String
   clientSubscriptionId: String
 }
 
@@ -102,6 +103,7 @@ input SendMessageInput {
   text: String!
   senderId: String!
   receiverId: String!
+  receiverFacebookId: String!
   senderType: String!
   receiverType: String!
   userId: String!

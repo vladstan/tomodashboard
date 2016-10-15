@@ -1,6 +1,7 @@
 import rp from 'request-promise';
 
 const API_URL = 'https://yagobot-91541.onmodulus.net';
+// const API_URL = 'https://efb51b44.ngrok.io';
 
 export function sendMessage(msg) {
   console.log('YagoBot.sendMessage()');

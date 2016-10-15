@@ -44,6 +44,7 @@ class SendMessageMutation extends Relay.Mutation {
       text: this.props.text,
       senderId: this.props.senderId,
       receiverId: this.props.receiverId,
+      receiverFacebookId: this.props.receiverFacebookId,
       senderType: this.props.senderType,
       receiverType: this.props.receiverType,
     };

@@ -242,6 +242,7 @@ const SendMessageMutation = mutationWithClientMutationId({
     text: { type: new GraphQLNonNull(GraphQLString) },
     senderId: { type: new GraphQLNonNull(GraphQLString) },
     receiverId: { type: new GraphQLNonNull(GraphQLString) },
+    receiverFacebookId: { type: new GraphQLNonNull(GraphQLString) },
     senderType: { type: new GraphQLNonNull(GraphQLString) },
     receiverType: { type: new GraphQLNonNull(GraphQLString) },
     userId: { type: new GraphQLNonNull(GraphQLString) },
@@ -274,6 +275,7 @@ const SendMessageMutation = mutationWithClientMutationId({
           text: props.text,
           senderId: props.senderId,
           receiverId: props.receiverId,
+          receiverFacebookId: props.receiverFacebookId,
           senderType: props.senderType,
           receiverType: props.receiverType,
           sessionId: session._id,
@@ -341,6 +343,9 @@ const AddIncomingReqSubscription = subscriptionWithClientId({
 
 const AddMessageSubscription = subscriptionWithClientId({
   name: 'AddMessageSubscription',
+  inputFields: {
+    userId: { type: GraphQLString },
+  },
   outputFields: {
     message: {
       type: Message,
@@ -349,7 +354,8 @@ const AddMessageSubscription = subscriptionWithClientId({
     messageEdge: {
       type: MessageEdge,
       resolve: async (doc) => {
-        const messages = await getMessagesForUser(doc.userId);
+        const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
+        const messages = await getMessagesForUser(userId);
         const offset = messages.length - 1;
         const cursor = offsetToCursor(offset);
 
@@ -361,11 +367,15 @@ const AddMessageSubscription = subscriptionWithClientId({
     },
     user: {
       type: User,
-      resolve: (doc) => getUser(doc.userId),
+      resolve: (doc) => {
+        const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
+        return getUser(userId);
+      },
     },
   },
   subscribe: (input, context) => {
-    context.subscribe('add_message');
+    console.log('subscribing to:', `add_message:${input.userId}`);
+    context.subscribe(`add_message:${input.userId}`);
   },
 });
 

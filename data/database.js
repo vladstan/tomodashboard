@@ -97,8 +97,9 @@ function startListeningMessages() {
   console.log('startListeningMessages()');
   getMessagesCursor()
     .on('data', function(doc) {
-      console.log('notifyChange(\'add_message\', ' + doc._id + ')');
-      notifyChange('add_message', doc);
+      const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
+      console.log('notifyChange(\'add_message:' + userId + '\', ' + doc._id + ')');
+      notifyChange('add_message:' + userId, doc);
     })
     .on('error', function(err) {
       console.error(err);

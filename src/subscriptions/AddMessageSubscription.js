@@ -49,7 +49,9 @@ class AddMessageSubscription extends Subscription {
   }
 
   getVariables() {
-    return {};
+    return {
+      userId: this.props.user._id,
+    };
   }
 }
 
