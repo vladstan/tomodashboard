@@ -5,7 +5,7 @@ import {
   GraphQLSchema,
   GraphQLString,
   // GraphQLList,
-  // GraphQLInt,
+  GraphQLInt,
   // GraphQLID
 } from 'graphql';
 
@@ -176,6 +176,18 @@ const Profile = new GraphQLObjectType({
     pictureUrl: {
       type: GraphQLString,
       resolve: (doc) => doc.pictureUrl,
+    },
+    gender: {
+      type: GraphQLString,
+      resolve: (doc) => doc.gender,
+    },
+    locale: {
+      type: GraphQLString,
+      resolve: (doc) => doc.locale,
+    },
+    timezone: {
+      type: GraphQLInt,
+      resolve: (doc) => doc.timezone,
     },
   }),
   interfaces: [nodeInterface],

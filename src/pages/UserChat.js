@@ -102,10 +102,25 @@ class UserChat extends React.Component {
   }
 
   render() {
-    const switchBotStyle = this.props.user.botMuted ? undefined : 'blue';
-    const switchAgentStyle = this.props.user.botMuted ? 'blue' : undefined;
+    const user = this.props.user;
+    const profile = user.profile;
+    const prefs = profile.prefs || {};
 
-    console.log('UserCHat:', this.props.user);
+    console.log('user:', user);
+
+    const switchBotStyle = user.botMuted ? undefined : 'blue';
+    const switchAgentStyle = user.botMuted ? 'blue' : undefined;
+
+    const getLocalTime = (timezone) => {
+      if (timezone > 0) {
+        return 'GMT +' + timezone;
+      } else if (timezone < 0) {
+        return 'GMT -' + timezone;
+      } else {
+        return 'GMT';
+      }
+    };
+
     return (
       <div>
         <PanelContainer className='inbox' collapseBottom>
@@ -153,22 +168,57 @@ class UserChat extends React.Component {
                     <Row>
                       <Col xs={12}>
                         <div className='inbox-avatar'>
-                          <img src={this.props.user.profile.pictureUrl} width='40' height='40' />
+                          <img src={profile.pictureUrl} width='40' height='40' />
                           <div className='inbox-avatar-name hidden-xs hidden-sm'>
-                            <div>{this.props.user.profile.name}</div>
+                            <div>{profile.name}</div>
                             <div><small>Facebook</small></div>
                           </div>
                         </div>
                         <h6><small className='fg-darkgray'>PROFILE</small></h6>
                         <ListGroup className='list-bg-blue'>
                           <ListGroupItem>
-                            <InboxNavItem glyph='icon-fontello-clock' title='Local time 10:34' />
+                            <InboxNavItem glyph='icon-fontello-clock' title={'Local time: ' + getLocalTime(profile.timezone)} />
                           </ListGroupItem>
                           <ListGroupItem>
-                            <InboxNavItem glyph='icon-fontello-briefcase' title='Works at Apple' />
+                            <InboxNavItem glyph='icon-fontello-briefcase' title={'Airport: ' + prefs.home_airport} />
                           </ListGroupItem>
                           <ListGroupItem>
-                            <InboxNavItem glyph='icon-fontello-location-2' title='From London, UK' />
+                            <InboxNavItem glyph='icon-fontello-location-2' title={'Gender: ' + profile.gender} />
+                          </ListGroupItem>
+                        </ListGroup>
+                        <hr/>
+                        <h6><small className='fg-darkgray'>PREFERENCES</small></h6>
+                        <ListGroup className='list-bg-blue'>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Language: ' + profile.locale} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Accommodation: ' + (prefs.accommodation || null)} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Budget: ' + (prefs.accommodation_budget_currency || '') + prefs.budget} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Flight cabin: ' + prefs.flight_cabin} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Flight seat: ' + prefs.flight_seat} />
+                          </ListGroupItem>
+                        </ListGroup>
+                        <hr/>
+                        <h6><small className='fg-darkgray'>NEXT TRIP</small></h6>
+                        <ListGroup className='list-bg-blue'>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Type: ' + profile.next_trip_time} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Time span: ' + prefs.next_trip_time} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Purpose: ' + prefs.next_trip_purpose} />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <InboxNavItem title={'Extra: ' + prefs.next_trip_extra} />
                           </ListGroupItem>
                         </ListGroup>
                         <hr/>
@@ -227,6 +277,9 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         profile {
           name
           pictureUrl
+          locale
+          timezone
+          gender
         }
         messages(first: 1000) {
           edges {
