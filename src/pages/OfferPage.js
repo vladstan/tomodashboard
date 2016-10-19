@@ -29,8 +29,8 @@ class OfferPage extends React.Component {
               <span className="image main"><img src={offer.mainImg} alt="" /></span>
 
               <div className="offer-floating-right-chat">
-                <p>Find out more and personalize this offer with our expert:</p>
-                <a href="http://m.me/1045932258858446" className="btn button">Chat with {offer.agent.firstName}</a>
+                <p>Yago can help you find out more about this trip and learn how you can personalize this trip.</p>
+                <a href="http://m.me/1045932258858446" className="btn button"><i className="fa fa-facebook-square" aria-hidden="true"></i>Personalize with Yago</a>
               </div>
 
               <p>
@@ -41,12 +41,24 @@ class OfferPage extends React.Component {
               </p>
 
               <br /><br />
-              <h3>Short Description</h3>
+              <h3>Trip Creator </h3>
+              <div>
+                <div>
+                  <span className="image">
+                    <img src={offer.agent.profilePic} alt="" height="50"/>
+                  </span>
+                </div>
+                <div>
+                  <h4>{offer.agent.firstName} {offer.agent.lastName}</h4>
+                  <p>{offer.agent.description}</p>
+                </div>
+              </div>
+              <h3>Why this trip</h3>
               <p>{offer.shortDescription}</p>
               <h3>Itinerary</h3>
               <span className="image main"><img src={offer.itineraryImg} alt="" /></span>
               <section>
-                <h3>Our proposed trip to Italy costs</h3>
+                <h3>Your budget for this trip</h3>
                 <div className="table-wrapper">
                   <table>
                     <thead>
@@ -64,8 +76,20 @@ class OfferPage extends React.Component {
                       ))}
                     </tbody>
                   </table>
+                  <br />
+                  <p><i>*We work for you not for airlines or hotesl. This way you can make sure we are going to find you the best proces for planes and for the accomodation everywhere you go. If we can get a discount for your trip, we will give it to you.</i></p>
+
                 </div>
               </section>
+              <h3>Detailed itineray</h3>
+                {offer.itinerary.map((item) => (
+                  <div key={JSON.stringify(item)}>
+                    <p>{item.title} </p>
+                    <p>{item.description}</p>
+                  </div>
+                ))}
+              <h3>Travel Tips</h3>
+                <p>{offer.travelTips}</p>
               <h3>Not Included</h3>
               <ul>
                 <li>{offer.notIncluded}</li>

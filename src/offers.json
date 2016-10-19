@@ -4,8 +4,11 @@
     "mainImg": "https://hd.unsplash.com/photo-1453747063559-36695c8771bd",
     "nights": "9",
     "agent": {
+      "id": "1232232",
       "firstName": "Alina",
-      "id": "1232232"
+      "lastName": "Gameley",
+      "profilePic": "img",
+      "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
     },
     "ideal": "Solo and Couples",
     "cities": "Rome- Milan - Florence",
@@ -18,6 +21,39 @@
       "transfers": 49,
       "agencyFee": 12
     },
+    "itinerary": [{
+      "title" : "Day 1",
+      "description" : "At the airport, you will be met by noisy taxi drivers. Just after leaving the airport you will see a taxi stand where you can order a taxi to the hotel for $ 10. Transfer from the hotel may be a bit more expensive. The first day in Cambodia, you will have a culture shock. All that you will see will amaze you, to frighten and shock. After a long flight, it is best to rest and recover for the future adventure. While checking into the hotel, arrange the tour to Angkor for tomorrow. And from now on there is time to walk around the city center, take a look at the people, markets, nature, architecture. Dine at local restaurants as an example, try the local Khmer cuisine ('golden temple' has one of the best Khmer curry) You have to get up early tomorrow. "
+      },
+      {
+        "title" : "Day 2",
+        "description" : "The Angkor temple complex is the largest in the world. Sunrise at Angkor Wat is charming and romantic. It's the most popular thing to do here, so expect to be joined by hundreds or thousands of others. After sunrise, most people go back to their transport to return to their hotels for breakfast or a nap, so if you start at the rear, you could have the temple complex almost to yourself. By the time you work your way to the front, everyone will be returning in the sweltering late-morning heat. The first day is best to examine a small circle of Angkor. The Small Circle takes in few temples in the area. Beginning at Angkor Wat and running for seventeen kilometers the circuit includes  Angkor Thom, Ta Prohm, and Banteay Kdei, and some of the minor but interesting temples such as the Baphoun, The Terrace of the Elephants, The Terrace of the Leper King, the Twelve Prasad, Spean Thma and Sras Srang. Thru the day you can get some fast (street) food at Angkor territory, or go out for good lunch."
+      },
+      {
+        "title" : "Day 3",
+        "description" : "Take the excursion through the picturesque countryside and cruise around the floating village of Chong Khneas on the Tonle Sap. It is a real treat for those who have never seen similar things before. At evening visit a famous night market in Siem Reap, it is good places for souvenir shopping, but of course be prepared to do some bargaining. After a successful shopping take a look at the Pub Street, it is also a local landmark, all possible bars and restaurants are open as usual until the last customer."
+      },
+      {
+        "title" : "Day 4",
+        "description" : "Time to return to Magic of Angkor. Today you can explore more distant temples. Grand Circuit is an extension on the little circuit including Preah Khan, Preah Neak Pean to the Eastern Mebon and the monuments Ta Som, Preah Rup. At Evening you can check spa salon. Such as Mudita Spa, Spa Khmer, Japanese Massage Masa or Le Meridien Angkor Spa"
+      },
+      {
+        "title" : "Day 5",
+        "description" : "Today be ready for one hour flight above all Cambodia. At morning you can visit the Angkor National Museum Then transfer to the airport and further flight to the sea in Sihanoukville. After checking into the hotel, you have time to have a meal in the local restaurants (Mc Guinness's Irish Cottage, Sandan, The Secret Garden Bar & Restaurant, Green Lantern Thai Restaurant and many others) or take part in the beach night life."
+      },
+      {
+        "title" : "Day 6",
+        "description" : "After a light breakfast, go to the harbor. Rest of the holidays you will chill out at a small tropical paradise island. Koh Rong Sanloem is the second largest island in Cambodia, located near Koh Rong Island. But there is a lot quieter and calmer, Boat depart from the Hardboard at 9 am. The journey takes just 45 minutes by speed boat.  Accommodations here is mostly comfortable bungalows."
+      },
+      {
+        "title" : "Day 7-8",
+        "description" : "Enjoy wild white beaches, warm water, excellent food and drinks. If you still do not have much entertainment than local dive shops (Cambodian Diving Group, Fun Dive Cambodia or reef dive resort) can offer you mask and snorkels rent or you can even experience scuba diving surrounded by tropical fishes and corals."
+      },
+      {
+        "title" : "Day 9",
+        "description": "After breakfast make yourself ready to go home. Speed boat will pick you up at 10 am then taxi and time to go."
+      }],
+    "travelTips" : "Price at the market is never final you can cut it at least double. Tuk-Tuk is the most popular transportation in Cambodia. Cheap does not mean bad. It can be food or hotel with fewer stars but even better than a luxury. Do not be afraid to change plan on the way; it will make traveling more relaxed and exciting, just do not forget flights dates. Take anti-mosquito cream and sunscreen",
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{
@@ -44,8 +80,11 @@
     "mainImg": "https://hd.unsplash.com/photo-1471421455671-b9e8a4114185",
     "nights": "11",
     "agent": {
-      "firstName": "Anastasia",
-      "id": "1232233"
+      "id": "1232232",
+      "firstName": "Alina",
+      "lastName": "Gameley",
+      "profilePic": "img",
+      "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
     },
     "ideal": "Solo and Couples",
     "cities": "Kuching - Mulu - Kota Kinabalu",
@@ -58,6 +97,39 @@
       "transfers": 80,
       "agencyFee": 12
     },
+    "itinerary": [{
+      "title" : "Day 1",
+      "description" : "At the airport, you will be met by noisy taxi drivers. Just after leaving the airport you will see a taxi stand where you can order a taxi to the hotel for $ 10. Transfer from the hotel may be a bit more expensive. The first day in Cambodia, you will have a culture shock. All that you will see will amaze you, to frighten and shock. After a long flight, it is best to rest and recover for the future adventure. While checking into the hotel, arrange the tour to Angkor for tomorrow. And from now on there is time to walk around the city center, take a look at the people, markets, nature, architecture. Dine at local restaurants as an example, try the local Khmer cuisine ('golden temple' has one of the best Khmer curry) You have to get up early tomorrow. "
+      },
+      {
+        "title" : "Day 2",
+        "description" : "The Angkor temple complex is the largest in the world. Sunrise at Angkor Wat is charming and romantic. It's the most popular thing to do here, so expect to be joined by hundreds or thousands of others. After sunrise, most people go back to their transport to return to their hotels for breakfast or a nap, so if you start at the rear, you could have the temple complex almost to yourself. By the time you work your way to the front, everyone will be returning in the sweltering late-morning heat. The first day is best to examine a small circle of Angkor. The Small Circle takes in few temples in the area. Beginning at Angkor Wat and running for seventeen kilometers the circuit includes  Angkor Thom, Ta Prohm, and Banteay Kdei, and some of the minor but interesting temples such as the Baphoun, The Terrace of the Elephants, The Terrace of the Leper King, the Twelve Prasad, Spean Thma and Sras Srang. Thru the day you can get some fast (street) food at Angkor territory, or go out for good lunch."
+      },
+      {
+        "title" : "Day 3",
+        "description" : "Take the excursion through the picturesque countryside and cruise around the floating village of Chong Khneas on the Tonle Sap. It is a real treat for those who have never seen similar things before. At evening visit a famous night market in Siem Reap, it is good places for souvenir shopping, but of course be prepared to do some bargaining. After a successful shopping take a look at the Pub Street, it is also a local landmark, all possible bars and restaurants are open as usual until the last customer."
+      },
+      {
+        "title" : "Day 4",
+        "description" : "Time to return to Magic of Angkor. Today you can explore more distant temples. Grand Circuit is an extension on the little circuit including Preah Khan, Preah Neak Pean to the Eastern Mebon and the monuments Ta Som, Preah Rup. At Evening you can check spa salon. Such as Mudita Spa, Spa Khmer, Japanese Massage Masa or Le Meridien Angkor Spa"
+      },
+      {
+        "title" : "Day 5",
+        "description" : "Today be ready for one hour flight above all Cambodia. At morning you can visit the Angkor National Museum Then transfer to the airport and further flight to the sea in Sihanoukville. After checking into the hotel, you have time to have a meal in the local restaurants (Mc Guinness's Irish Cottage, Sandan, The Secret Garden Bar & Restaurant, Green Lantern Thai Restaurant and many others) or take part in the beach night life."
+      },
+      {
+        "title" : "Day 6",
+        "description" : "After a light breakfast, go to the harbor. Rest of the holidays you will chill out at a small tropical paradise island. Koh Rong Sanloem is the second largest island in Cambodia, located near Koh Rong Island. But there is a lot quieter and calmer, Boat depart from the Hardboard at 9 am. The journey takes just 45 minutes by speed boat.  Accommodations here is mostly comfortable bungalows."
+      },
+      {
+        "title" : "Day 7-8",
+        "description" : "Enjoy wild white beaches, warm water, excellent food and drinks. If you still do not have much entertainment than local dive shops (Cambodian Diving Group, Fun Dive Cambodia or reef dive resort) can offer you mask and snorkels rent or you can even experience scuba diving surrounded by tropical fishes and corals."
+      },
+      {
+        "title" : "Day 9",
+        "description": "After breakfast make yourself ready to go home. Speed boat will pick you up at 10 am then taxi and time to go."
+      }],
+    "travelTips" : "Price at the market is never final you can cut it at least double. Tuk-Tuk is the most popular transportation in Cambodia. Cheap does not mean bad. It can be food or hotel with fewer stars but even better than a luxury. Do not be afraid to change plan on the way; it will make traveling more relaxed and exciting, just do not forget flights dates. Take anti-mosquito cream and sunscreen",
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{
@@ -73,8 +145,11 @@
     "mainImg": "https://hd.unsplash.com/photo-1447522760800-59f967f9083e",
     "nights": "11",
     "agent": {
-      "firstName": "Anastasia",
-      "id": "1232233"
+      "id": "1232232",
+      "firstName": "Alina",
+      "lastName": "Gameley",
+      "profilePic": "img",
+      "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
     },
     "ideal": "Solo and Couples",
     "cities": "Reykjavik - Blue Lagoon Geothermal Spa - Black beach, basalt mountains - Geysir Hot Springs  - Icy Lagoon",
@@ -87,6 +162,39 @@
       "transfers": 80,
       "agencyFee": 12
     },
+    "itinerary": [{
+      "title" : "Day 1",
+      "description" : "At the airport, you will be met by noisy taxi drivers. Just after leaving the airport you will see a taxi stand where you can order a taxi to the hotel for $ 10. Transfer from the hotel may be a bit more expensive. The first day in Cambodia, you will have a culture shock. All that you will see will amaze you, to frighten and shock. After a long flight, it is best to rest and recover for the future adventure. While checking into the hotel, arrange the tour to Angkor for tomorrow. And from now on there is time to walk around the city center, take a look at the people, markets, nature, architecture. Dine at local restaurants as an example, try the local Khmer cuisine ('golden temple' has one of the best Khmer curry) You have to get up early tomorrow. "
+      },
+      {
+        "title" : "Day 2",
+        "description" : "The Angkor temple complex is the largest in the world. Sunrise at Angkor Wat is charming and romantic. It's the most popular thing to do here, so expect to be joined by hundreds or thousands of others. After sunrise, most people go back to their transport to return to their hotels for breakfast or a nap, so if you start at the rear, you could have the temple complex almost to yourself. By the time you work your way to the front, everyone will be returning in the sweltering late-morning heat. The first day is best to examine a small circle of Angkor. The Small Circle takes in few temples in the area. Beginning at Angkor Wat and running for seventeen kilometers the circuit includes  Angkor Thom, Ta Prohm, and Banteay Kdei, and some of the minor but interesting temples such as the Baphoun, The Terrace of the Elephants, The Terrace of the Leper King, the Twelve Prasad, Spean Thma and Sras Srang. Thru the day you can get some fast (street) food at Angkor territory, or go out for good lunch."
+      },
+      {
+        "title" : "Day 3",
+        "description" : "Take the excursion through the picturesque countryside and cruise around the floating village of Chong Khneas on the Tonle Sap. It is a real treat for those who have never seen similar things before. At evening visit a famous night market in Siem Reap, it is good places for souvenir shopping, but of course be prepared to do some bargaining. After a successful shopping take a look at the Pub Street, it is also a local landmark, all possible bars and restaurants are open as usual until the last customer."
+      },
+      {
+        "title" : "Day 4",
+        "description" : "Time to return to Magic of Angkor. Today you can explore more distant temples. Grand Circuit is an extension on the little circuit including Preah Khan, Preah Neak Pean to the Eastern Mebon and the monuments Ta Som, Preah Rup. At Evening you can check spa salon. Such as Mudita Spa, Spa Khmer, Japanese Massage Masa or Le Meridien Angkor Spa"
+      },
+      {
+        "title" : "Day 5",
+        "description" : "Today be ready for one hour flight above all Cambodia. At morning you can visit the Angkor National Museum Then transfer to the airport and further flight to the sea in Sihanoukville. After checking into the hotel, you have time to have a meal in the local restaurants (Mc Guinness's Irish Cottage, Sandan, The Secret Garden Bar & Restaurant, Green Lantern Thai Restaurant and many others) or take part in the beach night life."
+      },
+      {
+        "title" : "Day 6",
+        "description" : "After a light breakfast, go to the harbor. Rest of the holidays you will chill out at a small tropical paradise island. Koh Rong Sanloem is the second largest island in Cambodia, located near Koh Rong Island. But there is a lot quieter and calmer, Boat depart from the Hardboard at 9 am. The journey takes just 45 minutes by speed boat.  Accommodations here is mostly comfortable bungalows."
+      },
+      {
+        "title" : "Day 7-8",
+        "description" : "Enjoy wild white beaches, warm water, excellent food and drinks. If you still do not have much entertainment than local dive shops (Cambodian Diving Group, Fun Dive Cambodia or reef dive resort) can offer you mask and snorkels rent or you can even experience scuba diving surrounded by tropical fishes and corals."
+      },
+      {
+        "title" : "Day 9",
+        "description": "After breakfast make yourself ready to go home. Speed boat will pick you up at 10 am then taxi and time to go."
+      }],
+    "travelTips" : "Price at the market is never final you can cut it at least double. Tuk-Tuk is the most popular transportation in Cambodia. Cheap does not mean bad. It can be food or hotel with fewer stars but even better than a luxury. Do not be afraid to change plan on the way; it will make traveling more relaxed and exciting, just do not forget flights dates. Take anti-mosquito cream and sunscreen",
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{
@@ -102,12 +210,15 @@
     "mainImg": "http://ovationdmc.com/wp-content/uploads/2016/04/cambodia.jpg",
     "nights": "8",
     "agent": {
+      "id": "1232232",
       "firstName": "Anastasia",
-      "id": "1232234"
+      "lastName": "Gameley",
+      "profilePic": "https://lh3.googleusercontent.com/Qf3AE2Epztz_mKSOaC9MkzhxzgaNAp-Uqq-8-7naIR2xZComRdm6Y86PUxfLZzWxax7HimDt=w1920-h1080-rw-no",
+      "description": "I'm traveling all around the globe, learn new languages and new cultures. Can plan a trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
     },
     "ideal": "Solo and Couples",
     "cities": "Siem Reap - Sihanoukville - Koh Rong Samloem",
-    "price": 700,
+    "price": 56,
     "itineraryImg": "http://wanderandlearn.com/wp-content/uploads/2015/05/mapimage-cambodia.jpg",
     "shortDescription": "Cambodia, what do we know about it? Uncrossable jungles and Hidden Tombs somewhere in SouthEast Asia. I would say you have last chance to see an unexplored wild world. But do not underestimate hospitality of this country, the tourism industry is already active in here; it will be an unbelievable journey. First of all, Angkor is spectacular temple city hidden in jungles of northern Cambodia, and it will open to you mystery of ancient Khmer empire. You have a great chance to feel like an explorer’s movie hero. Angkor is the largest and latest founded Temple complex in the world. That is not it! Cambodia is tropical paradise also. And one more thing, Cambodia is incredibly cheap.",
     "priceStructure": {
@@ -116,14 +227,68 @@
       "transfers": 80,
       "agencyFee": 12
     },
+    "itinerary": [{
+      "title" : "Day 1",
+      "description" : "At the airport, you will be met by noisy taxi drivers. Just after leaving the airport you will see a taxi stand where you can order a taxi to the hotel for $ 10. Transfer from the hotel may be a bit more expensive. The first day in Cambodia, you will have a culture shock. All that you will see will amaze you, to frighten and shock. After a long flight, it is best to rest and recover for the future adventure. While checking into the hotel, arrange the tour to Angkor for tomorrow. And from now on there is time to walk around the city center, take a look at the people, markets, nature, architecture. Dine at local restaurants as an example, try the local Khmer cuisine ('golden temple' has one of the best Khmer curry) You have to get up early tomorrow. "
+      },
+      {
+        "title" : "Day 2",
+        "description" : "The Angkor temple complex is the largest in the world. Sunrise at Angkor Wat is charming and romantic. It's the most popular thing to do here, so expect to be joined by hundreds or thousands of others. After sunrise, most people go back to their transport to return to their hotels for breakfast or a nap, so if you start at the rear, you could have the temple complex almost to yourself. By the time you work your way to the front, everyone will be returning in the sweltering late-morning heat. The first day is best to examine a small circle of Angkor. The Small Circle takes in few temples in the area. Beginning at Angkor Wat and running for seventeen kilometers the circuit includes  Angkor Thom, Ta Prohm, and Banteay Kdei, and some of the minor but interesting temples such as the Baphoun, The Terrace of the Elephants, The Terrace of the Leper King, the Twelve Prasad, Spean Thma and Sras Srang. Thru the day you can get some fast (street) food at Angkor territory, or go out for good lunch."
+      },
+      {
+        "title" : "Day 3",
+        "description" : "Take the excursion through the picturesque countryside and cruise around the floating village of Chong Khneas on the Tonle Sap. It is a real treat for those who have never seen similar things before. At evening visit a famous night market in Siem Reap, it is good places for souvenir shopping, but of course be prepared to do some bargaining. After a successful shopping take a look at the Pub Street, it is also a local landmark, all possible bars and restaurants are open as usual until the last customer."
+      },
+      {
+        "title" : "Day 4",
+        "description" : "Time to return to Magic of Angkor. Today you can explore more distant temples. Grand Circuit is an extension on the little circuit including Preah Khan, Preah Neak Pean to the Eastern Mebon and the monuments Ta Som, Preah Rup. At Evening you can check spa salon. Such as Mudita Spa, Spa Khmer, Japanese Massage Masa or Le Meridien Angkor Spa"
+      },
+      {
+        "title" : "Day 5",
+        "description" : "Today be ready for one hour flight above all Cambodia. At morning you can visit the Angkor National Museum Then transfer to the airport and further flight to the sea in Sihanoukville. After checking into the hotel, you have time to have a meal in the local restaurants (Mc Guinness's Irish Cottage, Sandan, The Secret Garden Bar & Restaurant, Green Lantern Thai Restaurant and many others) or take part in the beach night life."
+      },
+      {
+        "title" : "Day 6",
+        "description" : "After a light breakfast, go to the harbor. Rest of the holidays you will chill out at a small tropical paradise island. Koh Rong Sanloem is the second largest island in Cambodia, located near Koh Rong Island. But there is a lot quieter and calmer, Boat depart from the Hardboard at 9 am. The journey takes just 45 minutes by speed boat.  Accommodations here is mostly comfortable bungalows."
+      },
+      {
+        "title" : "Day 7-8",
+        "description" : "Enjoy wild white beaches, warm water, excellent food and drinks. If you still do not have much entertainment than local dive shops (Cambodian Diving Group, Fun Dive Cambodia or reef dive resort) can offer you mask and snorkels rent or you can even experience scuba diving surrounded by tropical fishes and corals."
+      },
+      {
+        "title" : "Day 9",
+        "description": "After breakfast make yourself ready to go home. Speed boat will pick you up at 10 am then taxi and time to go."
+      }],
+    "travelTips" : "Price at the market is never final you can cut it at least double. Tuk-Tuk is the most popular transportation in Cambodia. Cheap does not mean bad. It can be food or hotel with fewer stars but even better than a luxury. Do not be afraid to change plan on the way; it will make traveling more relaxed and exciting, just do not forget flights dates. Take anti-mosquito cream and sunscreen",
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{
-      "title": "Conquer the world",
-      "price": 499
+      "title": "8 days accommodation",
+      "price": 178
     }, {
-      "title": "Conquer the Earth",
-      "price": 999
+      "title": "Transfer from the airport",
+      "price": 50
+    }, {
+      "title": "Moto rickshaw (tuk-tuk) ",
+      "price": 45
+    }, {
+      "title": "Boat to Island",
+      "price": 42
+    }, {
+      "title": "Excursion to Tonlé Sap Lake",
+      "price": 40
+    },{
+      "title": "Angkor 3 day ticket",
+      "price": 40
+    },{
+      "title": "Flight from Siem Reap to Sihanoukville",
+      "price": 110
+    },{
+      "title": "Agency fee (planning, booking and concierge)",
+      "price": 170
+    },{
+      "title": "Total for this proposed trip",
+      "price": 675
     }]
   },
   "5": {
@@ -131,8 +296,11 @@
     "mainImg": "https://hd.unsplash.com/photo-1444882158336-bcfbd9298309",
     "nights": "7",
     "agent": {
-      "firstName": "Anastasia",
-      "id": "1232234"
+      "id": "1232232",
+      "firstName": "Alina",
+      "lastName": "Gameley",
+      "profilePic": "img",
+      "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
     },
     "ideal": "Family, Solo, Couples, Groups",
     "cities": "Singapore",
@@ -145,6 +313,39 @@
       "transfers": 80,
       "agencyFee": 12
     },
+    "itinerary": [{
+      "title" : "Day 1",
+      "description" : "At the airport, you will be met by noisy taxi drivers. Just after leaving the airport you will see a taxi stand where you can order a taxi to the hotel for $ 10. Transfer from the hotel may be a bit more expensive. The first day in Cambodia, you will have a culture shock. All that you will see will amaze you, to frighten and shock. After a long flight, it is best to rest and recover for the future adventure. While checking into the hotel, arrange the tour to Angkor for tomorrow. And from now on there is time to walk around the city center, take a look at the people, markets, nature, architecture. Dine at local restaurants as an example, try the local Khmer cuisine ('golden temple' has one of the best Khmer curry) You have to get up early tomorrow. "
+      },
+      {
+        "title" : "Day 2",
+        "description" : "The Angkor temple complex is the largest in the world. Sunrise at Angkor Wat is charming and romantic. It's the most popular thing to do here, so expect to be joined by hundreds or thousands of others. After sunrise, most people go back to their transport to return to their hotels for breakfast or a nap, so if you start at the rear, you could have the temple complex almost to yourself. By the time you work your way to the front, everyone will be returning in the sweltering late-morning heat. The first day is best to examine a small circle of Angkor. The Small Circle takes in few temples in the area. Beginning at Angkor Wat and running for seventeen kilometers the circuit includes  Angkor Thom, Ta Prohm, and Banteay Kdei, and some of the minor but interesting temples such as the Baphoun, The Terrace of the Elephants, The Terrace of the Leper King, the Twelve Prasad, Spean Thma and Sras Srang. Thru the day you can get some fast (street) food at Angkor territory, or go out for good lunch."
+      },
+      {
+        "title" : "Day 3",
+        "description" : "Take the excursion through the picturesque countryside and cruise around the floating village of Chong Khneas on the Tonle Sap. It is a real treat for those who have never seen similar things before. At evening visit a famous night market in Siem Reap, it is good places for souvenir shopping, but of course be prepared to do some bargaining. After a successful shopping take a look at the Pub Street, it is also a local landmark, all possible bars and restaurants are open as usual until the last customer."
+      },
+      {
+        "title" : "Day 4",
+        "description" : "Time to return to Magic of Angkor. Today you can explore more distant temples. Grand Circuit is an extension on the little circuit including Preah Khan, Preah Neak Pean to the Eastern Mebon and the monuments Ta Som, Preah Rup. At Evening you can check spa salon. Such as Mudita Spa, Spa Khmer, Japanese Massage Masa or Le Meridien Angkor Spa"
+      },
+      {
+        "title" : "Day 5",
+        "description" : "Today be ready for one hour flight above all Cambodia. At morning you can visit the Angkor National Museum Then transfer to the airport and further flight to the sea in Sihanoukville. After checking into the hotel, you have time to have a meal in the local restaurants (Mc Guinness's Irish Cottage, Sandan, The Secret Garden Bar & Restaurant, Green Lantern Thai Restaurant and many others) or take part in the beach night life."
+      },
+      {
+        "title" : "Day 6",
+        "description" : "After a light breakfast, go to the harbor. Rest of the holidays you will chill out at a small tropical paradise island. Koh Rong Sanloem is the second largest island in Cambodia, located near Koh Rong Island. But there is a lot quieter and calmer, Boat depart from the Hardboard at 9 am. The journey takes just 45 minutes by speed boat.  Accommodations here is mostly comfortable bungalows."
+      },
+      {
+        "title" : "Day 7-8",
+        "description" : "Enjoy wild white beaches, warm water, excellent food and drinks. If you still do not have much entertainment than local dive shops (Cambodian Diving Group, Fun Dive Cambodia or reef dive resort) can offer you mask and snorkels rent or you can even experience scuba diving surrounded by tropical fishes and corals."
+      },
+      {
+        "title" : "Day 9",
+        "description": "After breakfast make yourself ready to go home. Speed boat will pick you up at 10 am then taxi and time to go."
+      }],
+    "travelTips" : "Price at the market is never final you can cut it at least double. Tuk-Tuk is the most popular transportation in Cambodia. Cheap does not mean bad. It can be food or hotel with fewer stars but even better than a luxury. Do not be afraid to change plan on the way; it will make traveling more relaxed and exciting, just do not forget flights dates. Take anti-mosquito cream and sunscreen",
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{
@@ -160,8 +361,11 @@
     "mainImg": "https://hd.unsplash.com/photo-1468183654773-77e2f0bb6bf9",
     "nights": "7",
     "agent": {
-      "firstName": "Miriam",
-      "id": "1232234"
+      "id": "1232232",
+      "firstName": "Alina",
+      "lastName": "Gameley",
+      "profilePic": "img",
+      "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
     },
     "ideal": "Family, Solo, Couples, Groups",
     "cities": "Singapore",
@@ -174,6 +378,39 @@
       "transfers": 80,
       "agencyFee": 12
     },
+    "itinerary": [{
+      "title" : "Day 1",
+      "description" : "At the airport, you will be met by noisy taxi drivers. Just after leaving the airport you will see a taxi stand where you can order a taxi to the hotel for $ 10. Transfer from the hotel may be a bit more expensive. The first day in Cambodia, you will have a culture shock. All that you will see will amaze you, to frighten and shock. After a long flight, it is best to rest and recover for the future adventure. While checking into the hotel, arrange the tour to Angkor for tomorrow. And from now on there is time to walk around the city center, take a look at the people, markets, nature, architecture. Dine at local restaurants as an example, try the local Khmer cuisine ('golden temple' has one of the best Khmer curry) You have to get up early tomorrow. "
+      },
+      {
+        "title" : "Day 2",
+        "description" : "The Angkor temple complex is the largest in the world. Sunrise at Angkor Wat is charming and romantic. It's the most popular thing to do here, so expect to be joined by hundreds or thousands of others. After sunrise, most people go back to their transport to return to their hotels for breakfast or a nap, so if you start at the rear, you could have the temple complex almost to yourself. By the time you work your way to the front, everyone will be returning in the sweltering late-morning heat. The first day is best to examine a small circle of Angkor. The Small Circle takes in few temples in the area. Beginning at Angkor Wat and running for seventeen kilometers the circuit includes  Angkor Thom, Ta Prohm, and Banteay Kdei, and some of the minor but interesting temples such as the Baphoun, The Terrace of the Elephants, The Terrace of the Leper King, the Twelve Prasad, Spean Thma and Sras Srang. Thru the day you can get some fast (street) food at Angkor territory, or go out for good lunch."
+      },
+      {
+        "title" : "Day 3",
+        "description" : "Take the excursion through the picturesque countryside and cruise around the floating village of Chong Khneas on the Tonle Sap. It is a real treat for those who have never seen similar things before. At evening visit a famous night market in Siem Reap, it is good places for souvenir shopping, but of course be prepared to do some bargaining. After a successful shopping take a look at the Pub Street, it is also a local landmark, all possible bars and restaurants are open as usual until the last customer."
+      },
+      {
+        "title" : "Day 4",
+        "description" : "Time to return to Magic of Angkor. Today you can explore more distant temples. Grand Circuit is an extension on the little circuit including Preah Khan, Preah Neak Pean to the Eastern Mebon and the monuments Ta Som, Preah Rup. At Evening you can check spa salon. Such as Mudita Spa, Spa Khmer, Japanese Massage Masa or Le Meridien Angkor Spa"
+      },
+      {
+        "title" : "Day 5",
+        "description" : "Today be ready for one hour flight above all Cambodia. At morning you can visit the Angkor National Museum Then transfer to the airport and further flight to the sea in Sihanoukville. After checking into the hotel, you have time to have a meal in the local restaurants (Mc Guinness's Irish Cottage, Sandan, The Secret Garden Bar & Restaurant, Green Lantern Thai Restaurant and many others) or take part in the beach night life."
+      },
+      {
+        "title" : "Day 6",
+        "description" : "After a light breakfast, go to the harbor. Rest of the holidays you will chill out at a small tropical paradise island. Koh Rong Sanloem is the second largest island in Cambodia, located near Koh Rong Island. But there is a lot quieter and calmer, Boat depart from the Hardboard at 9 am. The journey takes just 45 minutes by speed boat.  Accommodations here is mostly comfortable bungalows."
+      },
+      {
+        "title" : "Day 7-8",
+        "description" : "Enjoy wild white beaches, warm water, excellent food and drinks. If you still do not have much entertainment than local dive shops (Cambodian Diving Group, Fun Dive Cambodia or reef dive resort) can offer you mask and snorkels rent or you can even experience scuba diving surrounded by tropical fishes and corals."
+      },
+      {
+        "title" : "Day 9",
+        "description": "After breakfast make yourself ready to go home. Speed boat will pick you up at 10 am then taxi and time to go."
+      }],
+    "travelTips" : "Price at the market is never final you can cut it at least double. Tuk-Tuk is the most popular transportation in Cambodia. Cheap does not mean bad. It can be food or hotel with fewer stars but even better than a luxury. Do not be afraid to change plan on the way; it will make traveling more relaxed and exciting, just do not forget flights dates. Take anti-mosquito cream and sunscreen",
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{

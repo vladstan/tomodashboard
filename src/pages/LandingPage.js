@@ -100,7 +100,7 @@ class LandingPage extends React.Component {
 								</article>
 							</section>
               <br /><br />
-              <p><a href="https://m.me/1804162523163419">Inspiration and amazing deals, every week on your Facebook Messenger.</a></p>
+              <p><mark><a href="https://m.me/1804162523163419">Inspiration and amazing deals, every week on your Facebook Messenger.</a></mark></p>
 						</div>
 					</div>
 
@@ -111,7 +111,7 @@ class LandingPage extends React.Component {
 								<h2>A journey of a thousand miles begins with a single step</h2>
                 <p>Advanced AI techonlogy combined with human intelegince and expertise to offer you the best travel experience possible.</p>
 									<ul className="actions">
-										<li><a href="#" className="button special">Ask YagoBot about your next trip</a></li>
+										<li><a href="http://m.me/1045932258858446" className="button special">Ask YagoBot about your next trip</a></li>
 									</ul>
 							</section>
 
