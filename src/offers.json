@@ -6,12 +6,12 @@
     "agent": {
       "id": "1232232",
       "firstName": "Alina",
-      "lastName": "Gameley",
+      "lastName": "",
       "profilePic": "img",
       "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
     },
     "ideal": "Solo and Couples",
-    "cities": "Rome- Milan - Florence",
+    "cities": "Rome - Milan - Florence - Pisa - Luссa - La Spezia - Cinque Terre - Rome",
     "price": 110,
     "itineraryImg": "/imgs/landing/italyTour.png",
     "shortDescription": "What is the first thing that comes to your mind when you hear about Italy? Rome, Milan or maybe Venice? Of course, these are extremely interesting cities to visit but Italy can be very different. It is the country where it is possible to combine different ways of activities starting from national parks and ending with the ancient cities. Let yourself forget about the stereotypes and plunge into the world of unknown Italy. The main idea of this tour is to combine the scenery views of  Ligurian coast and the ancient towns of Tuscan Riviera. Let it be your start!",
@@ -81,14 +81,14 @@
     "nights": "11",
     "agent": {
       "id": "1232232",
-      "firstName": "Alina",
-      "lastName": "Gameley",
-      "profilePic": "img",
-      "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
+      "firstName": "Anastasia",
+      "lastName": "Gudyma",
+      "profilePic": "https://d1qb2nb5cznatu.cloudfront.net/users/2114223-large?1459843687",
+      "description": "I have been studying tourism in Poland and Spain and got a Master's degree in this profession. But I believe that a true expert in organising trips happened when I started to travel myself. For the past two years I have been travelling non stop and saw over 30 countries."
     },
     "ideal": "Solo and Couples",
     "cities": "Kuching - Mulu - Kota Kinabalu",
-    "price": 850,
+    "price": 54,
     "itineraryImg": "http://www.intrepidtravel.com/sites/default/files/elements/product/map/tmsxc_2016_1.gif",
     "shortDescription": "Borneo, the third biggest island in the world which was discovered by a Magellan expedition, is one of the few places in the world which has managed to preserve its natural beauty and authenticity. It has everything the tourist can dream of: from busy cities to quiet forests and wild beaches where a person can feel solitude and appeasement. The main idea of this tour is to meet the nature and people of Borneo, see natural wonders of the world that can be met only in Borneo and combine jungle trekking with relaxation on the beach. Be prepared for the biggest adventure of your life, be open for everything new and let the journey begin",
     "priceStructure": {
@@ -99,45 +99,67 @@
     },
     "itinerary": [{
       "title" : "Day 1",
-      "description" : "At the airport, you will be met by noisy taxi drivers. Just after leaving the airport you will see a taxi stand where you can order a taxi to the hotel for $ 10. Transfer from the hotel may be a bit more expensive. The first day in Cambodia, you will have a culture shock. All that you will see will amaze you, to frighten and shock. After a long flight, it is best to rest and recover for the future adventure. While checking into the hotel, arrange the tour to Angkor for tomorrow. And from now on there is time to walk around the city center, take a look at the people, markets, nature, architecture. Dine at local restaurants as an example, try the local Khmer cuisine ('golden temple' has one of the best Khmer curry) You have to get up early tomorrow. "
+      "description" : "Your journey will start in Kuching, the capital of Sarawak province where your plane will land. Kuching is a modern cities full of museums, delicious restaurants and big markets. Enjoy the non-stop energy of Kuching. A car will transfer you from the airport straight to your hotel which is situated close to the city center. After having breakfast in one of the numerous restaurants nearby which has a mix of local or international cuisine you will go to the cultural village. The cultural village is a unique place that allows you to meet the culture, habits and traditions of the local people that managed to save their authenticity through all these centuries and are now happy to share them with tourists. Meet different tribes, visit their houses, try their food, use their weapons, play their games and at the end watch a concert with folk dancing and singing.After the performance go to the beach and enjoy the beautiful sunset sitting at one of numerous cafes right on the coastline."
       },
       {
         "title" : "Day 2",
-        "description" : "The Angkor temple complex is the largest in the world. Sunrise at Angkor Wat is charming and romantic. It's the most popular thing to do here, so expect to be joined by hundreds or thousands of others. After sunrise, most people go back to their transport to return to their hotels for breakfast or a nap, so if you start at the rear, you could have the temple complex almost to yourself. By the time you work your way to the front, everyone will be returning in the sweltering late-morning heat. The first day is best to examine a small circle of Angkor. The Small Circle takes in few temples in the area. Beginning at Angkor Wat and running for seventeen kilometers the circuit includes  Angkor Thom, Ta Prohm, and Banteay Kdei, and some of the minor but interesting temples such as the Baphoun, The Terrace of the Elephants, The Terrace of the Leper King, the Twelve Prasad, Spean Thma and Sras Srang. Thru the day you can get some fast (street) food at Angkor territory, or go out for good lunch."
+        "description" : "You will have to have an early start this day as you are going to the Orangutan rehabilitation center.  Borneo is the only one place in the world where you can still see orangutans in the wild. Even though they are quite big, it is very difficult to find them in the jungle. But twice a day, early morning and in the afternoon, the orangutans who now live in the wild but once were saved or brought up by the rehabilitation center staff, come there to get food. If you are lucky you will see orangutans swinging on lianas, climbing palms, getting closer and closer to the tourists. Orangutans come every day but nobody can predict how many and which apes will come. This uncertainty will make your experience even more exciting."
       },
       {
         "title" : "Day 3",
-        "description" : "Take the excursion through the picturesque countryside and cruise around the floating village of Chong Khneas on the Tonle Sap. It is a real treat for those who have never seen similar things before. At evening visit a famous night market in Siem Reap, it is good places for souvenir shopping, but of course be prepared to do some bargaining. After a successful shopping take a look at the Pub Street, it is also a local landmark, all possible bars and restaurants are open as usual until the last customer."
+        "description" : "The next day get up early and start your trekking through the jungle. You can choose from several hiking routes with different levels of difficulty. The boat transfer will take you from the end of one route to the beginning of the other so that you don’t need to go there and back along the same route. Be prepared to see wild proboscis monkeys, get ready for stunning views of the sea and take enough water and food, you are in the wild, there is no indulgence! In the evening take some rest, tomorrow your next destination is waiting for you!"
       },
       {
         "title" : "Day 4",
-        "description" : "Time to return to Magic of Angkor. Today you can explore more distant temples. Grand Circuit is an extension on the little circuit including Preah Khan, Preah Neak Pean to the Eastern Mebon and the monuments Ta Som, Preah Rup. At Evening you can check spa salon. Such as Mudita Spa, Spa Khmer, Japanese Massage Masa or Le Meridien Angkor Spa"
+        "description" : "Today you will have a flight from Kuching to Mulu. Mulu is a place in the middle of nowhere. But such places in the middle of the jungle hold the biggest treasures! In Mulu you will find one of the most, if not the most famous cave in the world. This is a place without civilization, there is almost no telephone signal, the electricity is not stable but the nature is stunning. In the evening join an excursion to the Deer and Langs caves. The main chamber of the Deer cave is 174 meters wide and 122 meters high so be prepared to stay inside for a long time. In the evening watch several million Wrinkle Lipped bats flying out of the cave as they go hunting. Exursion time: 3 hours."
       },
       {
         "title" : "Day 5",
-        "description" : "Today be ready for one hour flight above all Cambodia. At morning you can visit the Angkor National Museum Then transfer to the airport and further flight to the sea in Sihanoukville. After checking into the hotel, you have time to have a meal in the local restaurants (Mc Guinness's Irish Cottage, Sandan, The Secret Garden Bar & Restaurant, Green Lantern Thai Restaurant and many others) or take part in the beach night life."
+        "description" : "Today is a day of more cave excursions around the park. Take the Clearwater and wind cave tour today. Take a boat along the river, visit local villages and the small market of local tribe full of hand made souvenirs, walk through beautiful caves with rivers and waterfalls inside. After the walk swim in the natural lake just outside the cave. At night take a night tour with the guide who will show you all the insects and night animals that you would hear but would struggle to see by yourself. "
       },
       {
         "title" : "Day 6",
-        "description" : "After a light breakfast, go to the harbor. Rest of the holidays you will chill out at a small tropical paradise island. Koh Rong Sanloem is the second largest island in Cambodia, located near Koh Rong Island. But there is a lot quieter and calmer, Boat depart from the Hardboard at 9 am. The journey takes just 45 minutes by speed boat.  Accommodations here is mostly comfortable bungalows."
+        "description" : "By now you will be ready for an adventure caving tour. Go in a small group to a cave and feel the real tension, Spend several hours in the darkness with the only light coming from your torch. Test yourself and you will never be the same again. Unite with the nature underground and feel the joy and happiness of coming out  at the end of the excursion. "
       },
       {
-        "title" : "Day 7-8",
-        "description" : "Enjoy wild white beaches, warm water, excellent food and drinks. If you still do not have much entertainment than local dive shops (Cambodian Diving Group, Fun Dive Cambodia or reef dive resort) can offer you mask and snorkels rent or you can even experience scuba diving surrounded by tropical fishes and corals."
+        "title" : "Day 7",
+        "description" : "Today you will have a flight from Mulu to Kota Kinabalu. Kota Kinabalu is a capital of the Sabah province. It is famous for its white sand and blue water beaches and the huge mount Kinabalu which is situated not far from the city. In the evening stay inside the city near the center. Visit the local markets and try local Sabah food. The local market in the center has lots of delicious things to offer. Try freshly caught fish and seafood. You will stay in the hotel close to the city center and the sea. Take a stroll along the seaside in the evening and enjoy the beautiful sunset."
       },
       {
-        "title" : "Day 9",
-        "description": "After breakfast make yourself ready to go home. Speed boat will pick you up at 10 am then taxi and time to go."
+        "title" : "Day 8",
+        "description": "Take a cab or rent a motorbike and go to mount Kinabalu. This mountain is 4095 meters high so be ready to get up early as in the afternoon you might not see the peek behind the clouds. Make some pictures on the way to the mountain, the car will get you as high as 2000 meters above sea level, you will have stunning views over the city and the peak. Use every opportunity to enjoy the scenery. If you are physically ready you can go on a hike to the top of the mountain, but if looking from the side is enough for you, a 30-minute ride will take you to the natural springs and the park of the biggest flower of the world. You will need luck on your side to see the flower blossoming and be at it’s largest.  After the trip have a swim in the natural hot springs nearby. If you are too hot there is the option of a pool with cold water as well."
+      },
+      {
+        "title" : "Day 9-11",
+        "description": "Today the time for relaxation has come. Take a boat to the beautiful island Sapi. It will take about 15 minutes by boat from Kota Kinabalu port. Don’t forget your snorkels or to rent a mask, you will need it as there are lots of beautiful corals with huge numbers of colourful fish around the island. There are no more hikes, no humidity, no obstacles. Just lie on the beach and relax, go for a swim when you feel like it, snorkle, enjoy the coral and fish watching, eat in the local restaurants and stay overnight in the hotels right on the beach of the island."
+      },
+      {
+        "title" : "Day 12",
+        "description": "This is the last day of your trip. Take your flight home and be ready to tell the stories of your adventures over and over again to all your friends and relatives. "
       }],
-    "travelTips" : "Price at the market is never final you can cut it at least double. Tuk-Tuk is the most popular transportation in Cambodia. Cheap does not mean bad. It can be food or hotel with fewer stars but even better than a luxury. Do not be afraid to change plan on the way; it will make traveling more relaxed and exciting, just do not forget flights dates. Take anti-mosquito cream and sunscreen",
+    "travelTips" : "",
     "notIncluded": "Flight to destination, Lunch and Dinners",
     "docs": "Visas and Docs - Discuss with your travel agent all the details before any booking",
     "bucketList": [{
-      "title": "Conquer the world",
-      "price": 499
+      "title": "12 Days accommodation",
+      "price": 385
     }, {
-      "title": "Conquer the Earth",
-      "price": 999
+      "title": "Transfers and Taxi",
+      "price": 80
+    },
+    {
+      "title": "National Park Entry Tikets",
+      "price": 25
+    },{
+      "title": "Guided excursions in Mulu national parks ",
+      "price": 45
+    },{
+      "title": "Agency Fee (planning, booking, concierge)",
+      "price": 120
+    },
+    {
+      "title": "Total For this propopsed trip",
+      "price": 655
     }]
   },
   "3": {
@@ -362,16 +384,16 @@
     "nights": "7",
     "agent": {
       "id": "1232232",
-      "firstName": "Alina",
+      "firstName": "Miriam",
       "lastName": "Gameley",
-      "profilePic": "img",
-      "description": "I'm traveling all around the globe, learn new languages and new culturas. Can plan trip from door to door with minimal expenses. Asia, Europe, Americas, Australia and New Zeland"
+      "profilePic": "https://odesk-prod-portraits.s3.amazonaws.com/Users:m_stopiak:PortraitUrl_100?AWSAccessKeyId=1XVAX3FNQZAFC9GJCFR2&Expires=2147483647&Signature=O7wtC9QJPkVyhmoCghhFBcQosNc%3D&1455490386958912&xj2T0",
+      "description": "Finding a convenient and cheap flights can safe your time and budget. Let me help you organize your business trips. I have over 8 years experience with traveling and organizing trips. I have a good eye for a detail and valuable planning skills."
     },
     "ideal": "Family, Solo, Couples, Groups",
     "cities": "Singapore",
     "price": 740,
     "itineraryImg": "http://seeyousoon.ca/wp-content/uploads/2012/12/Singapore-Map-sm.jpg",
-    "shortDescription": "As one of the biggest trade centers in the world, an island country and city-state attracts a variety of cultures, cuisines, and entertainment. Singapore is like descended city from the pages of a science fiction novel. Futuristic building, perfectly clean streets, a unique transport system, high technology is around - Singapore is so different from the rest of the Asian megacities. But just a few decades ago it was a British colony, gained independence. Located almost on the equator, Singapore has a steamy tropical climate, but no single mosquito  Short list of the top attractions in Singapore looks like this: a great zoo, where the animals are kept in almost natural conditions; one of the best in the world, the Botanical Garden with a magnificent park of orchids, a laser show of musical fountains; aquarium 'Underwater World' - the largest in throughout Southeast Asia, Bird Park, an observation deck on the tower and the famous Merlion neighborhoods of the capital, in which different ethnic groups inhabit: Chinatown, Little India, Arab quarter and the Malay village.",
+    "shortDescription": "Maňana. Favorite word of southerners. This is also true in Andalusia. With a bill in restaurants are the domestic never in hurry. But when you are meanwhile sipping a great sangria, somehow you do not mind it. But do not get too comfortable. Key words in Andalusia are “have a breakfast and get out”. This area offers many interesting places, beautiful nature, sea, good wine and amazing culture for exploring. Just lie all day on the beach is not very fashionable here. So visit the towns that are historically among the most important in Europe and an european rarity Gibraltar at the crossroads between Europe and Africa as a bonus. During the day, you can stroll through streets full of history and in the evening sit in tapas bars, eat Andalusian specialities, drink great wine and watch a flamenco show. People are friendly, willing to help you any time. They will gladly give you directions - in Spanish of course, ignoring the fact that you do not speak their native language. You will fall in love with Andalusia in first 24 hours!",
     "priceStructure": {
       "accommodation": 685,
       "accommodationDiscount": 140,

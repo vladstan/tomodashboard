@@ -41,7 +41,7 @@ class OfferPage extends React.Component {
               </p>
 
               <br /><br />
-              <h3>Trip Creator </h3>
+              <h3>Travel Mate </h3>
               <div>
                 <div>
                   <span className="image">
@@ -49,7 +49,7 @@ class OfferPage extends React.Component {
                   </span>
                 </div>
                 <div>
-                  <h4>{offer.agent.firstName} {offer.agent.lastName}</h4>
+                  <h4>{offer.agent.firstName}</h4>
                   <p>{offer.agent.description}</p>
                 </div>
               </div>
