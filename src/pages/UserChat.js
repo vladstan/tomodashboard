@@ -102,11 +102,11 @@ class UserChat extends React.Component {
   }
 
   render() {
+    console.log('render user:', this.props.user);
+
     const user = this.props.user;
     const profile = user.profile;
     const prefs = profile.prefs || {};
-
-    console.log('user:', user);
 
     const switchBotStyle = user.botMuted ? undefined : 'blue';
     const switchAgentStyle = user.botMuted ? 'blue' : undefined;
@@ -209,7 +209,7 @@ class UserChat extends React.Component {
                         <h6><small className='fg-darkgray'>NEXT TRIP</small></h6>
                         <ListGroup className='list-bg-blue'>
                           <ListGroupItem>
-                            <InboxNavItem title={'Type: ' + profile.next_trip_time} />
+                            <InboxNavItem title={'Type: ' + prefs.next_trip_type} />
                           </ListGroupItem>
                           <ListGroupItem>
                             <InboxNavItem title={'Time span: ' + prefs.next_trip_time} />
@@ -280,6 +280,19 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
           locale
           timezone
           gender
+          prefs {
+            home_airport
+            accommodation
+            accommodation_budget
+            accommodation_budget_currency
+            flight_cabin
+            flight_seat
+            next_trip_type
+            next_trip_destination
+            next_trip_time
+            next_trip_purpose
+            next_trip_extra
+          }
         }
         messages(first: 1000) {
           edges {

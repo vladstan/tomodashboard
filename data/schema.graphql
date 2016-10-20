@@ -94,6 +94,22 @@ type Profile implements Node {
   gender: String
   locale: String
   timezone: Int
+  prefs: ProfilePrefs
+}
+
+type ProfilePrefs implements Node {
+  id: ID!
+  home_airport: String
+  accommodation: String
+  accommodation_budget: String
+  accommodation_budget_currency: String
+  flight_cabin: String
+  flight_seat: String
+  next_trip_type: String
+  next_trip_destination: String
+  next_trip_time: String
+  next_trip_purpose: String
+  next_trip_extra: String
 }
 
 type Query {
