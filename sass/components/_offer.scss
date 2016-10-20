@@ -1,4 +1,18 @@
-.offer-floating-right-chat {
+.landing-page .offer-floating-right-chat {
   width: 300px;
   float: right;
+}
+
+@media screen and (max-width: 900px) {
+  .landing-page .offer-floating-right-chat {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    float: none;
+    margin: 0 auto 35px;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 3px;
+  }
 }
