@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
+import Relay from 'react-relay';
 import StripeCheckout from 'react-stripe-checkout';
 import { withRouter } from 'react-router';
+import UpdateStripeDetailsMutation from '../mutations/UpdateStripeDetailsMutation';
 import SUMMARIES from '../summaries.json';
 
 @withRouter
@@ -8,6 +10,13 @@ class SummaryPage extends React.Component {
 
   onToken = (token) => {
     console.log('token!! <3', token);
+    const { relay, user } = this.props;
+    relay.commitUpdate(
+      new UpdateStripeDetailsMutation({
+        user,
+        stripeDetails: token
+      }),
+    );
     this.props.router.push('/success/' + this.props.params.id);
   }
 
@@ -43,6 +52,7 @@ class SummaryPage extends React.Component {
         <div className="checkout-btn-wrapper">
           <StripeCheckout
             token={this.onToken}
+            amount={summary.items[summary.items.length - 1].price}
             stripeKey="pk_test_vxCnarJoHcKoviT3ntOVANqL"
           />
         </div>
@@ -79,4 +89,19 @@ class SummaryPage extends React.Component {
 
 }
 
-export default SummaryPage;
+const SummaryPageContainer = Relay.createContainer(SummaryPage, {
+  fragments: {
+    user: () => Relay.QL`
+      fragment on User {
+        id
+        _id
+        stripe {
+          customerId
+        }
+        ${UpdateStripeDetailsMutation.getFragment('user')}
+      }
+    `
+  },
+});
+
+export default SummaryPageContainer;

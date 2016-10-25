@@ -33,6 +33,7 @@ import {
   getMessagesForUser,
   getMessage,
   switchBotAgent,
+  updateStripeDetails,
 } from './database';
 
 import {
@@ -367,6 +368,21 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
   mutateAndGetPayload: (props) => switchBotAgent(props.userId, props.botMuted).catch(::console.error),
 });
 
+const UpdateStripeDetailsMutation = mutationWithClientMutationId({
+  name: 'UpdateStripeDetails',
+  inputFields: {
+    userId: { type: new GraphQLNonNull(GraphQLString) },
+    stripe_customerId: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    user: {
+      type: User,
+      resolve: (doc) => getUser(doc.userId),
+    },
+  },
+  mutateAndGetPayload: (props) => updateStripeDetails(props.userId, props.stripe_customerId).catch(::console.error),
+});
+
 // SUBSCRIPTIONS //
 
 const AddIncomingReqSubscription = subscriptionWithClientId({
@@ -469,7 +485,8 @@ const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
     sendMessage: SendMessageMutation,
-    switchBotAgent: SwitchBotAgentMutation
+    switchBotAgent: SwitchBotAgentMutation,
+    updateStripeDetails: UpdateStripeDetailsMutation,
   }),
 });
 

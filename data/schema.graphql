@@ -70,6 +70,7 @@ type messagesEdge {
 type Mutation {
   sendMessage(input: SendMessageInput!): SendMessagePayload
   switchBotAgent(input: SwitchBotAgentInput!): SwitchBotAgentPayload
+  updateStripeDetails(input: UpdateStripeDetailsInput!): UpdateStripeDetailsPayload
 }
 
 interface Node {
@@ -147,6 +148,17 @@ input SwitchBotAgentInput {
 }
 
 type SwitchBotAgentPayload {
+  user: User
+  clientMutationId: String
+}
+
+input UpdateStripeDetailsInput {
+  userId: String!
+  stripe_customerId: String!
+  clientMutationId: String
+}
+
+type UpdateStripeDetailsPayload {
   user: User
   clientMutationId: String
 }

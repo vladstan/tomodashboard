@@ -44,6 +44,11 @@ export function switchBotAgent(_id, botMuted) {
   return db.users.update({ _id: pmongo.ObjectId(_id) }, { $set: { botMuted } });
 }
 
+export function updateStripeDetails(_id, customerId) {
+  console.log('updateStripeDetails(userId, customerId)', _id, customerId);
+  return db.users.update({ _id: pmongo.ObjectId(_id) }, { $set: { stripe: { customerId } } });
+}
+
 export function getIncomingReqs() {
   return db.actionmessages.find({}).sort({$natural: 1}).toArray();
 }
