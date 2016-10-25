@@ -11,6 +11,7 @@ import Home from './pages/Home';
 import LandingPage from './pages/LandingPage';
 import OfferPage from './pages/OfferPage';
 import SummaryPage from './pages/SummaryPage';
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import UserChat from './pages/UserChat';
 import Dashboard from './pages/Dashboard';
 import DashboardHome from './pages/DashboardHome';
@@ -24,6 +25,7 @@ export default (
     </Route>
     <Route path='landing' component={LandingPage} />
     <Route path='summary/:id' component={SummaryPage} />
+    <Route path='success/:id' component={PaymentSuccessPage} />
     <Route path='offers/:id' component={OfferPage} />
   </Route>
 );

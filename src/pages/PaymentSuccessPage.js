@@ -1,0 +1,18 @@
+import React, {PropTypes} from 'react';
+import { withRouter } from 'react-router';
+
+@withRouter
+class PaymentSuccessPage extends React.Component {
+
+  render() {
+    return (
+			<div className="landing-page">
+        <p>Yabba dabba dooooo! $uccess! &lt;3</p>
+        <img src="https://media.giphy.com/media/GA2FNpP1kAQNi/giphy.gif"></img>
+			</div>
+    );
+  }
+
+}
+
+export default PaymentSuccessPage;

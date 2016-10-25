@@ -20,3 +20,20 @@
 .landing-page .pay-button {
   width: 100%; // TODO move into .summary-page file
 }
+
+.landing-page.summary-page {
+  .items-table {
+    padding: 20px;
+  }
+
+  .checkout-btn-wrapper {
+    text-align: center;
+  }
+}
+
+.landing-page .previewImg {
+  width: 100%;
+  height: 200px;
+  background-position: center;
+  background-size: cover;
+}

@@ -1,0 +1,24 @@
+{
+  "5": {
+    "offerId": "1",
+    "pictureUrl": "https://hd.unsplash.com/photo-1453747063559-36695c8771bd",
+    "items": [{
+      "title": "9 days accommodation",
+      "price": 1100
+    }, {
+      "title": "Transfer from the Airport",
+      "price": 50
+    }, {
+      "title": "Negociated discount accommodation",
+      "price": -110
+    },
+    {
+      "title": "Agency Fee(planning, booking, concierge)",
+      "price": 144
+    },
+    {
+      "title": "Total price for this trip",
+      "price": 1184
+    }]
+  }
+}
