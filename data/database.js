@@ -40,13 +40,13 @@ export function getSessionOfUser(userId) {
 }
 
 export function switchBotAgent(_id, botMuted) {
-  // console.log('switchBotAgent(userId, botMuted)', _id, botMuted);
+  console.log('switchBotAgent(userId, botMuted)', _id, botMuted);
   return db.users.update({ _id: pmongo.ObjectId(_id) }, { $set: { botMuted } });
 }
 
-export function updateStripeDetails(_id, customerId) {
-  console.log('updateStripeDetails(userId, customerId)', _id, customerId);
-  return db.users.update({ _id: pmongo.ObjectId(_id) }, { $set: { stripe: { customerId } } });
+export function updateStripeDetails(_id, stripe) {
+  console.log('updateStripeDetails(userId, stripe)', _id, stripe);
+  return db.users.update({ _id: pmongo.ObjectId(_id) }, { $set: { stripe } });
 }
 
 export function getIncomingReqs() {
@@ -90,7 +90,7 @@ function startListeningActionMessages() {
   console.log('startListeningActionMessages()');
   getActionMessagesCursor()
     .on('data', function(doc) {
-      console.log('notifyChange(\'add_incoming_req\', ' + doc._id + ')');
+      // console.log('notifyChange(\'add_incoming_req\', ' + doc._id + ')');
       notifyChange('add_incoming_req', doc);
     })
     .on('error', function(err) {
@@ -103,7 +103,7 @@ function startListeningMessages() {
   getMessagesCursor()
     .on('data', function(doc) {
       const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
-      console.log('notifyChange(\'add_message:' + userId + '\', ' + doc._id + ')');
+      // console.log('notifyChange(\'add_message:' + userId + '\', ' + doc._id + ')');
       notifyChange('add_message:' + userId, doc);
     })
     .on('error', function(err) {

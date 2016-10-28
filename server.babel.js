@@ -72,7 +72,7 @@ io.on('connection', socket => {
   const unsubscribeMap = Object.create(null);
 
   const removeNotifier = addNotifier(({ topic, data }) => {
-    console.log('notified topic', topic);
+    // console.log('notified topic', topic);
 
     const topicListeners = topics[topic];
     if (!topicListeners) return;

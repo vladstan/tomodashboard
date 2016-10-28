@@ -11,12 +11,7 @@ class SummaryPage extends React.Component {
   onToken = (token) => {
     console.log('token!! <3', token);
     const { relay, user } = this.props;
-    relay.commitUpdate(
-      new UpdateStripeDetailsMutation({
-        user,
-        stripeDetails: token
-      }),
-    );
+    relay.commitUpdate(new UpdateStripeDetailsMutation({user, token}));
     this.props.router.push('/success/' + this.props.params.id);
   }
 
@@ -52,7 +47,7 @@ class SummaryPage extends React.Component {
         <div className="checkout-btn-wrapper">
           <StripeCheckout
             token={this.onToken}
-            amount={summary.items[summary.items.length - 1].price}
+            amount={summary.items[summary.items.length - 1].price * 100}
             stripeKey="pk_test_vxCnarJoHcKoviT3ntOVANqL"
           />
         </div>

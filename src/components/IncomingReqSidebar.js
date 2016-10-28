@@ -18,7 +18,7 @@ import { Link } from 'react-router';
 class IncomingReqSidebar extends React.Component {
 
   render() {
-    console.log('IncomingReqSidebar', this.props);
+    // console.log('IncomingReqSidebar', this.props);
     return (
       <div>
         <Grid>

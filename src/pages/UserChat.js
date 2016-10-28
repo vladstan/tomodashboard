@@ -35,7 +35,7 @@ class InboxNavItem extends React.Component {
       <Grid>
         <Row>
           <Col xs={8} collapseLeft collapseRight>
-            <Icon glyph={this.props.glyph} className='inbox-item-icon'/>
+            {this.props.glyph && <Icon glyph={this.props.glyph} className='inbox-item-icon' />}
             <span>{this.props.title}</span>
           </Col>
           <Col xs={4} className='text-right' collapseLeft collapseRight>
@@ -89,10 +89,6 @@ class UserChat extends React.Component {
 
   handleSwitch(currentState) {
     const { relay, user } = this.props;
-    console.log('swtich', {
-      user,
-      botMuted: currentState !== 'bot'
-    });
     relay.commitUpdate(
       new SwitchBotAgentMutation({
         user,
@@ -102,7 +98,7 @@ class UserChat extends React.Component {
   }
 
   render() {
-    console.log('render user:', this.props.user);
+    // console.log('render user:', this.props.user);
 
     const user = this.props.user;
     const profile = user.profile;

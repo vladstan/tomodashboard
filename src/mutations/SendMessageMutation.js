@@ -16,7 +16,7 @@ class SendMessageMutation extends Relay.Mutation {
 
   getFatQuery() {
     return Relay.QL`
-      fragment on SendMessagePayload @relay(pattern: true) {
+      fragment on SendMessagePayload {
         messageEdge
         user {
           id

@@ -85,6 +85,13 @@ class ChatConversation extends React.Component {
     });
   }
 
+  onSendSummary(event) {
+    event.preventDefault();
+    this.setState({
+      messageInputText: 'https://yago.mod.bz/summary/5'
+    });
+  }
+
   onKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -135,9 +142,9 @@ class ChatConversation extends React.Component {
                   <Grid>
                     <Row>
                       <Col xs={6} collapseLeft collapseRight>
-                        <a href='#' style={{border: 'none'}}><Icon glyph='icon-dripicons-location icon-1-and-quarter-x fg-text' style={{marginRight: 25}} /></a>
-                        <a href='#' style={{border: 'none'}}><Icon glyph='icon-dripicons-camera icon-1-and-quarter-x fg-text' style={{marginRight: 25}} /></a>
-                        <a href='#' style={{border: 'none'}}><Icon glyph='icon-dripicons-calendar icon-1-and-quarter-x fg-text' style={{marginRight: 25}} /></a>
+                        <a onClick={::this.onSendSummary} style={{border: 'none', cursor: 'pointer'}}>
+                          <Icon glyph='icon-dripicons-calendar icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
+                        </a>
                       </Col>
                       <Col xs={6} className='text-right' collapseLeft collapseRight>
                         <Button bsStyle='darkgreen45' onClick={::this.onSend}>send</Button>

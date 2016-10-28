@@ -136,6 +136,11 @@ type SendMessagePayload {
   clientMutationId: String
 }
 
+type StripeCredentials implements Node {
+  id: ID!
+  customerId: String
+}
+
 type Subscription {
   addIncomingReq(input: AddIncomingReqSubscriptionInput!): AddIncomingReqSubscriptionPayload
   addMessage(input: AddMessageSubscriptionInput!): AddMessageSubscriptionPayload
@@ -154,7 +159,8 @@ type SwitchBotAgentPayload {
 
 input UpdateStripeDetailsInput {
   userId: String!
-  stripe_customerId: String!
+  name: String!
+  token: String!
   clientMutationId: String
 }
 
@@ -171,4 +177,5 @@ type User implements Node {
   incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
   messages(after: String, first: Int, before: String, last: Int): messagesConnection
   botMuted: Boolean
+  stripe: StripeCredentials
 }

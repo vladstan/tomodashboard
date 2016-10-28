@@ -1,6 +1,7 @@
 import Relay from 'react-relay';
 
 class SwitchBotAgentMutation extends Relay.Mutation {
+
   static fragments = {
     user: () => Relay.QL`
       fragment on User {
@@ -16,10 +17,8 @@ class SwitchBotAgentMutation extends Relay.Mutation {
 
   getFatQuery() {
     return Relay.QL`
-      fragment on SwitchBotAgentPayload @relay(pattern: true) {
+      fragment on SwitchBotAgentPayload {
         user {
-          id
-          _id
           botMuted
         }
       }
@@ -42,29 +41,14 @@ class SwitchBotAgentMutation extends Relay.Mutation {
     };
   }
 
-  // getOptimisticResponse() {
-  //   return {
-  //     // FIXME: totalCount gets updated optimistically, but this edge does not
-  //     // get added until the server responds
-  //     messageEdge: {
-  //       node: {
-  //         id
-  //         _id
-  //         type
-  //         text
-  //         senderId
-  //         receiverId
-  //         senderType
-  //         receiverType
-  //         text: this.props.text,
-  //       },
-  //     },
-  //     user: {
-  //       id: .id,
-  //       totalCount: this.props.viewer.totalCount + 1,
-  //     },
-  //   };
-  // }
+  getOptimisticResponse() {
+    return {
+      user: {
+        botMuted: this.props.botMuted,
+      },
+    };
+  }
+
 }
 
 export default SwitchBotAgentMutation;

@@ -6,6 +6,10 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
       fragment on User {
         id
         _id
+        profile {
+          firstName
+          lastName
+        }
       }
     `,
   };
@@ -16,13 +20,9 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
 
   getFatQuery() {
     return Relay.QL`
-      fragment on UpdateStripeDetailsPayload @relay(pattern: true) {
+      fragment on UpdateStripeDetailsPayload {
         user {
-          id
-          _id
-          stripe {
-            customerId
-          }
+          stripe
         }
       }
     `;
@@ -39,35 +39,12 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
 
   getVariables() {
     return {
-      userId: this.props.user._id,
-      stripe_customerId: this.props.stripeDetails.id,
-      // stripe_email etc
+      user: this.props.user,
+      token: JSON.stringify(this.props.token),
+      name: this.props.user.profile.firstName + ' ' + this.props.user.profile.lastName
     };
   }
 
-  // getOptimisticResponse() {
-  //   return {
-  //     // FIXME: totalCount gets updated optimistically, but this edge does not
-  //     // get added until the server responds
-  //     messageEdge: {
-  //       node: {
-  //         id
-  //         _id
-  //         type
-  //         text
-  //         senderId
-  //         receiverId
-  //         senderType
-  //         receiverType
-  //         text: this.props.text,
-  //       },
-  //     },
-  //     user: {
-  //       id: .id,
-  //       totalCount: this.props.viewer.totalCount + 1,
-  //     },
-  //   };
-  // }
 }
 
 export default UpdateStripeDetailsMutation;
