@@ -13,6 +13,7 @@ import LandingPage from './pages/LandingPage';
 import OfferPage from './pages/OfferPage';
 import SummaryPage from './pages/SummaryPage';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
+import LoginPage from './pages/Login';
 import UserChat from './pages/UserChat';
 import Dashboard from './pages/Dashboard';
 import DashboardHome from './pages/DashboardHome';
@@ -28,5 +29,6 @@ export default (
     <Route path='summary/:id' component={SummaryPage} queries={SummaryPageQueries} />
     <Route path='success/:id' component={PaymentSuccessPage} />
     <Route path='offers/:id' component={OfferPage} />
+    <Route path='login' component={LoginPage} />
   </Route>
 );
