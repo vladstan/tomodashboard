@@ -10,14 +10,26 @@ import GraphQLSettings from '../graphql.json';
 
 if (isBrowser()) {
   setEnvironment(RelaySubscriptions.Environment);
-  setNetworkLayer(new SubsNetworkLayer('/graphql'));
+  setNetworkLayer(new SubsNetworkLayer('/graphql', {
+    get headers() {
+      return {
+        Authorization: 'Bearer ' + window.localStorage.getItem('auth_token'),
+      };
+    }
+  }));
 } else {
   let endpoint = GraphQLSettings.development.endpoint;
   if (process.env.NODE_ENV === 'production') {
     endpoint = GraphQLSettings.production.endpoint;
   }
   endpoint = endpoint || 'http://localhost:8080/graphql';
-  setNetworkLayer(new Relay.DefaultNetworkLayer(endpoint));
+  setNetworkLayer(new Relay.DefaultNetworkLayer(endpoint, {
+    get headers() {
+      return {
+        Authorization: 'Bearer ' + window.localStorage.getItem('auth_token'),
+      };
+    }
+  }));
 }
 
 render(routes, () => {

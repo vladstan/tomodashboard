@@ -1,31 +1,43 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link, withRouter } from 'react-router';
+import FacebookLogin from 'react-facebook-login';
 
 import {
   Row,
   Col,
-  Icon,
   Grid,
   Panel,
-  Button,
   PanelBody,
   PanelContainer,
 } from '@sketchpixy/rubix';
 
+import agent from 'superagent';
+
 @withRouter
 class Login extends React.Component {
 
-  back(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.router.goBack();
-  }
+  onFacebookLogin(response) {
+    console.log('facebook login response =', response);
 
-  getPath(path) {
-    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    path = `/${dir}/${path}`;
-    return path;
+    agent
+      .post('/auth')
+      .set('Content-Type', 'application/json')
+      .send({response})
+      .end(function(err, res) {
+        if (err) {
+          console.error(err);
+        } else {
+          const result = res.body;
+          console.log(result);
+          if (result.success && result.auth_token) {
+            window.localStorage.setItem('auth_token', result.auth_token);
+            this.props.router.push('/dashboard');
+          } else {
+            alert(JSON.stringify(result));
+          }
+        }
+      });
   }
 
   render() {
@@ -45,10 +57,10 @@ class Login extends React.Component {
                         <div className='bg-hoverblue fg-black50 text-center' style={{padding: 12.5}}>
                           <div>You need to sign in for those awesome features</div>
                           <div style={{marginTop: 12.5, marginBottom: 12.5}}>
-                            <Button id='facebook-btn' lg bsStyle='darkblue' type='submit' onClick={::this.back}>
-                              <Icon glyph='icon-fontello-facebook' />
-                              <span>Sign in <span className='hidden-xs'>with facebook</span></span>
-                            </Button>
+                            <FacebookLogin
+                              appId="203339813420668"
+                              fields="name,email,picture"
+                              callback={::this.onFacebookLogin} />
                           </div>
                         </div>
                       </PanelBody>

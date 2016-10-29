@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import graphQLHTTP from 'express-graphql';
 import { graphql } from 'graphql';
 import { graphqlSubscribe } from 'graphql-relay-subscription';
 import compression from 'compression';
@@ -13,7 +12,10 @@ import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddlewar
 import { addNotifier } from './data/database';
 import schema from './data/schema';
 
+import jwt from 'express-jwt';
 import GraphQLSettings from './graphql.json';
+
+const jwtSecret = '23rfqwdf32wqda';
 
 let endpoint = GraphQLSettings.development.endpoint;
 if (process.env.NODE_ENV === 'production') {
@@ -31,8 +33,27 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 app.set('views', path.join(process.cwd(), 'views'));
 app.set('view engine', 'pug');
 
-app.use('/graphql', graphQLHTTP({schema, pretty: true}));
+const httpGraphQLHandler = async (req, res) => {
+  try {
+    const {query, variables, ...rootVals} = req.body;
+    const authToken = req.user || {};
+    const result = await graphql(schema, query, {authToken, ...rootVals}, variables);
+    res.send(result);
+  } catch (ex) {
+    console.error(ex);
+    res.send(ex);
+  }
+};
+
+app.use('/graphql', jwt({secret: jwtSecret, credentialsRequired: false}), httpGraphQLHandler);
 app.get('/graphiql', (req, res) => res.render('graphiql'));
+app.post('/auth', (req, res) => {
+  console.log('auth, resp=', req.body && req.body.response);
+  res.send({
+    success: false,
+    auth_token: null,
+  });
+});
 
 function renderHTML(req, res) {
   renderHTMLString(routes, req, (error, redirectLocation, data) => {
