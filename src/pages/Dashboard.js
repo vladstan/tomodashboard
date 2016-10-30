@@ -15,10 +15,11 @@ import AppSidebar from '../components/AppSidebar';
 @withRouter
 class Dashboard extends React.Component {
   render() {
+    // console.log('this.props.agent=', this.props.agent);
     return (
       <MainContainer {...this.props}>
-        <AppSidebar user={this.props.user} />
-        <Header />
+        <AppSidebar agent={this.props.agent} />
+        <Header router={this.props.router} />
         <div id='body'>
           <Grid>
             <Row>
@@ -36,18 +37,16 @@ class Dashboard extends React.Component {
 
 const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
   fragments: {
-    user: () => Relay.QL`
-      fragment on User {
+    agent: () => Relay.QL`
+      fragment on Agent {
         id
         _id
-        ${AddIncomingReqSubscription.getFragment('user')}
-        facebookId
-        profile {
-          id
-          _id
-          userId
-          name
-        }
+        fbUserId
+        name
+        email
+        pictureUrl
+        fbAccessToken
+        ${AddIncomingReqSubscription.getFragment('agent')}
         incomingReqs(first: 10) {
           edges {
             node {
@@ -71,7 +70,7 @@ const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
     `
   },
   subscriptions: [
-    ({user}) => new AddIncomingReqSubscription({user}),
+    ({agent}) => new AddIncomingReqSubscription({agent}),
   ],
 });
 

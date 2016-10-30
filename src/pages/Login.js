@@ -44,7 +44,7 @@ class Login extends React.Component {
             }
 
             createCookie('auth_token', result.auth_token, 7);
-            this.props.router.push('/dashboard');
+            this.props.router.push(this.props.location.query.prevLoc || '/dashboard');
           } else {
             alert(JSON.stringify(result));
           }

@@ -17,8 +17,8 @@ class Brand extends React.Component {
     return (
       <Navbar.Header {...this.props}>
         <Navbar.Brand tabIndex='-1'>
-          <a href='#'>
-            <img src='/imgs/app/TUI-logo.jpg' alt='rubix' height='28' />
+          <a href='#'>YAGO
+            {/* <img src='/imgs/app/TUI-logo.jpg' alt='rubix' height='28' /> */}
           </a>
         </Navbar.Brand>
       </Navbar.Header>
@@ -28,11 +28,22 @@ class Brand extends React.Component {
 
 // @withRouter
 class HeaderNavigation extends React.Component {
+  logOut() {
+    function deleteCookie(name) {
+      document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    if (typeof window != 'undefined') { // browser
+      window.localStorage.removeItem('auth_token');
+      deleteCookie('auth_token');
+      this.props.redirectToLogin();
+    }
+  }
+
   render() {
     return (
       <Nav pullRight>
         <Nav>
-          <NavItem className='logout' href='#'>
+          <NavItem className='logout' style={{cursor: 'pointer'}} onClick={::this.logOut}>
             <Icon bundle='fontello' glyph='off-1' />
           </NavItem>
         </Nav>
@@ -44,7 +55,7 @@ class HeaderNavigation extends React.Component {
 class Header extends React.Component {
   render() {
     return (
-      <Grid id='navbar' {...this.props}>
+      <Grid id='navbar'>
         <Row>
           <Col xs={12}>
             <Navbar fixedTop fluid id='rubix-nav-header'>
@@ -56,7 +67,7 @@ class Header extends React.Component {
                   <Brand />
                 </Col>
                 <Col xs={3} sm={8} collapseRight className='text-right'>
-                  <HeaderNavigation />
+                  <HeaderNavigation redirectToLogin={() => this.props.router.push('/login')} />
                 </Col>
               </Row>
             </Navbar>

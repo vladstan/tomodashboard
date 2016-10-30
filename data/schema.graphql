@@ -5,7 +5,6 @@ input AddIncomingReqSubscriptionInput {
 type AddIncomingReqSubscriptionPayload {
   incomingReq: IncomingReq
   incomingReqEdge: incomingReqsEdge
-  user: User
   clientSubscriptionId: String
 }
 
@@ -19,6 +18,18 @@ type AddMessageSubscriptionPayload {
   messageEdge: messagesEdge
   user: User
   clientSubscriptionId: String
+}
+
+type Agent implements Node {
+  # The ID of an object
+  id: ID!
+  _id: String
+  fbUserId: String
+  name: String
+  email: String
+  pictureUrl: String
+  fbAccessToken: String
+  incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
 }
 
 type IncomingReq implements Node {
@@ -144,6 +155,7 @@ type Query {
     id: ID!
   ): Node
   user(_id: String): User
+  agent(token: String): Agent
 }
 
 input SendMessageInput {
@@ -204,7 +216,6 @@ type User implements Node {
   _id: String
   facebookId: String
   profile: Profile
-  incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
   messages(after: String, first: Int, before: String, last: Int): messagesConnection
   botMuted: Boolean
   stripe: StripeCredentials

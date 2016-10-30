@@ -3,8 +3,8 @@ import { Subscription } from 'relay-subscriptions';
 
 class AddIncomingReqSubscription extends Subscription {
   static fragments = {
-    user: () => Relay.QL`
-      fragment on User {
+    agent: () => Relay.QL`
+      fragment on Agent {
         id
         _id
       }
@@ -25,10 +25,6 @@ class AddIncomingReqSubscription extends Subscription {
               messageText
             }
           }
-          user {
-            id
-            _id
-          }
         }
       }
     `; // AppSidebar/ App
@@ -37,8 +33,8 @@ class AddIncomingReqSubscription extends Subscription {
   getConfigs() {
     return [{
       type: 'RANGE_ADD',
-      parentName: 'user',
-      parentID: this.props.user.id,
+      parentName: 'agent',
+      parentID: this.props.agent.id,
       connectionName: 'incomingReqs',
       edgeName: 'incomingReqEdge',
       rangeBehaviors: () => 'append',

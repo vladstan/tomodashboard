@@ -25,6 +25,7 @@ import {
 
 import {
   getUser,
+  getAgent,
   getProfile,
   getProfileOfUser,
   getSessionOfUser,
@@ -44,6 +45,9 @@ import { getWithType, isType } from '@sketchpixy/rubix/lib/node/relay-utils';
 import { subscriptionWithClientId } from 'graphql-relay-subscription';
 import Stripe from 'stripe';
 
+import jsonwebtoken from 'jsonwebtoken';
+
+const jwtSecret = '23rfqwdf32wqda';
 const stripeService = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // INTERFACE //
@@ -54,6 +58,8 @@ const { nodeInterface, nodeField } = nodeDefinitions(
 
     if (type === 'User') {
       return getWithType(getUser(_id), 'User');
+    } else if (type === 'Agent') {
+      return getWithType(getAgent(_id), 'Agent');
     } else if (type === 'Profile') {
       return getWithType(getProfile(_id), 'Profile');
     } else if (type === 'IncomingReq') {
@@ -67,6 +73,8 @@ const { nodeInterface, nodeField } = nodeDefinitions(
   (obj) => {
     if (isType(obj, 'User')) {
       return User;
+    } else if (isType(obj, 'Agent')) {
+      return Agent;
     } else if (isType(obj, 'Profile')) {
       return Profile;
     } else if (isType(obj, 'IncomingReq')) {
@@ -281,11 +289,6 @@ const User = new GraphQLObjectType({
       type: Profile,
       resolve: (doc) => getProfileOfUser(doc._id),
     },
-    incomingReqs: {
-      type: IncomingReqsConnection,
-      args: connectionArgs,
-      resolve: (doc, args) => connectionFromPromisedArray(getIncomingReqs(), args),
-    },
     messages: {
       type: MessagesConnection,
       args: connectionArgs,
@@ -298,6 +301,43 @@ const User = new GraphQLObjectType({
     stripe: {
       type: StripeCredentials,
       resolve: (doc) => doc.stripe,
+    },
+  }),
+  interfaces: [nodeInterface],
+});
+
+const Agent = new GraphQLObjectType({
+  name: 'Agent',
+  fields: () => ({
+    id: globalIdField('Agent', (doc) => doc._id),
+    _id: {
+      type: GraphQLString,
+      resolve: (doc) => doc._id,
+    },
+    fbUserId: {
+      type: GraphQLString,
+      resolve: (doc) => doc.fbUserId,
+    },
+    name: {
+      type: GraphQLString,
+      resolve: (doc) => doc.name,
+    },
+    email: {
+      type: GraphQLString,
+      resolve: (doc) => doc.email,
+    },
+    pictureUrl: {
+      type: GraphQLString,
+      resolve: (doc) => doc.pictureUrl,
+    },
+    fbAccessToken: {
+      type: GraphQLString,
+      resolve: (doc) => doc.fbAccessToken,
+    },
+    incomingReqs: {
+      type: IncomingReqsConnection,
+      args: connectionArgs,
+      resolve: (doc, args) => connectionFromPromisedArray(getIncomingReqs(), args),
     },
   }),
   interfaces: [nodeInterface],
@@ -483,10 +523,6 @@ const AddIncomingReqSubscription = subscriptionWithClientId({
         };
       },
     },
-    user: {
-      type: User,
-      resolve: (doc) => getUser(doc.userId),
-    },
   },
   subscribe: (input, context) => {
     context.subscribe('add_incoming_req');
@@ -545,7 +581,23 @@ const Query = new GraphQLObjectType({
         },
       },
       resolve: (id, args) => getUser(args._id),
-    }
+    },
+    agent: {
+      type: Agent,
+      args: {
+        token: {
+          type: GraphQLString,
+        },
+      },
+      resolve: async (id, args) => {
+        try {
+          const payload = jsonwebtoken.verify(args.token, jwtSecret);
+          return await getAgent(payload._id);
+        } catch (ex) {
+          console.error('getAgent', ex);
+        }
+      },
+    },
   })
 });
 

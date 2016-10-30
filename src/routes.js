@@ -52,22 +52,35 @@ export default {
       }
     }
 
+    function getAgentToken() {
+      return (typeof window != 'undefined' && window.localStorage.auth_token)
+        || (req && req.cookies.auth_token)
+        || null;
+    }
+
+    function prepAgentParams(params, { location }) {
+      return {
+        ...params,
+        authToken: getAgentToken(),
+      };
+    }
+
     return (
       <Route path='/' component={App}>
         <IndexRoute component={Home} />
-        <Route path='dashboard' component={Dashboard} queries={DashboardQueries} onEnter={requireAuth}>
+        <Route path='dashboard' component={Dashboard} queries={DashboardQueries} onEnter={requireAuth} prepareParams={prepAgentParams}>
           <IndexRoute component={DashboardHome} />
           <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
         </Route>
         <Route path='landing' component={LandingPage} />
-        <Route path='summary/:id' component={SummaryPage} queries={SummaryPageQueries} onEnter={requireAuth} />
-        <Route path='success/:id' component={PaymentSuccessPage} onEnter={requireAuth} />
-        <Route path='offers/:id' component={OfferPage} onEnter={requireAuth} />
-        <Route path='login' component={LoginPage} onEnter={toDashboardIfLoggedIn} />
+        <Route path='summary/:id' component={SummaryPage} queries={SummaryPageQueries} />
+        <Route path='success/:id' component={PaymentSuccessPage} />
+        <Route path='offers/:id' component={OfferPage} />
+        <Route path='login' component={LoginPage} />
       </Route>
     );
   }
-};
+}; //  onEnter={toDashboardIfLoggedIn} TODO
 
 // /**
 //    * Please keep routes in alphabetical order

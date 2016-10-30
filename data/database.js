@@ -24,6 +24,10 @@ export function getUser(_id) {
   return db.users.findOne({ _id: pmongo.ObjectId(_id) });
 }
 
+export function getAgent(_id) {
+  return db.agents.findOne({ _id: pmongo.ObjectId(_id) });
+}
+
 export function getProfile(_id) {
   return db.profiles.findOne({ _id: pmongo.ObjectId(_id) });
 }

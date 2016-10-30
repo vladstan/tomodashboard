@@ -21,12 +21,11 @@ import StatsSidebar from '../components/StatsSidebar';
 // @withRouter
 class AppSidebar extends React.Component {
   render() {
-    const user = this.props.user;
-    if (!user) {
-      console.error('no user in appsidebar :p'); // save time in case it happens again
+    const agent = this.props.agent;
+    if (!agent) {
+      console.error('no agent data in appsidebar :p'); // save time in case it happens again
     }
-    const profile = user.profile;
-    const reqs = user.incomingReqs.edges.map(e => e.node);
+    const reqs = agent.incomingReqs.edges.map(e => e.node);
 
     return (
       <div id='sidebar'>
@@ -34,10 +33,10 @@ class AppSidebar extends React.Component {
           <Grid>
             <Row className='fg-white'>
               <Col xs={4} collapseRight>
-                <img src='/imgs/app/avatars/avatar17.png' width='40' height='40' />
+                <img src={agent.pictureUrl} width='40' height='40' />
               </Col>
               <Col xs={8} collapseLeft id='avatar-col'>
-                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>{profile.name}</div>
+                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>{agent.name}</div>
                 <div>
                   <Progress id='demo-progress' value={30} color='#ffffff'/>
                   <a href='#'>
