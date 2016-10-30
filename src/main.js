@@ -32,7 +32,7 @@ if (isBrowser()) {
   }));
 }
 
-render(routes, () => {
+render(routes.get(), () => {
   console.log('Completed rendering!');
 });
 
@@ -40,6 +40,6 @@ if (module.hot) {
   module.hot.accept('./routes', () => {
     ReactDOM.unmountComponentAtNode(document.getElementById('app-container'));
     // reload routes again
-    render(require('./routes').default);
+    render(require('./routes').default.get());
   });
 }

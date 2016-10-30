@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from './auth';
 
 import { IndexRoute, Route } from 'react-router';
 
@@ -19,29 +18,56 @@ import UserChat from './pages/UserChat';
 import Dashboard from './pages/Dashboard';
 import DashboardHome from './pages/DashboardHome';
 
-function requireAuth(nextState, replace) {
-  if (!auth.loggedIn()) {
-    replace({
-      pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
-    });
-  }
-}
+export default {
+  get(req) {
+    function requireAuth(nextState, replace) {
+      const loggedIn = !!(typeof window != 'undefined' && window.localStorage.auth_token)
+        || !!(req && req.cookies.auth_token)
+        || false;
 
-export default (
-  <Route path='/' component={App}>
-    <IndexRoute component={Home} />
-    <Route path='dashboard' component={Dashboard} queries={DashboardQueries} onEnter={requireAuth}>
-      <IndexRoute component={DashboardHome} />
-      <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
-    </Route>
-    <Route path='landing' component={LandingPage} />
-    <Route path='summary/:id' component={SummaryPage} queries={SummaryPageQueries} onEnter={requireAuth} />
-    <Route path='success/:id' component={PaymentSuccessPage} onEnter={requireAuth} />
-    <Route path='offers/:id' component={OfferPage} onEnter={requireAuth} />
-    <Route path='login' component={LoginPage} />
-  </Route>
-);
+      const prevLoc = (typeof window != 'undefined' && window.location.pathname)
+        || (req && req.url)
+        || '';
+
+      if (!loggedIn) {
+        // console.log('redir to login', typeof window != 'undefined' && window.location);
+        replace({
+          pathname: '/login',
+          state: { nextPathname: nextState.location.pathname },
+          query: { prevLoc },
+        });
+      }
+    }
+
+    function toDashboardIfLoggedIn(nextState, replace) {
+      const loggedIn = !!(typeof window != 'undefined' && window.localStorage.auth_token)
+        || !!(req && req.cookies.auth_token)
+        || false;
+
+      if (loggedIn) {
+        replace({
+          pathname: '/dashboard',
+          state: { nextPathname: nextState.location.pathname },
+        });
+      }
+    }
+
+    return (
+      <Route path='/' component={App}>
+        <IndexRoute component={Home} />
+        <Route path='dashboard' component={Dashboard} queries={DashboardQueries} onEnter={requireAuth}>
+          <IndexRoute component={DashboardHome} />
+          <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
+        </Route>
+        <Route path='landing' component={LandingPage} />
+        <Route path='summary/:id' component={SummaryPage} queries={SummaryPageQueries} onEnter={requireAuth} />
+        <Route path='success/:id' component={PaymentSuccessPage} onEnter={requireAuth} />
+        <Route path='offers/:id' component={OfferPage} onEnter={requireAuth} />
+        <Route path='login' component={LoginPage} onEnter={toDashboardIfLoggedIn} />
+      </Route>
+    );
+  }
+};
 
 // /**
 //    * Please keep routes in alphabetical order

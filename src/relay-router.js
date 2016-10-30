@@ -73,7 +73,7 @@ function renderIRData(_ref) {
 
 function renderHTMLString(routes, req, callback) {
   // in server
-  const matchOpts = { routes: routes, location: req.url };
+  const matchOpts = { routes: routes.get(req), location: req.url };
   const matchCallback = (error, redirectLocation, renderProps) => {
     if (error) {
       callback(error);

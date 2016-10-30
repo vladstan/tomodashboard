@@ -24,14 +24,26 @@ class Login extends React.Component {
       .post('/auth')
       .set('Content-Type', 'application/json')
       .send({response})
-      .end(function(err, res) {
+      .end((err, res) => {
         if (err) {
-          console.error(err);
+          console.error('error doing POST to /auth', err);
         } else {
           const result = res.body;
-          console.log(result);
+          console.log('/auth result =', result);
           if (result.success && result.auth_token) {
             window.localStorage.setItem('auth_token', result.auth_token);
+
+            function createCookie(name, value, days) {
+              if (days) {
+                var date = new Date();
+                date.setTime(date.getTime()+(days*24*60*60*1000));
+                var expires = "; expires="+date.toGMTString();
+              }
+              else var expires = "";
+              document.cookie = name+"="+value+expires+"; path=/";
+            }
+
+            createCookie('auth_token', result.auth_token, 7);
             this.props.router.push('/dashboard');
           } else {
             alert(JSON.stringify(result));

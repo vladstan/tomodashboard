@@ -12,6 +12,7 @@ const db = pmongo(MONGO_URL, {
   'profiles',
   'sessions',
   'users',
+  'agents',
 ]);
 
 export function getActionMessagesCursor() {
@@ -77,6 +78,23 @@ export function getMessagesForUser(_idUser) {
 
 export function getMessage(_id) {
   return db.messages.findOne({ _id: pmongo.ObjectId(_id) });
+}
+
+export async function signUpInAgent(fbResp) {
+  const existingAgent = await db.agents.findOne({ fbUserId: fbResp.userID });
+  if (existingAgent) {
+    return existingAgent;
+  }
+
+  const newAgentDoc = await db.agents.insert({
+    name: fbResp.name,
+    email: fbResp.email,
+    pictureUrl: fbResp.picture.data.url,
+    fbAccessToken: fbResp.accessToken,
+    fbUserId: fbResp.userID,
+  });
+
+  return newAgentDoc;
 }
 
 const notifiers = [];

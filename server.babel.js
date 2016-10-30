@@ -5,14 +5,16 @@ import { graphqlSubscribe } from 'graphql-relay-subscription';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import Relay from 'react-relay';
+import bodyParser from 'body-parser';
 
 import routes from './src/routes';
 import { renderHTMLString, setNetworkLayer } from './src/relay-router';
 import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddleware';
-import { addNotifier } from './data/database';
+import { addNotifier, signUpInAgent } from './data/database';
 import schema from './data/schema';
 
 import jwt from 'express-jwt';
+import jsonwebtoken from 'jsonwebtoken';
 import GraphQLSettings from './graphql.json';
 
 const jwtSecret = '23rfqwdf32wqda';
@@ -30,14 +32,16 @@ let app = express();
 app.use(compression());
 app.use(cookieParser());
 app.use(express.static(path.join(process.cwd(), 'public')));
+app.use(bodyParser.json());
 app.set('views', path.join(process.cwd(), 'views'));
 app.set('view engine', 'pug');
 
 const httpGraphQLHandler = async (req, res) => {
   try {
     const {query, variables, ...rootVals} = req.body;
+    console.log('graph ql handler req.body =', req.body);
     const authToken = req.user || {};
-    const result = await graphql(schema, query, {authToken, ...rootVals}, variables);
+    const result = await graphql(schema, query, {authToken, ...rootVals}, {}, variables);
     res.send(result);
   } catch (ex) {
     console.error(ex);
@@ -47,12 +51,27 @@ const httpGraphQLHandler = async (req, res) => {
 
 app.use('/graphql', jwt({secret: jwtSecret, credentialsRequired: false}), httpGraphQLHandler);
 app.get('/graphiql', (req, res) => res.render('graphiql'));
-app.post('/auth', (req, res) => {
-  console.log('auth, resp=', req.body && req.body.response);
-  res.send({
-    success: false,
-    auth_token: null,
-  });
+
+app.post('/auth', async (req, res) => {
+  try {
+    console.log('auth, req.body.response =', JSON.stringify(req.body.response));
+
+    const agent = await signUpInAgent(req.body.response);
+    const token = jsonwebtoken.sign(agent, jwtSecret, {
+      expiresIn: '7d',
+    });
+
+    res.send({
+      success: true,
+      auth_token: token,
+    });
+  } catch (ex) {
+    console.error(ex);
+    res.send({
+      success: false,
+      auth_token: null,
+    });
+  }
 });
 
 function renderHTML(req, res) {
