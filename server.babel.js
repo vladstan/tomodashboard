@@ -39,7 +39,6 @@ app.set('view engine', 'pug');
 const httpGraphQLHandler = async (req, res) => {
   try {
     const {query, variables, ...rootVals} = req.body;
-    console.log('graph ql handler req.body =', req.body);
     const authToken = req.user || {};
     const result = await graphql(schema, query, {authToken, ...rootVals}, {}, variables);
     res.send(result);

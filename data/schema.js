@@ -495,6 +495,9 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
 
 const AddIncomingReqSubscription = subscriptionWithClientId({
   name: 'AddIncomingReqSubscription',
+  inputFields: {
+    agentId: { type: new GraphQLNonNull(GraphQLString) },
+  },
   outputFields: {
     incomingReq: {
       type: IncomingReq,
@@ -525,7 +528,23 @@ const AddIncomingReqSubscription = subscriptionWithClientId({
     },
   },
   subscribe: (input, context) => {
-    context.subscribe('add_incoming_req');
+    context.subscribe('add_incoming_req'); // use agentId
+  },
+});
+
+const UpdateIncomingReqSubscription = subscriptionWithClientId({
+  name: 'UpdateIncomingReqSubscription',
+  inputFields: {
+    userId: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    incomingReq: {
+      type: IncomingReq,
+      resolve: (doc) => doc,
+    },
+  },
+  subscribe: (input, context) => {
+    context.subscribe('update_incoming_req:' + input.userId);
   },
 });
 
@@ -614,6 +633,7 @@ const Subscription = new GraphQLObjectType({
   name: 'Subscription',
   fields: {
     addIncomingReq: AddIncomingReqSubscription,
+    updateIncomingReq: UpdateIncomingReqSubscription,
     addMessage: AddMessageSubscription,
   },
 });

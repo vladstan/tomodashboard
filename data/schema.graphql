@@ -1,4 +1,5 @@
 input AddIncomingReqSubscriptionInput {
+  agentId: String!
   clientSubscriptionId: String
 }
 
@@ -184,6 +185,7 @@ type StripeCredentials implements Node {
 
 type Subscription {
   addIncomingReq(input: AddIncomingReqSubscriptionInput!): AddIncomingReqSubscriptionPayload
+  updateIncomingReq(input: UpdateIncomingReqSubscriptionInput!): UpdateIncomingReqSubscriptionPayload
   addMessage(input: AddMessageSubscriptionInput!): AddMessageSubscriptionPayload
 }
 
@@ -196,6 +198,16 @@ input SwitchBotAgentInput {
 type SwitchBotAgentPayload {
   user: User
   clientMutationId: String
+}
+
+input UpdateIncomingReqSubscriptionInput {
+  userId: String!
+  clientSubscriptionId: String
+}
+
+type UpdateIncomingReqSubscriptionPayload {
+  incomingReq: IncomingReq
+  clientSubscriptionId: String
 }
 
 input UpdateStripeDetailsInput {

@@ -15,10 +15,10 @@ const db = pmongo(MONGO_URL, {
   'agents',
 ]);
 
-export function getActionMessagesCursor() {
-  const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
-  return db.actionmessages.find({}, {}, options).sort({$natural: 1});
-}
+// export function getActionMessagesCursor() {
+//   const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
+//   return db.actionmessages.find({}, {}, options).sort({$natural: 1});
+// }
 
 export function getUser(_id) {
   return db.users.findOne({ _id: pmongo.ObjectId(_id) });
@@ -110,14 +110,62 @@ function notifyChange(topic, data) {
 
 function startListeningActionMessages() {
   console.log('startListeningActionMessages()');
-  getActionMessagesCursor()
-    .on('data', function(doc) {
-      // console.log('notifyChange(\'add_incoming_req\', ' + doc._id + ')');
-      notifyChange('add_incoming_req', doc);
-    })
-    .on('error', function(err) {
-      console.error(err);
-    });
+  let prevAll = null;
+
+  function getNewOnes(newReqs) {
+    if (!Array.isArray(prevAll)) {
+      return newReqs;
+    }
+
+    const newOnes = [];
+    for (let newReq of newReqs) {
+      if (!prevAll.find(prevReq => prevReq.userId == newReq.userId)) {
+        newOnes.push(newReq);
+      }
+    }
+    return newOnes;
+  }
+
+  function getUpdated(allReqs) {
+    if (!Array.isArray(prevAll)) {
+      return [];
+    }
+
+    const updatedOnes = [];
+    for (let req of allReqs) {
+      if (prevAll.find(prevReq => ('' + prevReq.userId) == ('' + req.userId) && ('' + prevReq.messageText) != ('' + req.messageText))) {
+        updatedOnes.push(req);
+      }
+    }
+    return updatedOnes;
+  }
+
+  async function checkAll() {
+    const allReqs = await getIncomingReqs();
+
+    if (allReqs) {
+      const onlyNewReqs = getNewOnes(allReqs);
+      for (let doc of onlyNewReqs) {
+        console.log('notifyChange(\'add_incoming_req\', ' + doc._id + ')');
+        notifyChange('add_incoming_req', doc);
+      }
+
+      const updatedReqs = getUpdated(allReqs);
+      for (let doc of updatedReqs) {
+        console.log('notifyChange(\'update_incoming_req:' + doc.userId + '\', ' + doc._id + ')');
+        notifyChange('update_incoming_req:' + doc.userId, doc);
+      }
+
+      // console.log('prevAll', prevAll, 'all=', allReqs, 'onlynew=', onlyNewReqs, 'updatedReqs=', updatedReqs);
+    }
+
+    prevAll = allReqs;
+    setTimeout(function() {
+      checkAll().catch(::console.error);
+    }, 500);
+  }
+
+  checkAll().catch(::console.error);
 }
 
 function startListeningMessages() {
@@ -125,7 +173,7 @@ function startListeningMessages() {
   getMessagesCursor()
     .on('data', function(doc) {
       const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
-      // console.log('notifyChange(\'add_message:' + userId + '\', ' + doc._id + ')');
+      console.log('notifyChange(\'add_message:' + userId + '\', ' + doc._id + ')');
       notifyChange('add_message:' + userId, doc);
     })
     .on('error', function(err) {

@@ -23,6 +23,14 @@ class AddIncomingReqSubscription extends Subscription {
               type
               userId
               messageText
+              user {
+                profile {
+                  name
+                  firstName
+                  lastName
+                  pictureUrl
+                }
+              }
             }
           }
         }
@@ -42,7 +50,9 @@ class AddIncomingReqSubscription extends Subscription {
   }
 
   getVariables() {
-    return {};
+    return {
+      agentId: this.props.agent._id,
+    };
   }
 }
 

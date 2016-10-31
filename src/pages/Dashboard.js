@@ -5,6 +5,7 @@ import RelaySubscriptions from 'relay-subscriptions';
 import { withRouter } from 'react-router';
 
 import AddIncomingReqSubscription from '../subscriptions/AddIncomingReqSubscription';
+import UpdateIncomingReqSubscription from '../subscriptions/UpdateIncomingReqSubscription';
 
 import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 
@@ -55,6 +56,7 @@ const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
               type
               userId
               messageText
+              ${UpdateIncomingReqSubscription.getFragment('incomingReq')}
               user {
                 profile {
                   name
