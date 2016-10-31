@@ -88,11 +88,12 @@ class UserChat extends React.Component {
   }
 
   handleSwitch(currentState) {
-    const { relay, user } = this.props;
+    const { relay, user, agent } = this.props;
     relay.commitUpdate(
       new SwitchBotAgentMutation({
         user,
-        botMuted: currentState !== 'bot'
+        botMuted: currentState !== 'bot',
+        agent,
       }),
     );
   }
@@ -245,7 +246,8 @@ class UserChat extends React.Component {
                         <ChatConversation
                           messages={this.props.user.messages.edges.map(e => e.node)}
                           profile={this.props.user.profile}
-                          sendMessage={::this.sendMessage} />
+                          sendMessage={::this.sendMessage}
+                          agent={this.props.agent} />
                       </Col>
                     </Row>
                   </Grid>
@@ -305,7 +307,14 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
           }
         }
       }
-    `
+    `,
+    agent: () => Relay.QL`
+      fragment on Agent {
+        name
+        pictureUrl
+        ${SwitchBotAgentMutation.getFragment('agent')}
+      }
+    `,
   },
   subscriptions: [
     ({user}) => new AddMessageSubscription({user}),

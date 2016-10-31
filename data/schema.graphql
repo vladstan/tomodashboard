@@ -192,6 +192,8 @@ type Subscription {
 input SwitchBotAgentInput {
   userId: String!
   botMuted: Boolean!
+  agentName: String!
+  userFbId: String!
   clientMutationId: String
 }
 

@@ -417,6 +417,8 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
   inputFields: {
     userId: { type: new GraphQLNonNull(GraphQLString) },
     botMuted: { type: new GraphQLNonNull(GraphQLBoolean) },
+    agentName: { type: new GraphQLNonNull(GraphQLString) },
+    userFbId: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     user: {
@@ -427,8 +429,29 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (props) => {
     try {
       await switchBotAgent(props.userId, props.botMuted);
+      await getSessionOfUser(props.userId)
+        .then((session) => {
+          let textMessage;
+
+          if (props.botMuted) {
+            textMessage = "You're now talking to " + props.agentName;
+          } else {
+            textMessage = "You're now talking to Yago";
+          }
+
+          return sendMessage({
+            type: 'text',
+            text: textMessage,
+            senderId: '00agent00',
+            receiverId: props.userId,
+            receiverFacebookId: props.userFbId,
+            senderType: 'bot',
+            receiverType: 'user',
+            sessionId: session._id,
+          });
+        });
     } catch (ex) {
-      console.error(ex);
+      console.error('switch agent mutateAndGetPayload error:', ex);
     }
 
     return {

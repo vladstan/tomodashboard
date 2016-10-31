@@ -113,7 +113,7 @@ class ChatConversation extends React.Component {
                   <ChatConversationItem
                     key={m.id}
                     position={m.senderType === 'user' ? 'left' : 'right'}
-                    avatarUrl={m.senderType === 'user' ? this.props.profile.pictureUrl : '/imgs/app/avatars/avatar17.png'}
+                    avatarUrl={m.senderType === 'user' ? this.props.profile.pictureUrl : this.props.agent.pictureUrl}
                     text={m.text} />
                 ))}
               </ul>

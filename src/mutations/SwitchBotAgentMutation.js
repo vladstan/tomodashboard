@@ -7,6 +7,12 @@ class SwitchBotAgentMutation extends Relay.Mutation {
       fragment on User {
         id
         _id
+        facebookId
+      }
+    `,
+    agent: () => Relay.QL`
+      fragment on Agent {
+        name
       }
     `,
   };
@@ -38,6 +44,8 @@ class SwitchBotAgentMutation extends Relay.Mutation {
     return {
       userId: this.props.user._id,
       botMuted: this.props.botMuted,
+      agentName: this.props.agent.name,
+      userFbId: this.props.user.facebookId,
     };
   }
 

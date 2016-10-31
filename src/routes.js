@@ -58,7 +58,7 @@ export default {
         || null;
     }
 
-    function prepAgentParams(params, { location }) {
+    function prepAgentParams(params) {
       return {
         ...params,
         authToken: getAgentToken(),
@@ -70,7 +70,7 @@ export default {
         <IndexRoute component={Home} />
         <Route path='dashboard' component={Dashboard} queries={DashboardQueries} onEnter={requireAuth} prepareParams={prepAgentParams}>
           <IndexRoute component={DashboardHome} />
-          <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} />
+          <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} prepareParams={prepAgentParams} />
         </Route>
         <Route path='landing' component={LandingPage} />
         <Route path='summary/:id' component={SummaryPage} queries={SummaryPageQueries} />

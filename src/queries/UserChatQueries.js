@@ -8,6 +8,13 @@ const UserChatQueries = {
       }
     }
   `,
+  agent: (Component, variables) => Relay.QL`
+    query {
+      agent(token: $authToken) {
+        ${Component.getFragment('agent', {...variables})}
+      }
+    }
+  `,
 };
 
 export default UserChatQueries;
