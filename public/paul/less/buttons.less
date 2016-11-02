@@ -1,0 +1,30 @@
+// Button Styles
+.btn-outline {
+  color: white;
+  border: 1px solid;
+  border-color: white;
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: white;
+    border-color: @theme-primary;
+    background-color: @theme-primary;
+  }
+}
+
+.btn {
+  border-radius: 300px;
+
+  .alt-font;
+}
+
+.btn-xl {
+  padding: 15px 45px;
+
+  font-size: 11px;
+}
+
+.btn-primary {
+  .button-variant(@gray-lighter; @theme-primary; darken(@theme-primary, 10%));
+}
