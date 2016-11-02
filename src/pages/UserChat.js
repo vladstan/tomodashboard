@@ -64,6 +64,7 @@ class InboxNavTag extends React.Component {
 
 @withRouter
 class UserChat extends React.Component {
+
   handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
