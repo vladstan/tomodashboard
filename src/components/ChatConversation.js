@@ -12,7 +12,10 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
+import SummaryModal from './SummaryModal';
+
 class ChatConversationItem extends React.Component {
+
   render() {
     let leftImg;
     let rightImg;
@@ -63,11 +66,28 @@ class ChatConversationItem extends React.Component {
       </li>
     );
   }
+
 }
 
 class ChatConversation extends React.Component {
+
   state = {
-    messageInputText: ''
+    messageInputText: '',
+    showSummaryModal: false,
+  }
+
+  closeSummaryModal() {
+		this.setState({
+      ...this.state,
+      showSummaryModal: false,
+    });
+  }
+
+  openSummaryModal() {
+		this.setState({
+      ...this.state,
+      showSummaryModal: true,
+    });
   }
 
   onSend() {
@@ -88,8 +108,15 @@ class ChatConversation extends React.Component {
   onSendSummary(event) {
     event.preventDefault();
     this.setState({
-      messageInputText: 'https://yago.mod.bz/summary/5'
+      ...this.state,
+      showSummaryModal: true,
+      // messageInputText: 'https://yago.mod.bz/summary/5'
     });
+  }
+
+  sendSummaryModal() {
+    this.closeSummaryModal();
+    alert('sent!');
   }
 
   onKeyPress(event) {
@@ -156,6 +183,11 @@ class ChatConversation extends React.Component {
             </Col>
           </Row>
         </Grid>
+
+        <SummaryModal
+          show={this.state.showSummaryModal}
+          onClose={::this.closeSummaryModal}
+          onSend={::this.sendSummaryModal} />
       </div>
     );
   }
