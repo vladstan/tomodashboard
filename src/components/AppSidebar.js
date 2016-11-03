@@ -26,6 +26,7 @@ class AppSidebar extends React.Component {
       console.error('no agent data in appsidebar :p'); // save time in case it happens again
     }
     const reqs = agent.incomingReqs.edges.map(e => e.node);
+    const users = agent.users.edges.map(e => e.node);
 
     return (
       <div id='sidebar'>
@@ -39,9 +40,9 @@ class AppSidebar extends React.Component {
                 <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>{agent.name}</div>
                 <div>
                   <Progress id='demo-progress' value={30} color='#ffffff'/>
-                  <a href='#'>
+                  {/* <a href='#'>
                     <Icon id='demo-icon' bundle='fontello' glyph='lock-5' />
-                  </a>
+                  </a> */}
                 </div>
               </Col>
             </Row>
@@ -58,7 +59,7 @@ class AppSidebar extends React.Component {
             <IncomingReqSidebar reqs={reqs} />
           </Sidebar>
           <Sidebar sidebar={1}>
-            <ActiveChatsSidebar />
+            <ActiveChatsSidebar users={users} />
           </Sidebar>
           <Sidebar sidebar={2}>
             <BroadcastingSidebar />

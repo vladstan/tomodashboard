@@ -1,3 +1,5 @@
+global.Promise=require("bluebird");
+
 import Relay from 'react-relay';
 import ReactDOM from 'react-dom';
 

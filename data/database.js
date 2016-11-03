@@ -67,17 +67,19 @@ export function getMessagesCursor() {
   return db.messages.find({}, {}, options).sort({$natural: 1});
 }
 
-export function getMessagesForUser(_idUser) {
-  return db.sessions.find({})
-    .then((sessions) => {
-      const session = sessions.find((s) => s.userId == _idUser);
-      if (!session || !session.userId) {
-        console.error('no session found for user with id', _idUser);
-        return [];
-      }
-      return db.messages.find({}).sort({$natural: 1}).toArray()
-        .then(messages => messages.filter(m => m.sessionId == session._id));
-    });
+export async function getMessagesForUser(_idUser) {
+  const sessions = await db.sessions.find({});
+  const session = sessions.find((s) => s.userId == _idUser);
+  if (!session || !session.userId) {
+    console.error('no session found for user with id', _idUser);
+    return [];
+  }
+  const allMessages = await db.messages.find({}).sort({$natural: 1});
+  return allMessages.filter(m => m.sessionId == session._id);
+}
+
+export async function getUsersForAgent(/*_idAgent*/) {
+  return await db.users.find({});
 }
 
 export function getMessage(_id) {

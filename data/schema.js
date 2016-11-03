@@ -32,6 +32,7 @@ import {
   getIncomingReqs,
   getIncomingReq,
   getMessagesForUser,
+  getUsersForAgent,
   getMessage,
   switchBotAgent,
   updateStripeDetails,
@@ -339,6 +340,11 @@ const Agent = new GraphQLObjectType({
       args: connectionArgs,
       resolve: (doc, args) => connectionFromPromisedArray(getIncomingReqs(), args),
     },
+    users: {
+      type: UsersConnection,
+      args: connectionArgs,
+      resolve: (doc, args) => connectionFromPromisedArray(getUsersForAgent(doc._id), args),
+    },
   }),
   interfaces: [nodeInterface],
 });
@@ -359,6 +365,14 @@ const {
 } = connectionDefinitions({
   name: 'messages',
   nodeType: Message
+});
+
+const {
+  connectionType: UsersConnection,
+  edgeType: UserEdge
+} = connectionDefinitions({
+  name: 'users',
+  nodeType: User
 });
 
 // MUTATIONS //

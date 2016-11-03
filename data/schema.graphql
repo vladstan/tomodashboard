@@ -31,6 +31,7 @@ type Agent implements Node {
   pictureUrl: String
   fbAccessToken: String
   incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
+  users(after: String, first: Int, before: String, last: Int): usersConnection
 }
 
 type IncomingReq implements Node {
@@ -233,4 +234,22 @@ type User implements Node {
   messages(after: String, first: Int, before: String, last: Int): messagesConnection
   botMuted: Boolean
   stripe: StripeCredentials
+}
+
+# A connection to a list of items.
+type usersConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [usersEdge]
+}
+
+# An edge in a connection.
+type usersEdge {
+  # The item at the end of the edge
+  node: User
+
+  # A cursor for use in pagination
+  cursor: String!
 }

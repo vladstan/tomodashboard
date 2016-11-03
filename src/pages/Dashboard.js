@@ -48,7 +48,23 @@ const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
         pictureUrl
         fbAccessToken
         ${AddIncomingReqSubscription.getFragment('agent')}
-        incomingReqs(first: 10) {
+
+        users(first: 100) {
+          edges {
+            node {
+              id
+              _id
+              profile {
+                name
+                firstName
+                lastName
+                pictureUrl
+              }
+            }
+          }
+        }
+
+        incomingReqs(first: 100) {
           edges {
             node {
               id
@@ -69,7 +85,7 @@ const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
           }
         }
       }
-    `
+    `,
   },
   subscriptions: [
     ({agent}) => new AddIncomingReqSubscription({agent}),

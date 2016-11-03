@@ -1,8 +1,10 @@
 import React from 'react';
 
 import {
-  Grid, Row, Col
+  Grid, Row, Col,
 } from '@sketchpixy/rubix';
+
+import { Link } from 'react-router';
 
 class ChatNav extends React.Component {
   render() {
@@ -24,10 +26,10 @@ class ChatItem extends React.Component {
     if(status !== 'border-darkgray') isOffline = false;
     return (
       <li tabIndex='-1'>
-        <a href='#' tabIndex='-1'>
-          <img src={`/imgs/app/avatars/${this.props.avatar}.png`} width='30' height='30' className={status} style={{borderWidth: 2, borderStyle: 'solid', borderRadius: 100, padding: 2, position: 'relative', top: -7, opacity: isOffline ? 0.4 : 1}} />
+        <Link to={'/dashboard/chat/' + this.props.id}>
+          <img src={this.props.avatar} width='30' height='30' className={status} style={{borderWidth: 2, borderStyle: 'solid', borderRadius: 100, padding: 2, position: 'relative', top: -7, opacity: isOffline ? 0.4 : 1}} />
           <span className='name' style={{position: 'relative', top: -2, opacity: isOffline ? 0.4 : 1}}>{this.props.name}</span>
-        </a>
+        </Link>
       </li>
     );
   }
@@ -35,21 +37,23 @@ class ChatItem extends React.Component {
 
 class ActiveChatsSidebar extends React.Component {
   render() {
+    // console.log('ActiveChatsSidebar', this.props.users);
     return (
       <div>
         <Grid>
           <Row>
             <Col xs={12}>
-              <div className='sidebar-header'>Today (4)</div>
+              <div className='sidebar-header'>All</div>
               <div className='sidebar-nav-container'>
                 <ChatNav style={{marginBottom: 0}}>
-                  <ChatItem name='Jordyn Ouellet' avatar='avatar5' online />
-                  <ChatItem name='Ava Parry' avatar='avatar9' online />
-                  <ChatItem name='Angelina Mills' avatar='avatar10' online />
-                  <ChatItem name='Crystal Ford' avatar='avatar11' online />
+                  {
+                    this.props.users.map((user) => (
+                      <ChatItem key={user._id} name={user.profile.name} avatar={user.profile.pictureUrl} id={user._id} online />
+                    ))
+                  }
                 </ChatNav>
               </div>
-              <div className='sidebar-header'>Yestarday (3)</div>
+              {/* <div className='sidebar-header'>Yestarday (3)</div>
               <div className='sidebar-nav-container'>
                 <ChatNav style={{marginBottom: 0}}>
                   <ChatItem name='Toby King' avatar='avatar7' idle />
@@ -74,7 +78,7 @@ class ActiveChatsSidebar extends React.Component {
                   <ChatItem name='Antelope Inc.' avatar='avatar8' />
                 </ChatNav>
                 <br/>
-              </div>
+              </div> */}
             </Col>
           </Row>
         </Grid>

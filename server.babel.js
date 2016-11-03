@@ -1,3 +1,5 @@
+global.Promise=require("bluebird");
+
 import path from 'path';
 import express from 'express';
 import { graphql } from 'graphql';
