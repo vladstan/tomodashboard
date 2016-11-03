@@ -85,6 +85,7 @@ fieldset[disabled] .btn-primary.active {
 .carousel {
   /* Thumbnail Box */
   /* Mobile Only */
+  margin-top: 100px;
 }
 .carousel li {
   list-style: none;
@@ -311,14 +312,14 @@ p.center {
   -moz-transition: all 0.35s;
   transition: all 0.35s;
   font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
-  font-weight: 200;
+  font-weight: bold;
   letter-spacing: 1px;
 }
 .navbar-default .navbar-header .navbar-brand {
   color: #2196F3;
   font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
-  font-weight: 200;
   letter-spacing: 1px;
+  font-weight: bold;
 }
 .navbar-default .navbar-header .navbar-brand:hover,
 .navbar-default .navbar-header .navbar-brand:focus {
@@ -537,4 +538,11 @@ li.navbar-brand:hover {
 }
 .navbar-header .navbar-brand.danger:hover {
   color: #F44336 !important;
+}
+section.features {
+  text-align: center;
+}
+section.features a.join.btn {
+  margin-top: 70px;
+  margin-bottom: -30px;
 }

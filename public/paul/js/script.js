@@ -57,8 +57,7 @@
     keyboard: true
   });
 
-  $('#adventures, #page').bind('slid.bs.carousel', function(e) {
-
+  $('#adventures, #page').bind('slid.bs.carousel', function() {
     var $this = $(this);
 
     $this.children('.carousel-control').removeClass('hidden');
@@ -70,4 +69,4 @@
     }
   });
 
-})(jQuery); // End of use strict
+})(window.jQuery); // End of use strict
