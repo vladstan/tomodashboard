@@ -58,6 +58,7 @@ class SummaryModal extends React.Component {
     const totalPrice = this.state.fields.map(f => parseInt(f.price || '0', 10)).reduce((acc, p) => acc + p, 0);
     const totalFee = this.state.fields.map(f => parseInt(f.segments || '0', 10)).reduce((acc, s) => acc + s * 10, 0);
     const totalTotalPrice = totalPrice + totalFee;
+    const myFee = Math.ceil(totalFee * 0.7);
 
 		return (
 			<Modal show={this.props.show} onHide={this.props.onClose}>
@@ -85,8 +86,9 @@ class SummaryModal extends React.Component {
           </div>
 			  </Modal.Body>
 			  <Modal.Footer>
-          <span>Agency Fee: {totalFee}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span>Total: {totalTotalPrice}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span>My Fee: ${myFee}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span>Agency Fee: ${totalFee}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span>Total: ${totalTotalPrice}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
           <Button onClick={this.props.onSend}>Send</Button>
 			  </Modal.Footer>
 			</Modal>

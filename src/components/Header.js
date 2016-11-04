@@ -17,7 +17,7 @@ class Brand extends React.Component {
     return (
       <Navbar.Header {...this.props}>
         <Navbar.Brand tabIndex='-1'>
-          <a href='#'>YAGO
+          <a href='#'>TOMO
             {/* <img src='/imgs/app/TUI-logo.jpg' alt='rubix' height='28' /> */}
           </a>
         </Navbar.Brand>
