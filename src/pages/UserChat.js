@@ -8,6 +8,7 @@ import AddMessageSubscription from '../subscriptions/AddMessageSubscription';
 
 import SendMessageMutation from '../mutations/SendMessageMutation';
 import SwitchBotAgentMutation from '../mutations/SwitchBotAgentMutation';
+import GetSummaryLinkMutation from '../mutations/GetSummaryLinkMutation';
 
 import {
   Row,
@@ -86,6 +87,29 @@ class UserChat extends React.Component {
         receiverType: 'user',
       }),
     );
+  }
+
+  getSummaryLink(summary) {
+    return new Promise((resolve, reject) => {
+      const onFailure = (transaction) => {
+        reject('getSummaryLink FAILURE:' + JSON.stringify(transaction));
+      };
+
+      const onSuccess = (response) => {
+        console.log('getSummaryLink SUCCESS', response);
+        resolve(response.getSummaryLink.link);
+      };
+
+      const { relay, agent } = this.props;
+      summary.targetUserId = this.props.user._id;
+      relay.commitUpdate(
+        new GetSummaryLinkMutation({
+          summary,
+          agent,
+        }),
+        {onSuccess, onFailure}
+      );
+    });
   }
 
   handleSwitch(currentState) {
@@ -248,6 +272,7 @@ class UserChat extends React.Component {
                           messages={this.props.user.messages.edges.map(e => e.node)}
                           profile={this.props.user.profile}
                           sendMessage={::this.sendMessage}
+                          getSummaryLink={::this.getSummaryLink}
                           agent={this.props.agent} />
                       </Col>
                     </Row>
@@ -314,6 +339,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         name
         pictureUrl
         ${SwitchBotAgentMutation.getFragment('agent')}
+        ${GetSummaryLinkMutation.getFragment('agent')}
       }
     `,
   },

@@ -73,7 +73,7 @@ export default {
           <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} prepareParams={prepAgentParams} />
         </Route>
         <Route path='landing' component={LandingPage} />
-        <Route path='summary/:id' component={SummaryPage} queries={SummaryPageQueries} />
+        <Route path='summary/:sid' component={SummaryPage} queries={SummaryPageQueries} />
         <Route path='success/:id' component={PaymentSuccessPage} />
         <Route path='offers/:id' component={OfferPage} />
         <Route path='login' component={LoginPage} />

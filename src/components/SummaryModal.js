@@ -22,6 +22,8 @@ class SummaryModal extends React.Component {
     fields: [
       {key: 0, name: '', price: '', segments: ''},
     ],
+    loading: false,
+    error: null,
   }
 
   addRow() {
@@ -29,7 +31,7 @@ class SummaryModal extends React.Component {
       ...this.state,
       fields: this.state.fields.concat([
         {key: Date.now(), name: '', price: '', segments: ''},
-      ])
+      ]),
     });
   }
 
@@ -52,6 +54,33 @@ class SummaryModal extends React.Component {
 
   onSegmentsChange(fieldKey, event) {
     this.updateField(fieldKey, 'segments', event.target.value);
+  }
+
+  onSend() {
+    this.setState({
+      ...this.state,
+      loading: true,
+    });
+
+    const summary = {
+      fields: {...this.state.fields},
+    };
+
+    this.props.getSummaryLink(summary)
+      .then(summaryLink => {
+        if (!summaryLink) {
+          // error on the server
+          throw new Error('no summary link');
+        }
+        const summaryId = summaryLink;
+        this.props.sendLink('https://yago.mod.bz/summary/' + summaryId);
+        this.props.onClose();
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
+      })
+      .catch(err => this.setState({...this.state, loading: false, error: err}));
   }
 
   render() {
@@ -84,12 +113,18 @@ class SummaryModal extends React.Component {
           <div style={{textAlign: 'center'}}>
             <Button onClick={::this.addRow}>+</Button>
           </div>
+          {this.state.error && 'Error: ' + (this.state.error.message || JSON.stringify(this.state.error))}
 			  </Modal.Body>
 			  <Modal.Footer>
           <span>My Fee: ${myFee}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
           <span>Agency Fee: ${totalFee}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
           <span>Total: ${totalTotalPrice}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <Button onClick={this.props.onSend}>Send</Button>
+          {
+            this.state.loading ?
+              (<Button>Sending...</Button>)
+            :
+              (<Button onClick={::this.onSend} bsStyle="primary">Send</Button>)
+          }
 			  </Modal.Footer>
 			</Modal>
 		);

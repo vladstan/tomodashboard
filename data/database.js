@@ -13,6 +13,7 @@ const db = pmongo(MONGO_URL, {
   'sessions',
   'users',
   'agents',
+  'summaries',
 ]);
 
 // export function getActionMessagesCursor() {
@@ -26,6 +27,14 @@ export function getUser(_id) {
 
 export function getAgent(_id) {
   return db.agents.findOne({ _id: pmongo.ObjectId(_id) });
+}
+
+export function getSummary(_id) {
+  return db.summaries.findOne({ _id: pmongo.ObjectId(_id) })
+    .then(summ => {
+      console.log('db got summ', summ, JSON.stringify(summ));
+      return summ;
+    });
 }
 
 export function getProfile(_id) {
@@ -101,6 +110,22 @@ export async function signUpInAgent(fbResp) {
   });
 
   return newAgentDoc;
+}
+
+export async function insertAndGetSummary(summary) {
+  // console.log('db insertAndGetSummary', summary);
+  const summaryDoc = await db.summaries.insert({
+    fields: summary.fields.map(f => ({
+      _id: new pmongo.ObjectId(),
+      name: f.name,
+      price: parseInt(f.price || '0', 10) || 0,
+      segments: parseInt(f.segments || '0', 10) || 0,
+      segmentPrice: 7,
+    })).filter(f => !!f.name),
+    targetUserId: summary.targetUserId,
+  });
+
+  return summaryDoc;
 }
 
 const notifiers = [];

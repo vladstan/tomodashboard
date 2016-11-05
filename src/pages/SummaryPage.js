@@ -10,49 +10,58 @@ class SummaryPage extends React.Component {
 
   onToken = (token) => {
     console.log('token!! <3', token);
-    const { relay, user } = this.props;
+    const { relay, summary: {user} } = this.props;
     relay.commitUpdate(new UpdateStripeDetailsMutation({user, token}));
     this.props.router.push('/success/' + this.props.params.id);
   }
 
   render() {
-    const id = this.props.params.id;
-    const summary = SUMMARIES[id];
+    console.log('SummaryPage=', JSON.stringify(this.props.summary));
+    try {
+      const summary = this.props.summary;
+      const fields = summary.fields.edges.map(e => e.node);
 
-    return (
-			<div className="landing-page summary-page">
-        <div className="previewImg" style={{backgroundImage: `url(${summary.pictureUrl})`}}></div>
+      return (
+  			<div className="landing-page summary-page">
+          <div className="previewImg" style={{backgroundImage: `url(${summary.pictureUrl})`}}></div>
 
-        <div className="items-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                summary.items.map(item => (
-                  <tr key={JSON.stringify(item)}>
-                    <td>{item.title}</td>
-                    <td>${item.price}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
+          <div className="items-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  fields.map(field => (
+                    <tr key={field.id}>
+                      <td>{field.name}</td>
+                      <td>${field.price}</td>
+                    </tr>
+                  ))
+                }
+                <tr>
+                  <td>Total</td>
+                  <td>${summary.total}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <div className="checkout-btn-wrapper">
-          <StripeCheckout
-            token={this.onToken}
-            amount={summary.items[summary.items.length - 1].price * 100}
-            stripeKey="pk_test_vxCnarJoHcKoviT3ntOVANqL"
-          />
-        </div>
-			</div>
-    );
+          <div className="checkout-btn-wrapper">
+            <StripeCheckout
+              token={this.onToken}
+              amount={summary.total * 100}
+              stripeKey="pk_test_vxCnarJoHcKoviT3ntOVANqL"
+            />
+          </div>
+  			</div>
+      );
+    } catch (ex) {
+      console.error(ex);
+    }
   }
 
   // name="Three Comma Co."
@@ -86,16 +95,30 @@ class SummaryPage extends React.Component {
 
 const SummaryPageContainer = Relay.createContainer(SummaryPage, {
   fragments: {
-    user: () => Relay.QL`
-      fragment on User {
-        id
-        _id
-        stripe {
-          customerId
+    summary: () => Relay.QL`
+      fragment on Summary {
+        fields(first: 1000) {
+          edges {
+            node {
+              id
+              name
+              price
+              segments
+              segmentPrice
+            }
+          }
         }
-        ${UpdateStripeDetailsMutation.getFragment('user')}
+        total
+        user {
+          id
+          _id
+          stripe {
+            customerId
+          }
+          ${UpdateStripeDetailsMutation.getFragment('user')}
+        }
       }
-    `
+    `,
   },
 });
 

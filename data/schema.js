@@ -16,7 +16,7 @@ import {
   offsetToCursor,
   connectionArgs,
   nodeDefinitions,
-  // connectionFromArray,
+  connectionFromArray,
   connectionDefinitions,
   connectionFromPromisedArray,
   mutationWithClientMutationId,
@@ -34,8 +34,10 @@ import {
   getMessagesForUser,
   getUsersForAgent,
   getMessage,
+  getSummary,
   switchBotAgent,
   updateStripeDetails,
+  insertAndGetSummary,
 } from './database';
 
 import {
@@ -61,6 +63,8 @@ const { nodeInterface, nodeField } = nodeDefinitions(
       return getWithType(getUser(_id), 'User');
     } else if (type === 'Agent') {
       return getWithType(getAgent(_id), 'Agent');
+    } else if (type === 'Summary') {
+      return getWithType(getSummary(_id), 'Summary');
     } else if (type === 'Profile') {
       return getWithType(getProfile(_id), 'Profile');
     } else if (type === 'IncomingReq') {
@@ -76,6 +80,8 @@ const { nodeInterface, nodeField } = nodeDefinitions(
       return User;
     } else if (isType(obj, 'Agent')) {
       return Agent;
+    } else if (isType(obj, 'Summary')) {
+      return Summary;
     } else if (isType(obj, 'Profile')) {
       return Profile;
     } else if (isType(obj, 'IncomingReq')) {
@@ -349,6 +355,51 @@ const Agent = new GraphQLObjectType({
   interfaces: [nodeInterface],
 });
 
+const SummaryField = new GraphQLObjectType({
+  name: 'SummaryField',
+  fields: () => ({
+    id: globalIdField('SummaryField', (doc) => doc._id),
+    _id: {
+      type: GraphQLString,
+      resolve: (doc) => doc._id,
+    },
+    name: {type: GraphQLString},
+    price: {type: GraphQLInt},
+    segments: {type: GraphQLInt},
+    segmentPrice: {type: GraphQLInt},
+  }),
+  interfaces: [nodeInterface],
+});
+
+const Summary = new GraphQLObjectType({
+  name: 'Summary',
+  fields: () => ({
+    id: globalIdField('Summary', (doc) => doc._id),
+    _id: {
+      type: GraphQLString,
+      resolve: (doc) => doc._id,
+    },
+    fields: {
+      type: SummaryFieldsConnection,
+      args: connectionArgs,
+      resolve: (doc, args) => connectionFromArray(doc.fields, args),
+    },
+    total: {
+      type: GraphQLInt,
+      resolve: (doc) => {
+        const totalPrice = doc.fields.reduce((acc, f) => acc + f.price, 0);
+        const totalFee = doc.fields.reduce((acc, f) => acc + f.segments * f.segmentPrice, 0);
+        return totalPrice + totalFee;
+      },
+    },
+    user: {
+      type: User,
+      resolve: (doc) => getUser(doc.targetUserId),
+    },
+  }),
+  interfaces: [nodeInterface],
+});
+
 // CONNECTIONS //
 
 const {
@@ -373,6 +424,14 @@ const {
 } = connectionDefinitions({
   name: 'users',
   nodeType: User
+});
+
+const {
+  connectionType: SummaryFieldsConnection,
+  edgeType: SummaryFieldEdge
+} = connectionDefinitions({
+  name: 'summaryFields',
+  nodeType: SummaryField
 });
 
 // MUTATIONS //
@@ -528,6 +587,37 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
   },
 });
 
+const GetSummaryLinkMutation = mutationWithClientMutationId({
+  name: 'GetSummaryLink',
+  inputFields: {
+    summary: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    link: {
+      type: GraphQLString,
+      resolve: (payload) => payload.link,
+    },
+  },
+  mutateAndGetPayload: async (props) => {
+    try {
+      const summary = JSON.parse(props.summary);
+      if (!Array.isArray(summary.fields)) {
+        summary.fields = Object.keys(summary.fields)
+          .map(key => summary.fields[key]);
+      }
+      // console.log('parsed summary=', summary, 'FROM', props.summary);
+      const summaryDoc = await insertAndGetSummary(summary);
+      return {
+        link: summaryDoc._id, // link is actually ID
+      };
+    } catch (ex) {
+      console.error(ex);
+    }
+
+    return {};
+  },
+});
+
 // SUBSCRIPTIONS //
 
 const AddIncomingReqSubscription = subscriptionWithClientId({
@@ -654,6 +744,15 @@ const Query = new GraphQLObjectType({
         }
       },
     },
+    summary: {
+      type: Summary,
+      args: {
+        _id: {
+          type: GraphQLString,
+        },
+      },
+      resolve: (id, args) => getSummary(args._id),
+    }
   })
 });
 
@@ -663,6 +762,7 @@ const Mutation = new GraphQLObjectType({
     sendMessage: SendMessageMutation,
     switchBotAgent: SwitchBotAgentMutation,
     updateStripeDetails: UpdateStripeDetailsMutation,
+    getSummaryLink: GetSummaryLinkMutation,
   }),
 });
 

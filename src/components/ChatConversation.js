@@ -94,29 +94,15 @@ class ChatConversation extends React.Component {
     if (this.state.messageInputText) {
       this.props.sendMessage(this.state.messageInputText);
       this.setState({
-        messageInputText: ''
+        messageInputText: '',
       });
     }
   }
 
   onMessageTextChange(event) {
     this.setState({
-      messageInputText: event.target.value
+      messageInputText: event.target.value,
     });
-  }
-
-  onSendSummary(event) {
-    event.preventDefault();
-    this.setState({
-      ...this.state,
-      showSummaryModal: true,
-      // messageInputText: 'https://yago.mod.bz/summary/5'
-    });
-  }
-
-  sendSummaryModal() {
-    this.closeSummaryModal();
-    alert('sent!');
   }
 
   onKeyPress(event) {
@@ -124,6 +110,10 @@ class ChatConversation extends React.Component {
       event.preventDefault();
       this.onSend();
     }
+  }
+
+  sendSummaryLink(link) {
+    this.props.sendMessage(link);
   }
 
   render() {
@@ -169,7 +159,7 @@ class ChatConversation extends React.Component {
                   <Grid>
                     <Row>
                       <Col xs={6} collapseLeft collapseRight>
-                        <a onClick={::this.onSendSummary} style={{border: 'none', cursor: 'pointer'}}>
+                        <a onClick={::this.openSummaryModal} style={{border: 'none', cursor: 'pointer'}}>
                           <Icon glyph='icon-dripicons-calendar icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
                         </a>
                       </Col>
@@ -187,10 +177,12 @@ class ChatConversation extends React.Component {
         <SummaryModal
           show={this.state.showSummaryModal}
           onClose={::this.closeSummaryModal}
-          onSend={::this.sendSummaryModal} />
+          sendLink={::this.sendSummaryLink}
+          getSummaryLink={this.props.getSummaryLink} />
       </div>
     );
   }
+
 }
 
 export default ChatConversation;

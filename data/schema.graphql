@@ -34,6 +34,16 @@ type Agent implements Node {
   users(after: String, first: Int, before: String, last: Int): usersConnection
 }
 
+input GetSummaryLinkInput {
+  summary: String!
+  clientMutationId: String
+}
+
+type GetSummaryLinkPayload {
+  link: String
+  clientMutationId: String
+}
+
 type IncomingReq implements Node {
   # The ID of an object
   id: ID!
@@ -96,6 +106,7 @@ type Mutation {
   sendMessage(input: SendMessageInput!): SendMessagePayload
   switchBotAgent(input: SwitchBotAgentInput!): SwitchBotAgentPayload
   updateStripeDetails(input: UpdateStripeDetailsInput!): UpdateStripeDetailsPayload
+  getSummaryLink(input: GetSummaryLinkInput!): GetSummaryLinkPayload
 }
 
 # An object with an ID
@@ -158,6 +169,7 @@ type Query {
   ): Node
   user(_id: String): User
   agent(token: String): Agent
+  summary(_id: String): Summary
 }
 
 input SendMessageInput {
@@ -188,6 +200,43 @@ type Subscription {
   addIncomingReq(input: AddIncomingReqSubscriptionInput!): AddIncomingReqSubscriptionPayload
   updateIncomingReq(input: UpdateIncomingReqSubscriptionInput!): UpdateIncomingReqSubscriptionPayload
   addMessage(input: AddMessageSubscriptionInput!): AddMessageSubscriptionPayload
+}
+
+type Summary implements Node {
+  # The ID of an object
+  id: ID!
+  _id: String
+  fields(after: String, first: Int, before: String, last: Int): summaryFieldsConnection
+  total: Int
+  user: User
+}
+
+type SummaryField implements Node {
+  # The ID of an object
+  id: ID!
+  _id: String
+  name: String
+  price: Int
+  segments: Int
+  segmentPrice: Int
+}
+
+# A connection to a list of items.
+type summaryFieldsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [summaryFieldsEdge]
+}
+
+# An edge in a connection.
+type summaryFieldsEdge {
+  # The item at the end of the edge
+  node: SummaryField
+
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 input SwitchBotAgentInput {
