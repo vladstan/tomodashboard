@@ -36,6 +36,8 @@ type Agent implements Node {
 
 input GetSummaryLinkInput {
   summary: String!
+  agentId: String!
+  userId: String!
   clientMutationId: String
 }
 

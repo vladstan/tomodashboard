@@ -1,4 +1,5 @@
 global.Promise=require("bluebird");
+require("superstack");
 
 import Relay from 'react-relay';
 import ReactDOM from 'react-dom';

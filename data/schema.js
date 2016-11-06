@@ -595,6 +595,8 @@ const GetSummaryLinkMutation = mutationWithClientMutationId({
   name: 'GetSummaryLink',
   inputFields: {
     summary: { type: new GraphQLNonNull(GraphQLString) },
+    agentId: { type: new GraphQLNonNull(GraphQLString) },
+    userId: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     link: {

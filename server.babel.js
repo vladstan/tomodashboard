@@ -1,4 +1,5 @@
 global.Promise=require("bluebird");
+require("superstack");
 
 import path from 'path';
 import express from 'express';

@@ -10,8 +10,9 @@ class SummaryPage extends React.Component {
 
   onToken = (token) => {
     console.log('token!! <3', token);
-    const { relay, summary: {user} } = this.props;
-    relay.commitUpdate(new UpdateStripeDetailsMutation({user, token}));
+    const { relay } = this.props;
+    console.log("UpdateStripeDetailsMutation PROPS", this.props, {user: this.props.summary.user, token});
+    relay.commitUpdate(new UpdateStripeDetailsMutation({user: this.props.summary.user, token}));
     this.props.router.push('/success/' + this.props.params.id);
   }
 
@@ -23,7 +24,9 @@ class SummaryPage extends React.Component {
 
       return (
   			<div className="landing-page summary-page">
-          <div className="previewImg" style={{backgroundImage: `url(${summary.pictureUrl})`}}></div>
+          <div className="previewImg">
+            <img src="/imgs/app/pay.jpg" />
+          </div>
 
           <div className="items-table">
             <table>
@@ -52,7 +55,7 @@ class SummaryPage extends React.Component {
 
           <div className="checkout-btn-wrapper">
             <StripeCheckout
-              token={this.onToken}
+              token={::this.onToken}
               amount={summary.total * 100}
               stripeKey="pk_test_vxCnarJoHcKoviT3ntOVANqL"
             />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import Promise from 'bluebird';
 
 import Relay from 'react-relay';
 import RelaySubscriptions from 'relay-subscriptions';
@@ -91,25 +92,30 @@ class UserChat extends React.Component {
 
   getSummaryLink(summary) {
     return new Promise((resolve, reject) => {
-      const onFailure = (transaction) => {
-        reject('getSummaryLink FAILURE:' + JSON.stringify(transaction));
-      };
+      try {
+        const onFailure = (transaction) => {
+          // console.log('getSummaryLink FAILURE:', transaction);
+          reject(transaction.getError());
+        };
 
-      const onSuccess = (response) => {
-        console.log('getSummaryLink SUCCESS', response);
-        resolve(response.getSummaryLink.link);
-      };
+        const onSuccess = (response) => {
+          // console.log('getSummaryLink SUCCESS', response);
+          resolve(response.getSummaryLink.link);
+        };
 
-      const { relay, agent, user } = this.props;
-      relay.commitUpdate(
-        new GetSummaryLinkMutation({
-          summary,
-          agent,
-          user,
-        }),
-        {onSuccess, onFailure}
-      );
-    });
+        const { relay, agent, user } = this.props;
+        relay.commitUpdate(
+          new GetSummaryLinkMutation({
+            summary,
+            agent,
+            user,
+          }),
+          {onSuccess, onFailure}
+        );
+      } catch (ex) {
+        console.error('unexpected error 👀', ex);
+      }
+    }).catch(console.error.bind(console, 'grrrr promise err'));
   }
 
   handleSwitch(currentState) {

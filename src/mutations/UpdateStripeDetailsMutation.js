@@ -1,6 +1,7 @@
 import Relay from 'react-relay';
 
 class UpdateStripeDetailsMutation extends Relay.Mutation {
+
   static fragments = {
     user: () => Relay.QL`
       fragment on User {
