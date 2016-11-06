@@ -65,6 +65,13 @@ export default {
       };
     }
 
+    function prepParams(params) {
+      console.log('prepParams', params);
+      return {
+        ...params,
+      };
+    }
+
     return (
       <Route path='/' component={App}>
         <IndexRoute component={Home} />
@@ -73,7 +80,7 @@ export default {
           <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} prepareParams={prepAgentParams} />
         </Route>
         <Route path='landing' component={LandingPage} />
-        <Route path='summary/:sid' component={SummaryPage} queries={SummaryPageQueries} />
+        <Route path='summary/:sid' component={SummaryPage} queries={SummaryPageQueries} prepareParams={prepParams} />
         <Route path='success/:id' component={PaymentSuccessPage} />
         <Route path='offers/:id' component={OfferPage} />
         <Route path='login' component={LoginPage} />

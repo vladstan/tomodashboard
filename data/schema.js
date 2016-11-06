@@ -394,7 +394,11 @@ const Summary = new GraphQLObjectType({
     },
     user: {
       type: User,
-      resolve: (doc) => getUser(doc.targetUserId),
+      resolve: (doc) => getUser(doc.userId),
+    },
+    agent: {
+      type: Agent,
+      resolve: (doc) => getAgent(doc.agentId),
     },
   }),
   interfaces: [nodeInterface],
@@ -606,6 +610,8 @@ const GetSummaryLinkMutation = mutationWithClientMutationId({
           .map(key => summary.fields[key]);
       }
       // console.log('parsed summary=', summary, 'FROM', props.summary);
+      summary.agentId = props.agentId;
+      summary.userId = props.userId;
       const summaryDoc = await insertAndGetSummary(summary);
       return {
         link: summaryDoc._id, // link is actually ID

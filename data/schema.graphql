@@ -209,6 +209,7 @@ type Summary implements Node {
   fields(after: String, first: Int, before: String, last: Int): summaryFieldsConnection
   total: Int
   user: User
+  agent: Agent
 }
 
 type SummaryField implements Node {

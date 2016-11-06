@@ -100,12 +100,12 @@ class UserChat extends React.Component {
         resolve(response.getSummaryLink.link);
       };
 
-      const { relay, agent } = this.props;
-      summary.targetUserId = this.props.user._id;
+      const { relay, agent, user } = this.props;
       relay.commitUpdate(
         new GetSummaryLinkMutation({
           summary,
           agent,
+          user,
         }),
         {onSuccess, onFailure}
       );
@@ -298,6 +298,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         ${AddMessageSubscription.getFragment('user')}
         ${SendMessageMutation.getFragment('user')}
         ${SwitchBotAgentMutation.getFragment('user')}
+        ${GetSummaryLinkMutation.getFragment('user')}
         profile {
           name
           pictureUrl

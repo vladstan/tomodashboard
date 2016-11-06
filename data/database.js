@@ -30,9 +30,10 @@ export function getAgent(_id) {
 }
 
 export function getSummary(_id) {
+  // console.log(_id, new Error('track'));
   return db.summaries.findOne({ _id: pmongo.ObjectId(_id) })
     .then(summ => {
-      console.log('db got summ', summ, JSON.stringify(summ));
+      // console.log('db got summ', summ, JSON.stringify(summ));
       return summ;
     });
 }
@@ -122,7 +123,8 @@ export async function insertAndGetSummary(summary) {
       segments: parseInt(f.segments || '0', 10) || 0,
       segmentPrice: 7,
     })).filter(f => !!f.name),
-    targetUserId: summary.targetUserId,
+    agentId: summary.agentId,
+    userId: summary.userId,
   });
 
   return summaryDoc;

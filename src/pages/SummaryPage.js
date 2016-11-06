@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import StripeCheckout from 'react-stripe-checkout';
 import { withRouter } from 'react-router';
 import UpdateStripeDetailsMutation from '../mutations/UpdateStripeDetailsMutation';
-import SUMMARIES from '../summaries.json';
+// import SUMMARIES from '../summaries.json';
 
 @withRouter
 class SummaryPage extends React.Component {
@@ -16,7 +16,7 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    console.log('SummaryPage=', JSON.stringify(this.props.summary));
+    // console.log('SummaryPage=', JSON.stringify(this.props.summary));
     try {
       const summary = this.props.summary;
       const fields = summary.fields.edges.map(e => e.node);
