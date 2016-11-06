@@ -1,5 +1,7 @@
 global.Promise=require("bluebird");
-require("superstack");
+if (process.env.NODE_ENV != 'production') {
+  require("superstack");
+}
 
 import Relay from 'react-relay';
 import ReactDOM from 'react-dom';
