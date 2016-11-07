@@ -13,11 +13,34 @@ import {
 class SummaryPage extends React.Component {
 
   onToken = (token) => {
-    console.log('token!! <3', token);
-    const { relay } = this.props;
-    console.log("UpdateStripeDetailsMutation PROPS", this.props, {user: this.props.summary.user, token});
-    relay.commitUpdate(new UpdateStripeDetailsMutation({user: this.props.summary.user, token}));
-    this.props.router.push('/success/' + this.props.params.id);
+    try {
+      const onFailure = (transaction) => {
+        // console.log('getSummaryLink FAILURE:', transaction);
+        // reject(transaction.getError());
+        const err = transaction.getError();
+        console.log('SummaryPayment.onFailure', err);
+        alert('Failure: ' + (err.message || JSON.stringify(err)));
+      };
+
+      const onSuccess = (response) => {
+        // console.log('getSummaryLink SUCCESS', response);
+        // resolve(response.getSummaryLink.link);
+        console.log('SummaryPayment.onSuccess', response);
+        this.props.router.push('/success/' + this.props.params.sid);
+      };
+
+      console.log('token!! <3', token);
+      const { relay } = this.props;
+      // console.log("UpdateStripeDetailsMutation PROPS", this.props, {user: this.props.summary.user, token});
+      relay.commitUpdate(new UpdateStripeDetailsMutation({
+        user: this.props.summary.user,
+        amount: this.props.summary.total,
+        summaryId: this.props.params.sid,
+        token,
+      }), {onSuccess, onFailure});
+    } catch (ex) {
+      console.error(ex);
+    }
   }
 
   render() {
@@ -58,6 +81,10 @@ class SummaryPage extends React.Component {
           </div>
 
           <div className="checkout-btn-wrapper">
+            {/* TODO: check if this.props.user.stripe.customerId exists
+              if it exists => show additional buttons: 'Pay with card XXXX' & 'Pay with another card'
+              otherwise => StripeCheckout
+               */}
             <StripeCheckout
               token={::this.onToken}
               amount={summary.total * 100}

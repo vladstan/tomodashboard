@@ -40,8 +40,10 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
 
   getVariables() {
     return {
-      user: this.props.user,
+      userId: this.props.user._id,
       token: JSON.stringify(this.props.token),
+      amount: this.props.amount,
+      summaryId: this.props.summaryId,
       name: this.props.user.profile.firstName + ' ' + this.props.user.profile.lastName
     };
   }

@@ -14,6 +14,7 @@ const db = pmongo(MONGO_URL, {
   'users',
   'agents',
   'summaries',
+  'charges',
 ]);
 
 // export function getActionMessagesCursor() {
@@ -128,6 +129,12 @@ export async function insertAndGetSummary(summary) {
   });
 
   return summaryDoc;
+}
+
+export async function addCharge(charge) {
+  // console.log('db addCharge', charge);
+  const chargeDoc = await db.charges.insert(charge);
+  return chargeDoc;
 }
 
 const notifiers = [];

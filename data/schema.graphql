@@ -269,6 +269,8 @@ input UpdateStripeDetailsInput {
   userId: String!
   name: String!
   token: String!
+  amount: Int!
+  summaryId: String!
   clientMutationId: String
 }
 

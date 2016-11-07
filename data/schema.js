@@ -36,6 +36,7 @@ import {
   getMessage,
   getSummary,
   switchBotAgent,
+  addCharge,
   updateStripeDetails,
   insertAndGetSummary,
 } from './database';
@@ -543,6 +544,8 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
     userId: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     token: { type: new GraphQLNonNull(GraphQLString) },
+    amount: { type: new GraphQLNonNull(GraphQLInt) },
+    summaryId: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     user: {
@@ -552,35 +555,46 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
   },
   mutateAndGetPayload: async (props) => {
     try {
-      const token = JSON.parse(props.token);
-      const customer = await stripeService.customers.create({
-        source: token.id,
-        description: props.name,
-        email: token.email,
-        metadata: {
-          userId: props.userId,
-        },
-      });
+      const user = await getUser(props.userId);
+      let customerId = user.stripe && user.stripe.customerId || null;
+      // console.log(props.token);
 
-      console.log('we have the customer!', customer);
+      if (!user.stripe || !user.stripe.customerId) {
+        const token = JSON.parse(props.token);
+        const customer = await stripeService.customers.create({
+          source: token.id,
+          description: props.name,
+          email: token.email,
+          metadata: {
+            userId: props.userId,
+          },
+        });
 
-      const stripe = {
-        customerId: customer.id,
-      };
+        console.log('we have the customer!', customer);
+        customerId = customer.id;
 
-      // also add to our user in mongodb: token.email
-      const upd = await updateStripeDetails(props.userId, stripe);
+        const stripe = {
+          customerId: customer.id,
+        };
 
-      console.log('we trapped the customer in our db =', upd);
+        // also add to our user in mongodb: token.email
+        const upd = await updateStripeDetails(props.userId, stripe);
+        console.log('we trapped the customer in our db =', upd);
+      }
+
       console.log('charging mr customer...');
-
       const charge = await stripeService.charges.create({
-        amount: 5000,
+        amount: props.amount * 100,
         currency: 'usd',
-        customer: customer.id,
+        customer: customerId,
       });
 
       console.log('charge=', charge);
+      await addCharge({
+        stripeCharge: {...charge},
+        userId: props.userId,
+        summaryId: props.summaryId,
+      });
     } catch (ex) {
       console.error(ex);
     }
