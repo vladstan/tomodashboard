@@ -5,6 +5,10 @@ import { withRouter } from 'react-router';
 import UpdateStripeDetailsMutation from '../mutations/UpdateStripeDetailsMutation';
 // import SUMMARIES from '../summaries.json';
 
+import {
+  Icon,
+} from '@sketchpixy/rubix';
+
 @withRouter
 class SummaryPage extends React.Component {
 
@@ -25,7 +29,7 @@ class SummaryPage extends React.Component {
       return (
   			<div className="landing-page summary-page">
           <div className="previewImg">
-            <img src="/imgs/app/pay.jpg" />
+            <Icon glyph='icon-fontello-credit-card-3 fg-white large' />
           </div>
 
           <div className="items-table">
