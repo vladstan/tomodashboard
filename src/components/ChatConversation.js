@@ -118,12 +118,12 @@ class ChatConversation extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     try {
-      console.log('componentWillReceiveProps(nextProps) {');
+      // console.log('componentWillReceiveProps(nextProps) {');
       if (typeof Notification == 'undefined') {
-        console.log('no Notification');
+        // console.log('no Notification');
         return;
       }
-      console.log('yes Notification');
+      // console.log('yes Notification');
 
       // dashboard is focused
       if (typeof document != 'undefined' && document.hidden === false) {
@@ -136,9 +136,9 @@ class ChatConversation extends React.Component {
       // console.log(newLastMessage, lastMessage);
 
       if (lastMessage.text != newLastMessage.text && newLastMessage.senderType == 'user') {
-        console.log('NOTIF{}', this.props.profile.name, {
-          body: newLastMessage.text,
-        });
+        // console.log('NOTIF{}', this.props.profile.name, {
+        //   body: newLastMessage.text,
+        // });
         if (Notification.permission == 'default') {
           Notification.requestPermission((permission) => {
             if (permission === "granted") {
