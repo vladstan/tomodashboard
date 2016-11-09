@@ -269,6 +269,7 @@ type UpdateIncomingReqSubscriptionPayload {
 
 input UpdateStripeDetailsInput {
   userId: String!
+  userFbId: String!
   name: String!
   token: String!
   amount: Int!

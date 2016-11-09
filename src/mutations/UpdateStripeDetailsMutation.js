@@ -7,6 +7,7 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
       fragment on User {
         id
         _id
+        facebookId
         profile {
           firstName
           lastName
@@ -41,6 +42,7 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
   getVariables() {
     return {
       userId: this.props.user._id,
+      userFbId: this.props.user.facebookId,
       token: JSON.stringify(this.props.token),
       amount: this.props.amount,
       summaryId: this.props.summaryId,

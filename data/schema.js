@@ -521,27 +521,25 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (props) => {
     try {
       await switchBotAgent(props.userId, props.botMuted);
-      await getSessionOfUser(props.userId)
-        .then((session) => {
-          let textMessage;
+      const session = await getSessionOfUser(props.userId);
+      let textMessage;
 
-          if (props.botMuted) {
-            textMessage = "You're now talking to " + props.agentName;
-          } else {
-            textMessage = "You're now talking to Tomo";
-          }
+      if (props.botMuted) {
+        textMessage = "You're now talking to " + props.agentName;
+      } else {
+        textMessage = "You're now talking to Tomo";
+      }
 
-          return sendMessage({
-            type: 'text',
-            text: textMessage,
-            senderId: '00agent00',
-            receiverId: props.userId,
-            receiverFacebookId: props.userFbId,
-            senderType: 'bot',
-            receiverType: 'user',
-            sessionId: session._id,
-          });
-        });
+      await sendMessage({
+        type: 'text',
+        text: textMessage,
+        senderId: '00agent00',
+        receiverId: props.userId,
+        receiverFacebookId: props.userFbId,
+        senderType: 'bot',
+        receiverType: 'user',
+        sessionId: session._id,
+      });
     } catch (ex) {
       console.error('switch agent mutateAndGetPayload error:', ex);
     }
@@ -556,6 +554,7 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
   name: 'UpdateStripeDetails',
   inputFields: {
     userId: { type: new GraphQLNonNull(GraphQLString) },
+    userFbId: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     token: { type: new GraphQLNonNull(GraphQLString) },
     amount: { type: new GraphQLNonNull(GraphQLInt) },
@@ -608,6 +607,18 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
         stripeCharge: {...charge},
         userId: props.userId,
         summaryId: props.summaryId,
+      });
+
+      const session = await getSessionOfUser(props.userId);
+      await sendMessage({
+        type: 'text',
+        text: `Tomo has just charged ${props.name}'s CC for $${props.amount}`,
+        senderId: '00bot00',
+        receiverId: props.userId,
+        receiverFacebookId: props.userFbId,
+        senderType: 'bot',
+        receiverType: 'user',
+        sessionId: session._id,
       });
     } catch (ex) {
       console.error(ex);
