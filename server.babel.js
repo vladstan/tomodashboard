@@ -81,6 +81,7 @@ app.post('/auth', async (req, res) => {
 function renderHTML(req, res) {
   renderHTMLString(routes, req, (error, redirectLocation, data) => {
     if (error) {
+      console.error('html render error:', error);
       if (error.message === 'Not found') {
         res.status(404).send(error.message);
       } else {

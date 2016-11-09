@@ -50,7 +50,8 @@ function render(Component, onRender) {
             null,
             React.createElement(ReactRouter.Router, props)
           ), document.getElementById('app-container'), onRender);
-        });
+        })
+        .catch(::console.error);
     };
 
     ReactRouter.match(matchOpts, matchCallback);
@@ -84,7 +85,8 @@ function renderHTMLString(routes, req, callback) {
         .then(renderIRData)
         .then((data) => {
           callback(null, null, data);
-        });
+        })
+        .catch(::console.error);
     } else {
       callback({
         message: 'Not found'

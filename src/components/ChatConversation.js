@@ -116,6 +116,48 @@ class ChatConversation extends React.Component {
     this.props.sendMessage(link);
   }
 
+  componentWillReceiveProps(nextProps) {
+    try {
+      console.log('componentWillReceiveProps(nextProps) {');
+      if (typeof Notification == 'undefined') {
+        console.log('no Notification');
+        return;
+      }
+      console.log('yes Notification');
+
+      // dashboard is focused
+      if (typeof document != 'undefined' && document.hidden === false) {
+        return;
+      }
+
+      const newLastMessage = nextProps.messages[nextProps.messages.length - 1];
+      const lastMessage = this.props.messages && this.props.messages[this.props.messages.length - 1] || {};
+
+      // console.log(newLastMessage, lastMessage);
+
+      if (lastMessage.text != newLastMessage.text && newLastMessage.senderType == 'user') {
+        console.log('NOTIF{}', this.props.profile.name, {
+          body: newLastMessage.text,
+        });
+        if (Notification.permission == 'default') {
+          Notification.requestPermission((permission) => {
+            if (permission === "granted") {
+              new Notification(this.props.profile.name, {
+                body: newLastMessage.text,
+              });
+            }
+          });
+        } else if (Notification.permission == 'granted') {
+          new Notification(this.props.profile.name, {
+            body: newLastMessage.text,
+          });
+        }
+      }
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+
   render() {
     return (
       <div>
