@@ -514,7 +514,7 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
           if (props.botMuted) {
             textMessage = "You're now talking to " + props.agentName;
           } else {
-            textMessage = "You're now talking to Yago";
+            textMessage = "You're now talking to Tomo";
           }
 
           return sendMessage({
