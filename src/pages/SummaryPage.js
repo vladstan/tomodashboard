@@ -73,6 +73,10 @@ class SummaryPage extends React.Component {
                   ))
                 }
                 <tr>
+                  <td>Service fee</td>
+                  <td>${summary.serviceFee}</td>
+                </tr>
+                <tr>
                   <td>Total</td>
                   <td>${summary.total}</td>
                 </tr>
@@ -143,6 +147,8 @@ const SummaryPageContainer = Relay.createContainer(SummaryPage, {
           }
         }
         total
+        serviceFee
+        price
         user {
           id
           _id

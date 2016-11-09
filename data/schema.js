@@ -393,6 +393,20 @@ const Summary = new GraphQLObjectType({
         return totalPrice + totalFee;
       },
     },
+    price: {
+      type: GraphQLInt,
+      resolve: (doc) => {
+        const totalPrice = doc.fields.reduce((acc, f) => acc + f.price, 0);
+        return totalPrice;
+      },
+    },
+    serviceFee: {
+      type: GraphQLInt,
+      resolve: (doc) => {
+        const totalFee = doc.fields.reduce((acc, f) => acc + f.segments * f.segmentPrice, 0);
+        return totalFee;
+      },
+    },
     user: {
       type: User,
       resolve: (doc) => getUser(doc.userId),

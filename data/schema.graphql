@@ -210,6 +210,8 @@ type Summary implements Node {
   _id: String
   fields(after: String, first: Int, before: String, last: Int): summaryFieldsConnection
   total: Int
+  price: Int
+  serviceFee: Int
   user: User
   agent: Agent
 }
