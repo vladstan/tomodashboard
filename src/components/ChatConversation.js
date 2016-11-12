@@ -54,7 +54,7 @@ class ChatConversationItem extends React.Component {
   }
 
   _renderBody() {
-    console.log(this.props);
+    // console.log(this.props);
     if (this.props.imageUrl) {
       return (
         <span
