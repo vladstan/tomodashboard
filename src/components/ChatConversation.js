@@ -17,10 +17,26 @@ import SummaryModal from './SummaryModal';
 class ChatConversationItem extends React.Component {
 
   render() {
-    let leftImg;
-    let rightImg;
+    try {
+      return (
+        <li tabIndex='-1' style={{
+          textAlign: this.props.position,
+          display: 'block',
+          marginBottom: '15px',
+          listStyle: 'none'
+        }}>
+          {this.props.position == 'left' && this._renderAvatar()}
+          {this._renderBody()}
+          {this.props.position == 'right' && this._renderAvatar()}
+        </li>
+      );
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
 
-    const img = (
+  _renderAvatar() {
+    return (
       <img
         src={this.props.avatarUrl}
         width='30'
@@ -35,21 +51,27 @@ class ChatConversationItem extends React.Component {
           top: -7
         }} />
     );
+  }
 
-    if (this.props.position === 'right') {
-      rightImg = img;
+  _renderBody() {
+    console.log(this.props);
+    if (this.props.imageUrl) {
+      return (
+        <span
+          className='body'
+          style={{
+            position: 'relative',
+            top: -2,
+            padding: '10px 15px 8px',
+            borderRadius: '20px',
+            marginLeft: '10px',
+            marginRight: '10px'
+          }}>
+          <img src={this.props.imageUrl} />
+        </span>
+      );
     } else {
-      leftImg = img;
-    }
-
-    return (
-      <li tabIndex='-1' style={{
-        textAlign: this.props.position,
-        display: 'block',
-        marginBottom: '15px',
-        listStyle: 'none'
-      }}>
-        {leftImg}
+      return (
         <span
           className='body'
           style={{
@@ -62,9 +84,8 @@ class ChatConversationItem extends React.Component {
             marginRight: '10px'
           }}
           >{this.props.text}</span>
-        {rightImg}
-      </li>
-    );
+      );
+    }
   }
 
 }
@@ -173,6 +194,7 @@ class ChatConversation extends React.Component {
                     key={m.id}
                     position={m.senderType === 'user' ? 'left' : 'right'}
                     avatarUrl={m.senderType === 'user' ? this.props.profile.pictureUrl : this.props.agent.pictureUrl}
+                    imageUrl={m.imageUrl}
                     text={m.text} />
                 ))}
               </ul>

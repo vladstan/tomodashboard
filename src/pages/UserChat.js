@@ -336,6 +336,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
               receiverId
               senderType
               receiverType
+              imageUrl
             }
           }
         }

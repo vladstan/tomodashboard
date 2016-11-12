@@ -161,6 +161,10 @@ const Message = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (doc) => doc.receiverType,
     },
+    imageUrl: {
+      type: GraphQLString,
+      resolve: (doc) => doc.imageUrl,
+    },
     // createdAt: {
     //   type: GraphQLString,
     //   resolve: (doc) => doc.type,
@@ -338,6 +342,10 @@ const Agent = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (doc) => doc.pictureUrl,
     },
+    largePictureUrl: {
+      type: GraphQLString,
+      resolve: (doc) => doc.largePictureUrl || doc.pictureUrl,
+    },
     fbAccessToken: {
       type: GraphQLString,
       resolve: (doc) => doc.fbAccessToken,
@@ -511,6 +519,7 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
     botMuted: { type: new GraphQLNonNull(GraphQLBoolean) },
     agentName: { type: new GraphQLNonNull(GraphQLString) },
     userFbId: { type: new GraphQLNonNull(GraphQLString) },
+    agentImageUrl: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     user: {
@@ -540,6 +549,19 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
         receiverType: 'user',
         sessionId: session._id,
       });
+
+      if (props.botMuted) {
+        await sendMessage({
+          type: 'image',
+          imageUrl: props.agentImageUrl,
+          senderId: '00agent00',
+          receiverId: props.userId,
+          receiverFacebookId: props.userFbId,
+          senderType: 'bot',
+          receiverType: 'user',
+          sessionId: session._id,
+        });
+      }
     } catch (ex) {
       console.error('switch agent mutateAndGetPayload error:', ex);
     }

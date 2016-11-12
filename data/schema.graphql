@@ -29,6 +29,7 @@ type Agent implements Node {
   name: String
   email: String
   pictureUrl: String
+  largePictureUrl: String
   fbAccessToken: String
   incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
   users(after: String, first: Int, before: String, last: Int): usersConnection
@@ -84,6 +85,7 @@ type Message implements Node {
   receiverId: String
   senderType: String
   receiverType: String
+  imageUrl: String
 }
 
 # A connection to a list of items.
@@ -249,6 +251,7 @@ input SwitchBotAgentInput {
   botMuted: Boolean!
   agentName: String!
   userFbId: String!
+  agentImageUrl: String!
   clientMutationId: String
 }
 
