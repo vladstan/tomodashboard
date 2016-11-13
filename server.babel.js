@@ -15,7 +15,7 @@ import bodyParser from 'body-parser';
 import routes from './src/routes';
 import { renderHTMLString, setNetworkLayer } from './src/relay-router';
 import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddleware';
-import { addNotifier, signUpInAgent } from './data/database';
+import { addNotifier, signUpInAgent, startWatchingUser, stopWatchingUser } from './data/database';
 import schema from './data/schema';
 
 import jwt from 'express-jwt';
@@ -140,6 +140,10 @@ io.on('connection', socket => {
     console.log('io socket on subscribe');
 
     function unsubscribe(topic, subscription) {
+      if (topic.startsWith('update_user:')) {
+        stopWatchingUser(topic.split(':')[1], topic);
+      }
+
       const index = topics[topic].indexOf(subscription);
       if (index === -1) return;
 
@@ -153,6 +157,10 @@ io.on('connection', socket => {
     }
 
     function subscribe(topic) {
+      if (topic.startsWith('update_user:')) {
+        startWatchingUser(topic.split(':')[1], topic);
+      }
+
       topics[topic] = topics[topic] || [];
       const subscription = { id, query, variables };
 

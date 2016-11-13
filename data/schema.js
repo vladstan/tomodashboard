@@ -39,10 +39,12 @@ import {
   addCharge,
   updateStripeDetails,
   insertAndGetSummary,
+  updateAgent,
 } from './database';
 
 import {
   sendMessage,
+  markConvAsRead,
 } from './okclaire';
 
 import { getWithType, isType } from '@sketchpixy/rubix/lib/node/relay-utils';
@@ -164,6 +166,10 @@ const Message = new GraphQLObjectType({
     imageUrl: {
       type: GraphQLString,
       resolve: (doc) => doc.imageUrl,
+    },
+    timestamp: {
+      type: GraphQLString,
+      resolve: (doc) => '' + (doc.timestamp || 0),
     },
     // createdAt: {
     //   type: GraphQLString,
@@ -314,6 +320,14 @@ const User = new GraphQLObjectType({
       type: StripeCredentials,
       resolve: (doc) => doc.stripe,
     },
+    lastReadWatermark: {
+      type: GraphQLString,
+      resolve: (doc) => '' + (doc.lastReadWatermark || 0),
+    },
+    lastDeliveredWatermark: {
+      type: GraphQLString,
+      resolve: (doc) => '' + (doc.lastDeliveredWatermark || 0),
+    },
   }),
   interfaces: [nodeInterface],
 });
@@ -359,6 +373,14 @@ const Agent = new GraphQLObjectType({
       type: UsersConnection,
       args: connectionArgs,
       resolve: (doc, args) => connectionFromPromisedArray(getUsersForAgent(doc._id), args),
+    },
+    lastReadWatermark: {
+      type: GraphQLString,
+      resolve: (doc) => '' + (doc.lastReadWatermark || 0),
+    },
+    lastDeliveredWatermark: {
+      type: GraphQLString,
+      resolve: (doc) => '' + (doc.lastDeliveredWatermark || 0),
     },
   }),
   interfaces: [nodeInterface],
@@ -507,6 +529,7 @@ const SendMessageMutation = mutationWithClientMutationId({
           senderType: props.senderType,
           receiverType: props.receiverType,
           sessionId: session._id,
+          timestamp: Date.now(),
         }).catch(::console.error);
       })
       .catch(::console.error),
@@ -548,6 +571,7 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
         senderType: 'bot',
         receiverType: 'user',
         sessionId: session._id,
+        timestamp: Date.now(),
       });
 
       if (props.botMuted) {
@@ -560,6 +584,7 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
           senderType: 'bot',
           receiverType: 'user',
           sessionId: session._id,
+          timestamp: Date.now(),
         });
       }
     } catch (ex) {
@@ -641,6 +666,7 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
         senderType: 'bot',
         receiverType: 'user',
         sessionId: session._id,
+        timestamp: Date.now(),
       });
     } catch (ex) {
       console.error(ex);
@@ -648,6 +674,35 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
 
     return {
       userId: props.userId
+    };
+  },
+});
+
+const UpdateAgentWatermarksMutation = mutationWithClientMutationId({
+  name: 'UpdateAgentWatermarks',
+  inputFields: {
+    userFacebookId: { type: new GraphQLNonNull(GraphQLString) },
+    agentId: { type: new GraphQLNonNull(GraphQLString) },
+    lastReadWatermark: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    agent: {
+      type: Agent,
+      resolve: (payload) => getAgent(payload.agentId),
+    },
+  },
+  mutateAndGetPayload: async (props) => {
+    try {
+      await updateAgent(props.agentId, {
+        lastReadWatermark: props.lastReadWatermark,
+      });
+      await markConvAsRead(props.userFacebookId);
+    } catch (ex) {
+      console.error(ex);
+    }
+
+    return {
+      agentId: props.agentId
     };
   },
 });
@@ -744,6 +799,22 @@ const UpdateIncomingReqSubscription = subscriptionWithClientId({
   },
 });
 
+const UpdateUserSubscription = subscriptionWithClientId({
+  name: 'UpdateUserSubscription',
+  inputFields: {
+    userId: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    user: {
+      type: User,
+      resolve: (doc) => doc,
+    },
+  },
+  subscribe: (input, context) => {
+    context.subscribe('update_user:' + input.userId);
+  },
+});
+
 const AddMessageSubscription = subscriptionWithClientId({
   name: 'AddMessageSubscription',
   inputFields: {
@@ -831,6 +902,7 @@ const Mutation = new GraphQLObjectType({
     sendMessage: SendMessageMutation,
     switchBotAgent: SwitchBotAgentMutation,
     updateStripeDetails: UpdateStripeDetailsMutation,
+    updateAgentWatermarks: UpdateAgentWatermarksMutation,
     getSummaryLink: GetSummaryLinkMutation,
   }),
 });
@@ -840,6 +912,7 @@ const Subscription = new GraphQLObjectType({
   fields: {
     addIncomingReq: AddIncomingReqSubscription,
     updateIncomingReq: UpdateIncomingReqSubscription,
+    updateUser: UpdateUserSubscription,
     addMessage: AddMessageSubscription,
   },
 });

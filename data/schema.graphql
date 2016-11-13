@@ -33,6 +33,8 @@ type Agent implements Node {
   fbAccessToken: String
   incomingReqs(after: String, first: Int, before: String, last: Int): incomingReqsConnection
   users(after: String, first: Int, before: String, last: Int): usersConnection
+  lastReadWatermark: String
+  lastDeliveredWatermark: String
 }
 
 input GetSummaryLinkInput {
@@ -86,6 +88,7 @@ type Message implements Node {
   senderType: String
   receiverType: String
   imageUrl: String
+  timestamp: String
 }
 
 # A connection to a list of items.
@@ -110,6 +113,7 @@ type Mutation {
   sendMessage(input: SendMessageInput!): SendMessagePayload
   switchBotAgent(input: SwitchBotAgentInput!): SwitchBotAgentPayload
   updateStripeDetails(input: UpdateStripeDetailsInput!): UpdateStripeDetailsPayload
+  updateAgentWatermarks(input: UpdateAgentWatermarksInput!): UpdateAgentWatermarksPayload
   getSummaryLink(input: GetSummaryLinkInput!): GetSummaryLinkPayload
 }
 
@@ -203,6 +207,7 @@ type StripeCredentials implements Node {
 type Subscription {
   addIncomingReq(input: AddIncomingReqSubscriptionInput!): AddIncomingReqSubscriptionPayload
   updateIncomingReq(input: UpdateIncomingReqSubscriptionInput!): UpdateIncomingReqSubscriptionPayload
+  updateUser(input: UpdateUserSubscriptionInput!): UpdateUserSubscriptionPayload
   addMessage(input: AddMessageSubscriptionInput!): AddMessageSubscriptionPayload
 }
 
@@ -260,6 +265,18 @@ type SwitchBotAgentPayload {
   clientMutationId: String
 }
 
+input UpdateAgentWatermarksInput {
+  userFacebookId: String!
+  agentId: String!
+  lastReadWatermark: String!
+  clientMutationId: String
+}
+
+type UpdateAgentWatermarksPayload {
+  agent: Agent
+  clientMutationId: String
+}
+
 input UpdateIncomingReqSubscriptionInput {
   userId: String!
   clientSubscriptionId: String
@@ -285,6 +302,16 @@ type UpdateStripeDetailsPayload {
   clientMutationId: String
 }
 
+input UpdateUserSubscriptionInput {
+  userId: String!
+  clientSubscriptionId: String
+}
+
+type UpdateUserSubscriptionPayload {
+  user: User
+  clientSubscriptionId: String
+}
+
 type User implements Node {
   # The ID of an object
   id: ID!
@@ -294,6 +321,8 @@ type User implements Node {
   messages(after: String, first: Int, before: String, last: Int): messagesConnection
   botMuted: Boolean
   stripe: StripeCredentials
+  lastReadWatermark: String
+  lastDeliveredWatermark: String
 }
 
 # A connection to a list of items.

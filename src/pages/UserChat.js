@@ -6,10 +6,12 @@ import Relay from 'react-relay';
 import RelaySubscriptions from 'relay-subscriptions';
 
 import AddMessageSubscription from '../subscriptions/AddMessageSubscription';
+import UpdateUserSubscription from '../subscriptions/UpdateUserSubscription';
 
 import SendMessageMutation from '../mutations/SendMessageMutation';
 import SwitchBotAgentMutation from '../mutations/SwitchBotAgentMutation';
 import GetSummaryLinkMutation from '../mutations/GetSummaryLinkMutation';
+import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
 
 import {
   Row,
@@ -279,6 +281,8 @@ class UserChat extends React.Component {
                           profile={this.props.user.profile}
                           sendMessage={::this.sendMessage}
                           getSummaryLink={::this.getSummaryLink}
+                          relay={this.props.relay}
+                          user={this.props.user}
                           agent={this.props.agent} />
                       </Col>
                     </Row>
@@ -301,10 +305,14 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         _id
         facebookId
         botMuted
+        lastReadWatermark
+        lastDeliveredWatermark
         ${AddMessageSubscription.getFragment('user')}
+        ${UpdateUserSubscription.getFragment('user')}
         ${SendMessageMutation.getFragment('user')}
         ${SwitchBotAgentMutation.getFragment('user')}
         ${GetSummaryLinkMutation.getFragment('user')}
+        ${UpdateAgentWatermarksMutation.getFragment('user')}
         profile {
           name
           pictureUrl
@@ -336,6 +344,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
               receiverId
               senderType
               receiverType
+              timestamp
               imageUrl
             }
           }
@@ -346,13 +355,17 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
       fragment on Agent {
         name
         pictureUrl
+        lastReadWatermark
+        lastDeliveredWatermark
         ${SwitchBotAgentMutation.getFragment('agent')}
         ${GetSummaryLinkMutation.getFragment('agent')}
+        ${UpdateAgentWatermarksMutation.getFragment('agent')}
       }
     `,
   },
   subscriptions: [
     ({user}) => new AddMessageSubscription({user}),
+    ({user}) => new UpdateUserSubscription({user}),
   ],
 });
 

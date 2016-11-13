@@ -25,6 +25,7 @@ class AddMessageSubscription extends Subscription {
               senderId
               receiverId
               senderType
+              timestamp
               receiverType
               imageUrl
             }

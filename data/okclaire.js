@@ -4,7 +4,7 @@ const API_URL = 'https://yagobot-91541.onmodulus.net';
 // const API_URL = 'https://efb51b44.ngrok.io';
 
 export function sendMessage(msg) {
-  console.log('YagoBot.sendMessage()');
+  console.log('TomoBot.sendMessage()');
   return rp({
     method: 'POST',
     baseUrl: API_URL,
@@ -13,7 +13,22 @@ export function sendMessage(msg) {
       messages: [msg]
     },
   }).then((res) => {
-    console.log('sent', msg, 'to YagoBot:', res);
+    console.log('sent', msg, 'to TomoBot:', res);
+    return res;
+  });
+}
+
+export function markConvAsRead(receiverFacebookId) {
+  console.log('TomoBot.markConvAsRead()');
+  return rp({
+    method: 'POST',
+    baseUrl: API_URL,
+    url: '/messages/read',
+    json: {
+      receiverFacebookId
+    },
+  }).then((res) => {
+    console.log('marked conv for fb user ' + receiverFacebookId + ' as read through TomoBot:', res);
     return res;
   });
 }

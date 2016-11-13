@@ -65,6 +65,11 @@ export function updateStripeDetails(_id, stripe) {
   return db.users.update({ _id: pmongo.ObjectId(_id) }, { $set: { stripe } });
 }
 
+export function updateAgent(_id, newFields) {
+  console.log('updateAgent(userId, newFields)', _id, newFields);
+  return db.agents.update({ _id: pmongo.ObjectId(_id) }, { $set: newFields });
+}
+
 export function getIncomingReqs() {
   return db.actionmessages.find({}).sort({$natural: 1}).toArray();
 }
@@ -198,7 +203,7 @@ function startListeningActionMessages() {
     prevAll = allReqs;
     setTimeout(function() {
       checkAll().catch(::console.error);
-    }, 500);
+    }, 300);
   }
 
   checkAll().catch(::console.error);
@@ -232,4 +237,50 @@ export function addNotifier(cb) {
       notifiers.splice(index, 1);
     }
   };
+}
+
+const userWatchers = {};
+
+export function startWatchingUser(userId, topic) {
+  console.log('startWatchingUser', userId, topic);
+
+  if (userWatchers[userId]) {
+    // already watching
+    return;
+  }
+
+  userWatchers[userId] = {};
+
+  function watch() {
+    setTimeout(() => {
+      getUser(userId)
+        .then((userDoc) => {
+          if (userWatchers[userId].lastUserDoc && JSON.stringify(userWatchers[userId].lastUserDoc) != JSON.stringify(userDoc)) {
+            console.log('notifying change:', topic);
+            notifyChange(topic, userDoc);
+          }
+          userWatchers[userId].lastUserDoc = userDoc;
+
+          if (userWatchers[userId].DELETE_YOURSELF) {
+            delete userWatchers[userId];
+          } else {
+            watch();
+          }
+        })
+        .catch(::console.error);
+    }, 300);
+  }
+
+  watch();
+}
+
+export function stopWatchingUser(userId) {
+  console.log('stopWatchingUser', userId);
+
+  if (!userWatchers[userId] || userWatchers[userId].DELETE_YOURSELF) {
+    // not watching or already stopping
+    return;
+  }
+
+  userWatchers[userId].DELETE_YOURSELF = true;
 }
