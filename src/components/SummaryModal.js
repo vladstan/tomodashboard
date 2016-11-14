@@ -30,7 +30,7 @@ class SummaryModal extends React.Component {
     this.setState({
       ...this.state,
       fields: this.state.fields.concat([
-        {key: Date.now(), name: '', price: '', segments: ''},
+        {key: Date.now(), name: '', price: '', segments: '', segmentPrice: 9},
       ]),
     });
   }
