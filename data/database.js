@@ -146,6 +146,7 @@ const notifiers = [];
 let startedListening = false;
 
 function notifyChange(topic, data) {
+  console.log('notifying change:', topic);
   notifiers.forEach(notifier => notifier({ topic, data }));
 }
 
@@ -187,13 +188,11 @@ function startListeningActionMessages() {
     if (allReqs) {
       const onlyNewReqs = getNewOnes(allReqs);
       for (let doc of onlyNewReqs) {
-        console.log('notifyChange(\'add_incoming_req\', ' + doc._id + ')');
         notifyChange('add_incoming_req', doc);
       }
 
       const updatedReqs = getUpdated(allReqs);
       for (let doc of updatedReqs) {
-        console.log('notifyChange(\'update_incoming_req:' + doc.userId + '\', ' + doc._id + ')');
         notifyChange('update_incoming_req:' + doc.userId, doc);
       }
 
@@ -214,7 +213,6 @@ function startListeningMessages() {
   getMessagesCursor()
     .on('data', function(doc) {
       const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
-      console.log('notifyChange(\'add_message:' + userId + '\', ' + doc._id + ')');
       notifyChange('add_message:' + userId, doc);
     })
     .on('error', function(err) {
@@ -256,7 +254,6 @@ export function startWatchingUser(userId, topic) {
       getUser(userId)
         .then((userDoc) => {
           if (userWatchers[userId].lastUserDoc && JSON.stringify(userWatchers[userId].lastUserDoc) != JSON.stringify(userDoc)) {
-            console.log('notifying change:', topic);
             notifyChange(topic, userDoc);
           }
           userWatchers[userId].lastUserDoc = userDoc;
