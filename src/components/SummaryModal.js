@@ -20,7 +20,7 @@ class SummaryModal extends React.Component {
 
   state = {
     fields: [
-      {key: 0, name: '', price: '', segments: ''},
+      {key: 0, name: '', price: '', segments: '', segmentPrice: 9},
     ],
     loading: false,
     error: null,
@@ -84,8 +84,12 @@ class SummaryModal extends React.Component {
   }
 
   render() {
-    const totalPrice = this.state.fields.map(f => parseInt(f.price || '0', 10)).reduce((acc, p) => acc + p, 0);
-    const totalFee = this.state.fields.map(f => parseInt(f.segments || '0', 10)).reduce((acc, s) => acc + s * 10, 0);
+    const totalPrice = this.state.fields
+      .map(f => parseInt(f.price || '0', 10))
+      .reduce((acc, p) => acc + p, 0);
+    const totalFee = this.state.fields
+      .map(f => parseInt(f.segments || '0', 10) * f.segmentPrice)
+      .reduce((acc, s) => acc + s, 0);
     const totalTotalPrice = totalPrice + totalFee;
     const myFee = Math.ceil(totalFee * 0.7);
 

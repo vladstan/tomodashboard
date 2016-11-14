@@ -127,7 +127,7 @@ export async function insertAndGetSummary(summary) {
       name: f.name,
       price: parseInt(f.price || '0', 10) || 0,
       segments: parseInt(f.segments || '0', 10) || 0,
-      segmentPrice: 7,
+      segmentPrice: f.segmentPrice,
     })).filter(f => !!f.name),
     agentId: summary.agentId,
     userId: summary.userId,
