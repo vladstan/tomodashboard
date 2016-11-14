@@ -35,6 +35,9 @@ type Agent implements Node {
   users(after: String, first: Int, before: String, last: Int): usersConnection
   lastReadWatermark: String
   lastDeliveredWatermark: String
+  lastCreditAmount: Int
+  totalPaidTrips: Int
+  averagePayPerTrip: Int
 }
 
 input GetSummaryLinkInput {

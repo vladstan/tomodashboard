@@ -31,13 +31,34 @@ export function getAgent(_id) {
   return db.agents.findOne({ _id: pmongo.ObjectId(_id) });
 }
 
+export async function getLastCreditForAgent(_id) {
+  const credits = await db.agent_credits.find({}).sort({createdAt: -1});
+  // console.log('desc order credits', credits);
+  for (const credit of credits) {
+    if (credit.agentId == _id) {
+      // console.log('found credit for agent:', credit);
+      return credit;
+    }
+  }
+  return null;
+}
+
+export async function getTotalPaidTripsForAgent(_id) {
+  const credits = await db.agent_credits.find({ paid: true });
+  return credits.filter(c => c.agentId == _id).length;
+}
+
+export async function getAveragePayPerTripForAgent(_id) {
+  const allCredits = await db.agent_credits.find({ paid: true });
+  const credits = allCredits.filter(c => c.agentId == _id);
+  const trips = credits.length;
+  const sum = credits.reduce((acc, c) => acc + c.amount, 0);
+  return trips && (sum / trips) || 0;
+}
+
 export function getSummary(_id) {
   // console.log(_id, new Error('track'));
-  return db.summaries.findOne({ _id: pmongo.ObjectId(_id) })
-    .then(summ => {
-      // console.log('db got summ', summ, JSON.stringify(summ));
-      return summ;
-    });
+  return db.summaries.findOne({ _id: pmongo.ObjectId(_id) });
 }
 
 export function getProfile(_id) {

@@ -49,6 +49,10 @@ const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
         fbAccessToken
         ${AddIncomingReqSubscription.getFragment('agent')}
 
+        lastCreditAmount
+        totalPaidTrips
+        averagePayPerTrip
+
         users(first: 100) {
           edges {
             node {

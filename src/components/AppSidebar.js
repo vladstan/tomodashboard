@@ -65,7 +65,7 @@ class AppSidebar extends React.Component {
             <BroadcastingSidebar />
           </Sidebar>
           <Sidebar sidebar={3}>
-            <StatsSidebar />
+            <StatsSidebar agent={agent} />
           </Sidebar>
         </div>
       </div>

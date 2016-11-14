@@ -40,7 +40,10 @@ import {
   updateStripeDetails,
   insertAndGetSummary,
   updateAgent,
-  addAgentCredit
+  addAgentCredit,
+  getLastCreditForAgent,
+  getTotalPaidTripsForAgent,
+  getAveragePayPerTripForAgent,
 } from './database';
 
 import {
@@ -382,6 +385,22 @@ const Agent = new GraphQLObjectType({
     lastDeliveredWatermark: {
       type: GraphQLString,
       resolve: (doc) => '' + (doc.lastDeliveredWatermark || 0),
+    },
+    lastCreditAmount: {
+      type: GraphQLInt,
+      resolve: async (doc) => {
+        const lastCredit = await getLastCreditForAgent(doc._id);
+        // console.log('LAST CREDIT', lastCredit);
+        return lastCredit && lastCredit.amount || 0;
+      },
+    },
+    totalPaidTrips: {
+      type: GraphQLInt,
+      resolve: (doc) => getTotalPaidTripsForAgent(doc._id),
+    },
+    averagePayPerTrip: {
+      type: GraphQLInt,
+      resolve: (doc) => getAveragePayPerTripForAgent(doc._id),
     },
   }),
   interfaces: [nodeInterface],
