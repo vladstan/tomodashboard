@@ -219,6 +219,7 @@ type Summary implements Node {
   total: Int
   price: Int
   serviceFee: Int
+  agentFee: Int
   user: User
   agent: Agent
 }
@@ -293,7 +294,9 @@ input UpdateStripeDetailsInput {
   name: String!
   token: String!
   amount: Int!
+  agentCreditAmount: Int!
   summaryId: String!
+  agentId: String!
   clientMutationId: String
 }
 

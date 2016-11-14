@@ -40,6 +40,7 @@ import {
   updateStripeDetails,
   insertAndGetSummary,
   updateAgent,
+  addAgentCredit
 } from './database';
 
 import {
@@ -437,6 +438,13 @@ const Summary = new GraphQLObjectType({
         return totalFee;
       },
     },
+    agentFee: {
+      type: GraphQLInt,
+      resolve: (doc) => {
+        const totalFee = doc.fields.reduce((acc, f) => acc + f.segments * f.segmentPrice, 0);
+        return Math.ceil(totalFee * doc.agentCutPercent);
+      },
+    },
     user: {
       type: User,
       resolve: (doc) => getUser(doc.userId),
@@ -605,7 +613,9 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
     name: { type: new GraphQLNonNull(GraphQLString) },
     token: { type: new GraphQLNonNull(GraphQLString) },
     amount: { type: new GraphQLNonNull(GraphQLInt) },
+    agentCreditAmount: { type: new GraphQLNonNull(GraphQLInt) },
     summaryId: { type: new GraphQLNonNull(GraphQLString) },
+    agentId: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     user: {
@@ -650,10 +660,19 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
       });
 
       console.log('charge=', charge);
-      await addCharge({
+      const chargeDoc = await addCharge({
         stripeCharge: {...charge},
         userId: props.userId,
         summaryId: props.summaryId,
+      });
+
+      await addAgentCredit({
+        agentId: props.agentId,
+        summaryId: props.summaryId,
+        chargeId: chargeDoc._id,
+        createdAt: new Date(),
+        paid: false,
+        amount: props.agentCreditAmount,
       });
 
       const session = await getSessionOfUser(props.userId);

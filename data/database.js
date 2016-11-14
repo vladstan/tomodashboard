@@ -15,6 +15,7 @@ const db = pmongo(MONGO_URL, {
   'agents',
   'summaries',
   'charges',
+  'agent_credits',
 ]);
 
 // export function getActionMessagesCursor() {
@@ -129,6 +130,7 @@ export async function insertAndGetSummary(summary) {
       segments: parseInt(f.segments || '0', 10) || 0,
       segmentPrice: f.segmentPrice,
     })).filter(f => !!f.name),
+    agentCutPercent: summary.agentCutPercent,
     agentId: summary.agentId,
     userId: summary.userId,
   });
@@ -140,6 +142,12 @@ export async function addCharge(charge) {
   // console.log('db addCharge', charge);
   const chargeDoc = await db.charges.insert(charge);
   return chargeDoc;
+}
+
+export async function addAgentCredit(agentCredit) {
+  // console.log('db addAgentCredit', agentCredit);
+  const agentCreditDoc = await db.agent_credits.insert(agentCredit);
+  return agentCreditDoc;
 }
 
 const notifiers = [];

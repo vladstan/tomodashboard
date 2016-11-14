@@ -14,6 +14,11 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
         }
       }
     `,
+    agent: () => Relay.QL`
+      fragment on Agent {
+        _id
+      }
+    `,
   };
 
   getMutation() {
@@ -43,6 +48,8 @@ class UpdateStripeDetailsMutation extends Relay.Mutation {
     return {
       userId: this.props.user._id,
       userFbId: this.props.user.facebookId,
+      agentId: this.props.agent._id,
+      agentCreditAmount: this.props.agentCreditAmount,
       token: JSON.stringify(this.props.token),
       amount: this.props.amount,
       summaryId: this.props.summaryId,

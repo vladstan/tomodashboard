@@ -22,6 +22,7 @@ class SummaryModal extends React.Component {
     fields: [
       {key: 0, name: '', price: '', segments: '', segmentPrice: 9},
     ],
+    agentCutPercent: 0.7,
     loading: false,
     error: null,
   }
@@ -64,6 +65,7 @@ class SummaryModal extends React.Component {
 
     const summary = {
       fields: {...this.state.fields},
+      agentCutPercent: this.state.agentCutPercent,
     };
 
     this.props.getSummaryLink(summary)
@@ -91,7 +93,7 @@ class SummaryModal extends React.Component {
       .map(f => parseInt(f.segments || '0', 10) * f.segmentPrice)
       .reduce((acc, s) => acc + s, 0);
     const totalTotalPrice = totalPrice + totalFee;
-    const myFee = Math.ceil(totalFee * 0.7);
+    const myFee = Math.ceil(totalFee * this.state.agentCutPercent);
 
 		return (
 			<Modal show={this.props.show} onHide={this.props.onClose}>

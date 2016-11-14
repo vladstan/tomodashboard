@@ -34,8 +34,10 @@ class SummaryPage extends React.Component {
       // console.log("UpdateStripeDetailsMutation PROPS", this.props, {user: this.props.summary.user, token});
       relay.commitUpdate(new UpdateStripeDetailsMutation({
         user: this.props.summary.user,
+        agent: this.props.summary.agent,
         amount: this.props.summary.total,
         summaryId: this.props.params.sid,
+        agentCreditAmount: this.props.summary.agentFee,
         token,
       }), {onSuccess, onFailure});
     } catch (ex) {
@@ -148,6 +150,7 @@ const SummaryPageContainer = Relay.createContainer(SummaryPage, {
         }
         total
         serviceFee
+        agentFee
         price
         user {
           id
@@ -156,6 +159,9 @@ const SummaryPageContainer = Relay.createContainer(SummaryPage, {
             customerId
           }
           ${UpdateStripeDetailsMutation.getFragment('user')}
+        }
+        agent {
+          ${UpdateStripeDetailsMutation.getFragment('agent')}
         }
       }
     `,
