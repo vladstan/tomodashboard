@@ -37,6 +37,9 @@ type Agent implements Node {
   lastDeliveredWatermark: String
   lastCreditAmount: Int
   totalPaidTrips: Int
+  totalUnpaidTrips: Int
+  totalUnpaidMoney: Int
+  totalPaidMoney: Int
   averagePayPerTrip: Int
 }
 

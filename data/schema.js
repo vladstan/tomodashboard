@@ -43,7 +43,10 @@ import {
   addAgentCredit,
   getLastCreditForAgent,
   getTotalPaidTripsForAgent,
+  getTotalUnpaidTripsForAgent,
+  getTotalUnpaidMoneyForAgent,
   getAveragePayPerTripForAgent,
+  getTotalPaidMoneyForAgent,
 } from './database';
 
 import {
@@ -397,6 +400,18 @@ const Agent = new GraphQLObjectType({
     totalPaidTrips: {
       type: GraphQLInt,
       resolve: (doc) => getTotalPaidTripsForAgent(doc._id),
+    },
+    totalUnpaidTrips: {
+      type: GraphQLInt,
+      resolve: (doc) => getTotalUnpaidTripsForAgent(doc._id),
+    },
+    totalUnpaidMoney: {
+      type: GraphQLInt,
+      resolve: (doc) => getTotalUnpaidMoneyForAgent(doc._id),
+    },
+    totalPaidMoney: {
+      type: GraphQLInt,
+      resolve: (doc) => getTotalPaidMoneyForAgent(doc._id),
     },
     averagePayPerTrip: {
       type: GraphQLInt,

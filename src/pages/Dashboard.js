@@ -52,6 +52,9 @@ const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
         lastCreditAmount
         totalPaidTrips
         averagePayPerTrip
+        totalUnpaidTrips
+        totalUnpaidMoney
+        totalPaidMoney
 
         users(first: 100) {
           edges {

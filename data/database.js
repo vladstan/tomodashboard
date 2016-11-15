@@ -48,6 +48,21 @@ export async function getTotalPaidTripsForAgent(_id) {
   return credits.filter(c => c.agentId == _id).length;
 }
 
+export async function getTotalUnpaidTripsForAgent(_id) {
+  const credits = await db.agent_credits.find({ paid: false });
+  return credits.filter(c => c.agentId == _id).length;
+}
+
+export async function getTotalUnpaidMoneyForAgent(_id) {
+  const credits = await db.agent_credits.find({ paid: false });
+  return credits.filter(c => c.agentId == _id).reduce((acc, c) => acc + c.amount, 0);
+}
+
+export async function getTotalPaidMoneyForAgent(_id) {
+  const credits = await db.agent_credits.find({ paid: true });
+  return credits.filter(c => c.agentId == _id).reduce((acc, c) => acc + c.amount, 0);
+}
+
 export async function getAveragePayPerTripForAgent(_id) {
   const allCredits = await db.agent_credits.find({ paid: true });
   const credits = allCredits.filter(c => c.agentId == _id);

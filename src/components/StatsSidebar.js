@@ -45,6 +45,7 @@ class StatsSidebarComponent extends React.Component {
   }
   render() {
     console.log(this.props.agent);
+    const {agent} = this.props;
     return (
       <div>
         <Grid>
@@ -54,42 +55,64 @@ class StatsSidebarComponent extends React.Component {
                 <Grid>
                   <Row>
                     <Col xs={12} collapseLeft collapseRight>
-                      <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>Conversations Today</div>
+                      <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>Unpaid Trips</div>
                       <div>
-                        <h5 className='bg-darkgreen45 fg-white text-center' style={{margin: 0, height: 30, paddingTop: 7, marginLeft: 5, marginRight: 5}}>122</h5>
+                        <h5 className='bg-darkgreen45 fg-white text-center' style={{margin: 0, height: 30, paddingTop: 7, marginLeft: 5, marginRight: 5}}>{agent.totalUnpaidTrips}</h5>
                       </div>
                     </Col>
                   </Row>
                 </Grid>
               </div>
               <hr style={{borderColor: 'rgba(255,255,255,0.1)', borderWidth: 2, marginTop: 25, marginBottom: 12.5, width: 200}} />
-              <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>Today's revenue</div>
+              {/* <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>THIS WEEK</div>
               <div>
                 <Grid>
                   <Row>
                     <Col xs={6} collapseLeft collapseRight>
                       <div>
-                        <span className='fg-yellow'>USD </span>
-                        <span className='fg-green'>0.43% <Icon glyph='icon-fontello-up-dir'/></span>
+                        <span className='fg-yellow'>EARNED</span>
                       </div>
                       <div className='fg-white'>
-                        <h4 style={{marginTop: 0}}>$518.47</h4>
+                        <h4 style={{marginTop: 0}}>${agent.averagePayPerTrip}</h4>
                       </div>
                     </Col>
                     <Col xs={6} collapseLeft collapseRight>
                       <div>
-                        <span className='fg-yellow'>EUR </span>
-                        <span className='fg-red'>0.24% <Icon glyph='icon-fontello-down-dir'/></span>
+                        <span className='fg-yellow'>AVG/TRIP</span>
                       </div>
                       <div className='fg-white'>
-                        <h4 style={{marginTop: 0}}>€3,170.65</h4>
+                        <h4 style={{marginTop: 0}}>${agent.averagePayPerTrip}</h4>
+                      </div>
+                    </Col>
+                  </Row>
+                </Grid>
+              </div>
+              <hr style={{borderColor: 'rgba(255,255,255,0.1)', borderWidth: 2, marginTop: 25, marginBottom: 12.5, width: 200}} /> */}
+              <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>EARNINGS</div>
+              <div>
+                <Grid>
+                  <Row>
+                    <Col xs={6} collapseLeft collapseRight>
+                      <div>
+                        <span className='fg-yellow'>CREDIT</span>
+                      </div>
+                      <div className='fg-white'>
+                        <h4 style={{marginTop: 0}}>${agent.totalUnpaidMoney}</h4>
+                      </div>
+                    </Col>
+                    <Col xs={6} collapseLeft collapseRight>
+                      <div>
+                        <span className='fg-yellow'>PAID</span>
+                      </div>
+                      <div className='fg-white'>
+                        <h4 style={{marginTop: 0}}>${agent.totalPaidMoney}</h4>
                       </div>
                     </Col>
                   </Row>
                 </Grid>
               </div>
               <hr style={{borderColor: 'rgba(255,255,255,0.1)', borderWidth: 2, marginTop: 25, marginBottom: 12.5, width: 200}} />
-              <div>
+              {/* <div>
                 <Grid>
                   <Row>
                     <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>Today's goal percentage</div>
@@ -132,14 +155,14 @@ class StatsSidebarComponent extends React.Component {
                   <hr style={{borderColor: 'rgba(255,255,255,0.1)', borderWidth: 2, marginTop: 12.5, marginBottom: 25, width: 200}} />
 
                 </Grid>
-              </div>
+              </div> */}
               <div>
                 <Grid>
                   <Row>
                     <Col xs={12} collapseLeft collapseRight>
-                      <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>Your Commision Today</div>
+                      <div className='sidebar-header text-left' style={{marginRight: 5, marginLeft: 5, textTransform: 'none'}}>My Last Trip Earnings</div>
                       <div className='fg-white text-center'>
-                        <h4 style={{marginTop: 0}}>€67.65</h4>
+                        <h4 style={{marginTop: 0}}>${agent.lastCreditAmount}</h4>
                       </div>
                     </Col>
                   </Row>
