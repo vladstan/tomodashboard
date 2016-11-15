@@ -21,6 +21,7 @@ import schema from './data/schema';
 import jwt from 'express-jwt';
 import jsonwebtoken from 'jsonwebtoken';
 import GraphQLSettings from './graphql.json';
+import morgan from 'morgan';
 
 const jwtSecret = '23rfqwdf32wqda';
 
@@ -34,6 +35,7 @@ setNetworkLayer(new Relay.DefaultNetworkLayer(endpoint));
 const PORT = process.env.PORT || 8080;
 
 let app = express();
+app.use(morgan('short'));
 app.use(compression());
 app.use(cookieParser());
 app.use(express.static(path.join(process.cwd(), 'public')));

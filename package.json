@@ -110,6 +110,7 @@
     "isomorphic-fetch": "2.2.1",
     "isomorphic-relay-router": "0.8.2",
     "jsonwebtoken": "7.1.9",
+    "morgan": "1.7.0",
     "promised-mongo": "git+https://github.com/mindeavor/promised-mongo.git",
     "pug": "2.0.0-beta3",
     "react": "15.3.1",

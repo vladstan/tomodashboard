@@ -17,6 +17,9 @@ if (isBrowser()) {
   setEnvironment(RelaySubscriptions.Environment);
   setNetworkLayer(new SubsNetworkLayer('/graphql', {
     get headers() {
+      if (!window.localStorage.getItem('auth_token')) {
+        return;
+      }
       return {
         Authorization: 'Bearer ' + window.localStorage.getItem('auth_token'),
       };
@@ -28,13 +31,14 @@ if (isBrowser()) {
     endpoint = GraphQLSettings.production.endpoint;
   }
   endpoint = endpoint || 'http://localhost:8080/graphql';
-  setNetworkLayer(new Relay.DefaultNetworkLayer(endpoint, {
-    get headers() {
-      return {
-        Authorization: 'Bearer ' + window.localStorage.getItem('auth_token'),
-      };
-    }
-  }));
+  setNetworkLayer(new Relay.DefaultNetworkLayer(endpoint));
+  // {
+  //   get headers() {
+  //     return {
+  //       Authorization: 'Bearer ' + window.localStorage.getItem('auth_token'),
+  //     };
+  //   }
+  // }
 }
 
 render(routes.get(), () => {
