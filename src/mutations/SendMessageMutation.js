@@ -54,27 +54,22 @@ class SendMessageMutation extends Relay.Mutation {
 
   // getOptimisticResponse() {
   //   return {
-  //     // FIXME: totalCount gets updated optimistically, but this edge does not
-  //     // get added until the server responds
   //     messageEdge: {
   //       node: {
-  //         id
-  //         _id
-  //         type
-  //         text
-  //         senderId
-  //         receiverId
-  //         senderType
-  //         receiverType
-  //         text: this.props.text,
+  //         type: this.props.type,
+  //         text: this.props.text || '',
+  //         senderId: this.props.senderId,
+  //         receiverId: this.props.receiverId,
+  //         senderType: this.props.senderType,
+  //         receiverType: this.props.receiverType,
+  //         timestamp: Date.now(),
+  //         imageUrl: this.props.imageUrl || '',
   //       },
   //     },
-  //     user: {
-  //       id: .id,
-  //       totalCount: this.props.viewer.totalCount + 1,
-  //     },
+  //     user: this.props.user,
   //   };
   // }
+
 }
 
 export default SendMessageMutation;
