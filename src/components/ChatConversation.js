@@ -70,7 +70,7 @@ class ChatConversationItem extends React.Component {
             marginLeft: '10px',
             marginRight: '10px'
           }}>
-          <img src={this.props.imageUrl} />
+          <img src={this.props.imageUrl} style={{maxWidth: 300, maxHeight: 300}} />
         </span>
       );
     } else {
