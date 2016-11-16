@@ -20,7 +20,7 @@ class SummaryModal extends React.Component {
 
   state = {
     fields: [
-      {key: 0, name: '', price: '', segments: '', segmentPrice: 9},
+      {key: Date.now(), name: '', price: '', segments: '', segmentPrice: 9},
     ],
     agentCutPercent: 0.7,
     loading: false,

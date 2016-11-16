@@ -38,10 +38,12 @@ class SendMessageMutation extends Relay.Mutation {
   }
 
   getVariables() {
+    console.log('SendMessageMutation.getVars()');
     return {
       userId: this.props.user._id,
       type: this.props.type,
-      text: this.props.text,
+      text: this.props.text || '',
+      imageUrl: this.props.imageUrl || '',
       senderId: this.props.senderId,
       receiverId: this.props.receiverId,
       receiverFacebookId: this.props.receiverFacebookId,

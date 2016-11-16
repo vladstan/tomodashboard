@@ -190,7 +190,9 @@ const notifiers = [];
 let startedListening = false;
 
 function notifyChange(topic, data) {
-  console.log('notifying change:', topic);
+  if (!topic.includes('add_message:')) {
+    console.log('notifying change:', topic);
+  }
   notifiers.forEach(notifier => notifier({ topic, data }));
 }
 

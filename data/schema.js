@@ -532,6 +532,7 @@ const SendMessageMutation = mutationWithClientMutationId({
   inputFields: {
     type: { type: new GraphQLNonNull(GraphQLString) },
     text: { type: new GraphQLNonNull(GraphQLString) },
+    imageUrl: { type: new GraphQLNonNull(GraphQLString) },
     senderId: { type: new GraphQLNonNull(GraphQLString) },
     receiverId: { type: new GraphQLNonNull(GraphQLString) },
     receiverFacebookId: { type: new GraphQLNonNull(GraphQLString) },
@@ -559,22 +560,27 @@ const SendMessageMutation = mutationWithClientMutationId({
       resolve: (doc) => getUser(doc.userId),
     },
   },
-  mutateAndGetPayload: (props) =>
-    getSessionOfUser(props.userId)
-      .then((session) => {
-        return sendMessage({
-          type: props.type,
-          text: props.text,
-          senderId: props.senderId,
-          receiverId: props.receiverId,
-          receiverFacebookId: props.receiverFacebookId,
-          senderType: props.senderType,
-          receiverType: props.receiverType,
-          sessionId: session._id,
-          timestamp: Date.now(),
-        }).catch(::console.error);
-      })
-      .catch(::console.error),
+  mutateAndGetPayload: async (props) => {
+    console.log('send message mutateAndGetPayload');
+    try {
+      const session = await getSessionOfUser(props.userId);
+      await sendMessage({
+        type: props.type,
+        text: props.text,
+        imageUrl: props.imageUrl,
+        senderId: props.senderId,
+        receiverId: props.receiverId,
+        receiverFacebookId: props.receiverFacebookId,
+        senderType: props.senderType,
+        receiverType: props.receiverType,
+        sessionId: session._id,
+        timestamp: Date.now(),
+      });
+    } catch (ex) {
+      console.error(ex);
+      throw ex;
+    }
+  }
 });
 
 const SwitchBotAgentMutation = mutationWithClientMutationId({

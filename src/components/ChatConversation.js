@@ -13,6 +13,8 @@ import {
 } from '@sketchpixy/rubix';
 
 import SummaryModal from './SummaryModal';
+import ImageModal from './ImageModal';
+
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
 
 class ChatConversationItem extends React.Component {
@@ -96,6 +98,7 @@ class ChatConversation extends React.Component {
   state = {
     messageInputText: '',
     showSummaryModal: false,
+    showImageModal: false,
   }
 
   closeSummaryModal() {
@@ -109,6 +112,20 @@ class ChatConversation extends React.Component {
 		this.setState({
       ...this.state,
       showSummaryModal: true,
+    });
+  }
+
+  closeImageModal() {
+		this.setState({
+      ...this.state,
+      showImageModal: false,
+    });
+  }
+
+  openImageModal() {
+		this.setState({
+      ...this.state,
+      showImageModal: true,
     });
   }
 
@@ -132,10 +149,6 @@ class ChatConversation extends React.Component {
       event.preventDefault();
       this.onSend();
     }
-  }
-
-  sendSummaryLink(link) {
-    this.props.sendMessage(link);
   }
 
   componentDidMount() {
@@ -244,6 +257,8 @@ class ChatConversation extends React.Component {
         // agent has read all messages
         return true;
       }
+    } else {
+      return true;
     }
 
     return false;
@@ -323,6 +338,9 @@ class ChatConversation extends React.Component {
                           <a onClick={::this.openSummaryModal} style={{border: 'none', cursor: 'pointer'}}>
                             <Icon glyph='icon-dripicons-calendar icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
                           </a>
+                          <a onClick={::this.openImageModal} style={{border: 'none', cursor: 'pointer'}}>
+                            <Icon glyph='icon-dripicons-camera icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
+                          </a>
                         </Col>
                         <Col xs={6} className='text-right' collapseLeft collapseRight>
                           <Button bsStyle='darkgreen45' onClick={::this.onSend}>send</Button>
@@ -338,8 +356,13 @@ class ChatConversation extends React.Component {
           <SummaryModal
             show={this.state.showSummaryModal}
             onClose={::this.closeSummaryModal}
-            sendLink={::this.sendSummaryLink}
+            sendLink={this.props.sendMessage}
             getSummaryLink={this.props.getSummaryLink} />
+
+          <ImageModal
+            show={this.state.showImageModal}
+            onClose={::this.closeImageModal}
+            sendImage={this.props.sendImageMessage} />
         </div>
       );
     } catch (ex) {

@@ -92,6 +92,23 @@ class UserChat extends React.Component {
     );
   }
 
+  sendImageMessage(link) {
+    // console.log('sendImageMessage:', link);
+    const { relay, user } = this.props;
+    relay.commitUpdate(
+      new SendMessageMutation({
+        user,
+        type: 'image',
+        imageUrl: link,
+        senderId: '00agent00',
+        receiverId: user._id,
+        receiverFacebookId: user.facebookId,
+        senderType: 'bot',
+        receiverType: 'user',
+      }),
+    );
+  }
+
   getSummaryLink(summary) {
     return new Promise((resolve, reject) => {
       try {
@@ -280,6 +297,7 @@ class UserChat extends React.Component {
                           messages={this.props.user.messages.edges.map(e => e.node)}
                           profile={this.props.user.profile}
                           sendMessage={::this.sendMessage}
+                          sendImageMessage={::this.sendImageMessage}
                           getSummaryLink={::this.getSummaryLink}
                           relay={this.props.relay}
                           user={this.props.user}

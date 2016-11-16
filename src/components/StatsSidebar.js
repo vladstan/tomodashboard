@@ -44,7 +44,7 @@ class StatsSidebarComponent extends React.Component {
     }.bind(this))();
   }
   render() {
-    console.log(this.props.agent);
+    // console.log(this.props.agent);
     const {agent} = this.props;
     return (
       <div>
