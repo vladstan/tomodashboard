@@ -12,6 +12,7 @@ import SendMessageMutation from '../mutations/SendMessageMutation';
 import SwitchBotAgentMutation from '../mutations/SwitchBotAgentMutation';
 import GetSummaryLinkMutation from '../mutations/GetSummaryLinkMutation';
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
+import UpdateAgentTypingStatusMutation from '../mutations/UpdateAgentTypingStatusMutation';
 
 import {
   Row,
@@ -331,6 +332,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         ${SwitchBotAgentMutation.getFragment('user')}
         ${GetSummaryLinkMutation.getFragment('user')}
         ${UpdateAgentWatermarksMutation.getFragment('user')}
+        ${UpdateAgentTypingStatusMutation.getFragment('user')}
         profile {
           name
           pictureUrl
@@ -378,6 +380,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         ${SwitchBotAgentMutation.getFragment('agent')}
         ${GetSummaryLinkMutation.getFragment('agent')}
         ${UpdateAgentWatermarksMutation.getFragment('agent')}
+        ${UpdateAgentTypingStatusMutation.getFragment('agent')}
       }
     `,
   },

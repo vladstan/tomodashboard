@@ -16,6 +16,7 @@ import SummaryModal from './SummaryModal';
 import ImageModal from './ImageModal';
 
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
+import UpdateAgentTypingStatusMutation from '../mutations/UpdateAgentTypingStatusMutation';
 
 class ChatConversationItem extends React.Component {
 
@@ -139,9 +140,28 @@ class ChatConversation extends React.Component {
   }
 
   onMessageTextChange(event) {
+    const msg = event.target.value;
+    if (this.state.messageInputText && !msg) {
+      // console.log('stopped');
+      this.sendTypingStatus(false);
+    } else if (!this.state.messageInputText && msg) {
+      // console.log('started');
+      this.sendTypingStatus(true);
+    }
     this.setState({
-      messageInputText: event.target.value,
+      messageInputText: msg,
     });
+  }
+
+  sendTypingStatus(isTyping) {
+    const { relay, agent, user } = this.props;
+    relay.commitUpdate(
+      new UpdateAgentTypingStatusMutation({
+        agent,
+        user,
+        isTyping,
+      }),
+    );
   }
 
   onKeyPress(event) {

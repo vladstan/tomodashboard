@@ -52,6 +52,7 @@ import {
 import {
   sendMessage,
   markConvAsRead,
+  sendTypingStatus,
 } from './okclaire';
 
 import { getWithType, isType } from '@sketchpixy/rubix/lib/node/relay-utils';
@@ -766,6 +767,35 @@ const UpdateAgentWatermarksMutation = mutationWithClientMutationId({
   },
 });
 
+const UpdateAgentTypingStatusMutation = mutationWithClientMutationId({
+  name: 'UpdateAgentTypingStatus',
+  inputFields: {
+    userFacebookId: { type: new GraphQLNonNull(GraphQLString) },
+    agentId: { type: new GraphQLNonNull(GraphQLString) },
+    isTyping: { type: new GraphQLNonNull(GraphQLBoolean) },
+  },
+  outputFields: {
+    agent: {
+      type: Agent,
+      resolve: (payload) => getAgent(payload.agentId),
+    },
+  },
+  mutateAndGetPayload: async (props) => {
+    try {
+      // await updateAgent(props.agentId, {
+      //   lastReadWatermark: props.lastReadWatermark,
+      // });
+      await sendTypingStatus(props.userFacebookId, props.isTyping);
+    } catch (ex) {
+      console.error('error inside mutation UpdateAgentTypingStatusMutation:', ex);
+    }
+
+    return {
+      agentId: props.agentId
+    };
+  },
+});
+
 const GetSummaryLinkMutation = mutationWithClientMutationId({
   name: 'GetSummaryLink',
   inputFields: {
@@ -962,6 +992,7 @@ const Mutation = new GraphQLObjectType({
     switchBotAgent: SwitchBotAgentMutation,
     updateStripeDetails: UpdateStripeDetailsMutation,
     updateAgentWatermarks: UpdateAgentWatermarksMutation,
+    updateAgentTypingStatus: UpdateAgentTypingStatusMutation,
     getSummaryLink: GetSummaryLinkMutation,
   }),
 });

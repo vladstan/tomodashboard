@@ -120,6 +120,7 @@ type Mutation {
   switchBotAgent(input: SwitchBotAgentInput!): SwitchBotAgentPayload
   updateStripeDetails(input: UpdateStripeDetailsInput!): UpdateStripeDetailsPayload
   updateAgentWatermarks(input: UpdateAgentWatermarksInput!): UpdateAgentWatermarksPayload
+  updateAgentTypingStatus(input: UpdateAgentTypingStatusInput!): UpdateAgentTypingStatusPayload
   getSummaryLink(input: GetSummaryLinkInput!): GetSummaryLinkPayload
 }
 
@@ -270,6 +271,18 @@ input SwitchBotAgentInput {
 
 type SwitchBotAgentPayload {
   user: User
+  clientMutationId: String
+}
+
+input UpdateAgentTypingStatusInput {
+  userFacebookId: String!
+  agentId: String!
+  isTyping: Boolean!
+  clientMutationId: String
+}
+
+type UpdateAgentTypingStatusPayload {
+  agent: Agent
   clientMutationId: String
 }
 
