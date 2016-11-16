@@ -335,11 +335,14 @@ class ChatConversation extends React.Component {
                     <Grid>
                       <Row>
                         <Col xs={6} collapseLeft collapseRight>
-                          <a onClick={::this.openSummaryModal} style={{border: 'none', cursor: 'pointer'}}>
-                            <Icon glyph='icon-dripicons-calendar icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
+                          <a onClick={::this.openSummaryModal} style={{border: 'none', cursor: 'pointer'}} title="Send summary">
+                            <Icon glyph='icon-dripicons-align-justify icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
                           </a>
-                          <a onClick={::this.openImageModal} style={{border: 'none', cursor: 'pointer'}}>
+                          <a onClick={::this.openImageModal} style={{border: 'none', cursor: 'pointer'}} title="Send image">
                             <Icon glyph='icon-dripicons-camera icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
+                          </a>
+                          <a onClick={::this.openImageModal} style={{border: 'none', cursor: 'pointer'}} title="Send suggestions">
+                            <Icon glyph='icon-fontello-flow-split icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
                           </a>
                         </Col>
                         <Col xs={6} className='text-right' collapseLeft collapseRight>
