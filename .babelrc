@@ -5,7 +5,6 @@
     "react"
   ],
   "plugins": [
-    "transform-promise-to-bluebird",
     "transform-decorators-legacy",
     "babel-relay-plugin-loader",
     "react-hot-loader/babel",

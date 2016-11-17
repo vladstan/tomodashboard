@@ -1,7 +1,7 @@
-global.Promise=require("bluebird");
-if (process.env.NODE_ENV != 'production') {
-  require("superstack");
-}
+// global.Promise=require("bluebird");
+// if (process.env.NODE_ENV != 'production') {
+//   require("superstack");
+// }
 
 import path from 'path';
 import express from 'express';
