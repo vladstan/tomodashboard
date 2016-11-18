@@ -89,6 +89,7 @@ type Message implements Node {
   _id: String
   type: String
   text: String
+  cards: String
   senderId: String
   receiverId: String
   senderType: String
@@ -191,6 +192,7 @@ input SendMessageInput {
   type: String!
   text: String!
   imageUrl: String!
+  cards: [String]!
   senderId: String!
   receiverId: String!
   receiverFacebookId: String!

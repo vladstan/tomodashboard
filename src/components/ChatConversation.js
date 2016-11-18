@@ -13,6 +13,7 @@ import {
 } from '@sketchpixy/rubix';
 
 import SummaryModal from './SummaryModal';
+import SuggestionsModal from './SuggestionsModal';
 import ImageModal from './ImageModal';
 
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
@@ -74,6 +75,33 @@ class ChatConversationItem extends React.Component {
           <img src={this.props.imageUrl} style={{maxWidth: 300, maxHeight: 300}} />
         </span>
       );
+    } else if (this.props.cards && this.props.cards.length) {
+      // console.log(this.props.cards);
+      return (
+        <span
+          className='body'
+          style={{
+            position: 'relative',
+            top: -2,
+            padding: '10px 15px 8px',
+            borderRadius: '20px',
+            marginLeft: '10px',
+            marginRight: '10px'
+          }}>
+          {
+            this.props.cards.map(c => (
+              <div key={JSON.stringify(c)}>
+                <img src={c.pictureUrl} style={{maxWidth: 300, maxHeight: 200}} />
+                <p style={{background: '#F3F1F2', padding: '10px 15px 8px', borderRadius: '20px'}}>
+                  {c.title}
+                  <br/>
+                  <span style={{fontSize: 12}}>{c.description}</span>
+                </p>
+              </div>
+            ))
+          }
+        </span>
+      );
     } else {
       return (
         <span
@@ -100,6 +128,7 @@ class ChatConversation extends React.Component {
     messageInputText: '',
     showSummaryModal: false,
     showImageModal: false,
+    showSuggestionsModal: false,
   }
 
   closeSummaryModal() {
@@ -127,6 +156,20 @@ class ChatConversation extends React.Component {
 		this.setState({
       ...this.state,
       showImageModal: true,
+    });
+  }
+
+  closeSuggestionsModal() {
+		this.setState({
+      ...this.state,
+      showSuggestionsModal: false,
+    });
+  }
+
+  openSuggestionsModal() {
+		this.setState({
+      ...this.state,
+      showSuggestionsModal: true,
     });
   }
 
@@ -309,6 +352,8 @@ class ChatConversation extends React.Component {
         }
       }
 
+      console.log('RENDERING MSGS', this.props.messages);
+
       return (
         <div>
           <Grid>
@@ -324,6 +369,7 @@ class ChatConversation extends React.Component {
                       position={m.senderType === 'user' ? 'left' : 'right'}
                       avatarUrl={m.senderType === 'user' ? this.props.profile.pictureUrl : this.props.agent.pictureUrl}
                       imageUrl={m.imageUrl}
+                      cards={m.cards && JSON.parse(m.cards)}
                       text={m.text} />
                   ))}
                 </ul>
@@ -361,7 +407,7 @@ class ChatConversation extends React.Component {
                           <a onClick={::this.openImageModal} style={{border: 'none', cursor: 'pointer'}} title="Send image">
                             <Icon glyph='icon-dripicons-camera icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
                           </a>
-                          <a onClick={::this.openImageModal} style={{border: 'none', cursor: 'pointer'}} title="Send suggestions">
+                          <a onClick={::this.openSuggestionsModal} style={{border: 'none', cursor: 'pointer'}} title="Send suggestions">
                             <Icon glyph='icon-fontello-flow-split icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
                           </a>
                         </Col>
@@ -386,6 +432,11 @@ class ChatConversation extends React.Component {
             show={this.state.showImageModal}
             onClose={::this.closeImageModal}
             sendImage={this.props.sendImageMessage} />
+
+          <SuggestionsModal
+            show={this.state.showSuggestionsModal}
+            onClose={::this.closeSuggestionsModal}
+            sendSuggestionsMessage={this.props.sendSuggestionsMessage} />
         </div>
       );
     } catch (ex) {

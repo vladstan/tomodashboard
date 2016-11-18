@@ -22,6 +22,7 @@ class AddMessageSubscription extends Subscription {
               _id
               type
               text
+              cards
               senderId
               receiverId
               senderType

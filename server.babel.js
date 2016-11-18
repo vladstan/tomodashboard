@@ -34,7 +34,35 @@ setNetworkLayer(new Relay.DefaultNetworkLayer(endpoint));
 
 const PORT = process.env.PORT || 8080;
 
+function logResponseBody(req, res, next) {
+  if (!req.url.includes('.png') && !req.url.includes('.jpg')) {
+    var oldWrite = res.write,
+        oldEnd = res.end;
+
+    var chunks = [];
+
+    res.write = function(chunk) {
+      chunks.push(chunk);
+
+      oldWrite.apply(res, arguments);
+    };
+
+    res.end = function(chunk) {
+      if (chunk)
+        chunks.push(chunk);
+
+      var body = Buffer.concat(chunks).toString('utf8');
+      console.log('response body for:', req.path, body.substr(0, 400));
+
+      oldEnd.apply(res, arguments);
+    };
+  }
+
+  next();
+}
+
 let app = express();
+// app.use(logResponseBody);
 app.use(morgan('short'));
 app.use(compression());
 app.use(cookieParser());

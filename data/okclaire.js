@@ -10,7 +10,7 @@ export function sendMessage(msg) {
     .send({messages: [msg]})
     .set('Content-Type', 'application/json')
     .then((res) => {
-      console.log('sent', msg, 'to TomoBot:', res);
+      console.log('sent', msg, 'to TomoBot:');
       return res;
     });
 }
@@ -22,7 +22,7 @@ export function markConvAsRead(receiverFacebookId) {
     .send({receiverFacebookId})
     .set('Content-Type', 'application/json')
     .then((res) => {
-      console.log('marked conv for fb user ' + receiverFacebookId + ' as read through TomoBot:', res);
+      console.log('marked conv for fb user ' + receiverFacebookId + ' as read through TomoBot:');
       return res;
     });
 }

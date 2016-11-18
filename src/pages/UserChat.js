@@ -110,6 +110,27 @@ class UserChat extends React.Component {
     );
   }
 
+  sendSuggestionsMessage(suggestions) {
+    console.log('sendSuggestionsMessage:', suggestions);
+    const { relay, user } = this.props;
+    try {
+      relay.commitUpdate(
+        new SendMessageMutation({
+          user,
+          type: 'cards',
+          cards: Object.keys(suggestions.cards).map(k => suggestions.cards[k].link),
+          senderId: '00agent00',
+          receiverId: user._id,
+          receiverFacebookId: user.facebookId,
+          senderType: 'bot',
+          receiverType: 'user',
+        }),
+      );
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+
   getSummaryLink(summary) {
     return new Promise((resolve, reject) => {
       try {
@@ -299,6 +320,7 @@ class UserChat extends React.Component {
                           profile={this.props.user.profile}
                           sendMessage={::this.sendMessage}
                           sendImageMessage={::this.sendImageMessage}
+                          sendSuggestionsMessage={::this.sendSuggestionsMessage}
                           getSummaryLink={::this.getSummaryLink}
                           relay={this.props.relay}
                           user={this.props.user}
@@ -360,6 +382,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
               _id
               type
               text
+              cards
               senderId
               receiverId
               senderType

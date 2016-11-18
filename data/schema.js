@@ -4,7 +4,7 @@ import {
   GraphQLBoolean,
   GraphQLSchema,
   GraphQLString,
-  // GraphQLList,
+  GraphQLList,
   GraphQLInt,
   // GraphQLID
 } from 'graphql';
@@ -57,6 +57,7 @@ import {
 
 import { getWithType, isType } from '@sketchpixy/rubix/lib/node/relay-utils';
 import { subscriptionWithClientId } from 'graphql-relay-subscription';
+import superagent from 'superagent';
 import Stripe from 'stripe';
 
 import jsonwebtoken from 'jsonwebtoken';
@@ -154,6 +155,10 @@ const Message = new GraphQLObjectType({
     text: {
       type: GraphQLString,
       resolve: (doc) => doc.text,
+    },
+    cards: {
+      type: GraphQLString,
+      resolve: (doc) => JSON.stringify(doc.cards),
     },
     senderId: {
       type: GraphQLString,
@@ -534,6 +539,7 @@ const SendMessageMutation = mutationWithClientMutationId({
     type: { type: new GraphQLNonNull(GraphQLString) },
     text: { type: new GraphQLNonNull(GraphQLString) },
     imageUrl: { type: new GraphQLNonNull(GraphQLString) },
+    cards: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },
     senderId: { type: new GraphQLNonNull(GraphQLString) },
     receiverId: { type: new GraphQLNonNull(GraphQLString) },
     receiverFacebookId: { type: new GraphQLNonNull(GraphQLString) },
@@ -563,13 +569,43 @@ const SendMessageMutation = mutationWithClientMutationId({
   },
   mutateAndGetPayload: async (props) => {
     console.log('send message mutateAndGetPayload');
+    const session = await getSessionOfUser(props.userId);
+    let cards = [];
+
+    if (props.type === 'cards') {
+      for (const link of props.cards) {
+        try {
+          const resp = await superagent('GET', link); // eslint-disable-line babel/no-await-in-loop
+          const text = resp.res.text;
+          // console.log('resp for ', link, ':', text);
+          const ogImage = text.match(/property="og:image" content="(.*?\.(png|jpe?g))"/)[1];
+          const ogTitle = text.match(/property="og:title" content="(.*?)"/)[1]
+            .replace(/\&\#x2605\;/g, '★');
+          const ogDescription = text.match(/property="og:description" content="(.*?)"/)[1];
+          cards.push({
+            link: link,
+            pictureUrl: ogImage,
+            title: ogTitle,
+            description: ogDescription,
+            buttons: [
+              {title: 'I like this', payload: 'I_LIKE_THIS_' + (cards.length + 1)},
+              {title: 'More details', url: link},
+            ]
+          });
+        } catch (ex) {
+          console.error(ex);
+          throw new Error('invalid url');
+        }
+      }
+    }
+
     try {
-      const session = await getSessionOfUser(props.userId);
       await sendMessage({
         type: props.type,
         text: props.text,
         imageUrl: props.imageUrl,
         senderId: props.senderId,
+        cards: cards,
         receiverId: props.receiverId,
         receiverFacebookId: props.receiverFacebookId,
         senderType: props.senderType,
