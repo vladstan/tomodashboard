@@ -10,10 +10,13 @@ import {
   PanelFooter,
   FormControl,
   PanelContainer,
+  DropdownButton,
+  MenuItem,
 } from '@sketchpixy/rubix';
 
 import SummaryModal from './SummaryModal';
-import SuggestionsModal from './SuggestionsModal';
+import FlightsSuggestionsModal from './FlightsSuggestionsModal';
+import AccommodationSuggestionsModal from './AccommodationSuggestionsModal';
 import ImageModal from './ImageModal';
 
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
@@ -159,18 +162,32 @@ class ChatConversation extends React.Component {
     });
   }
 
-  closeSuggestionsModal() {
-		this.setState({
-      ...this.state,
-      showSuggestionsModal: false,
-    });
+  closeSuggestionsModal(suggestionsType) {
+		if (suggestionsType === 'f') {
+      this.setState({
+        ...this.state,
+        showFSuggestionsModal: false,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        showASuggestionsModal: false,
+      });
+    }
   }
 
-  openSuggestionsModal() {
-		this.setState({
-      ...this.state,
-      showSuggestionsModal: true,
-    });
+  openSuggestionsModal(suggestionsType) {
+		if (suggestionsType === 'f') {
+      this.setState({
+        ...this.state,
+        showFSuggestionsModal: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        showASuggestionsModal: true,
+      });
+    }
   }
 
   onSend() {
@@ -352,8 +369,6 @@ class ChatConversation extends React.Component {
         }
       }
 
-      console.log('RENDERING MSGS', this.props.messages);
-
       return (
         <div>
           <Grid>
@@ -376,15 +391,15 @@ class ChatConversation extends React.Component {
                 <div className="status" style={{textAlign: 'right'}}>
                   {status}
                 </div>
-                <PanelContainer style={{
+                <PanelContainer className="chat-conversation-panel-container" style={{
                   background: '#EAEDF1',
                   marginTop: '20px',
-                  borderRadius: '5px'
+                  borderRadius: '5px',
                 }}>
                   <PanelBody className='fg-black75 bg-gray' style={{
                     width: '100%',
                     padding: '15px 15px 10px',
-                    display: 'block'
+                    display: 'block',
                   }}>
                     <FormControl componentClass='textarea' rows='3' placeholder="Send a text message..." style={{
                       border: 'none',
@@ -407,11 +422,12 @@ class ChatConversation extends React.Component {
                           <a onClick={::this.openImageModal} style={{border: 'none', cursor: 'pointer'}} title="Send image">
                             <Icon glyph='icon-dripicons-camera icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
                           </a>
-                          <a onClick={::this.openSuggestionsModal} style={{border: 'none', cursor: 'pointer'}} title="Send suggestions">
-                            <Icon glyph='icon-fontello-flow-split icon-1-and-quarter-x fg-text' style={{marginRight: 25}} />
-                          </a>
                         </Col>
                         <Col xs={6} className='text-right' collapseLeft collapseRight>
+                          <DropdownButton title="Suggest" dropup id="dropdown-suggestions">
+                            <MenuItem onClick={this.openSuggestionsModal.bind(this, 'f')} eventKey="1">Flights</MenuItem>
+                            <MenuItem onClick={this.openSuggestionsModal.bind(this, 'a')} eventKey="2">Accommodation</MenuItem>
+                          </DropdownButton>
                           <Button bsStyle='darkgreen45' onClick={::this.onSend}>send</Button>
                         </Col>
                       </Row>
@@ -433,9 +449,14 @@ class ChatConversation extends React.Component {
             onClose={::this.closeImageModal}
             sendImage={this.props.sendImageMessage} />
 
-          <SuggestionsModal
-            show={this.state.showSuggestionsModal}
-            onClose={::this.closeSuggestionsModal}
+          <AccommodationSuggestionsModal
+            show={this.state.showASuggestionsModal}
+            onClose={this.closeSuggestionsModal.bind(this, 'a')}
+            sendSuggestionsMessage={this.props.sendSuggestionsMessage} />
+
+          <FlightsSuggestionsModal
+            show={this.state.showFSuggestionsModal}
+            onClose={this.closeSuggestionsModal.bind(this, 'f')}
             sendSuggestionsMessage={this.props.sendSuggestionsMessage} />
         </div>
       );

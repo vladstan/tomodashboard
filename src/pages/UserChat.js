@@ -110,20 +110,52 @@ class UserChat extends React.Component {
     );
   }
 
-  sendSuggestionsMessage(suggestions) {
-    console.log('sendSuggestionsMessage:', suggestions);
+  sendSuggestionsMessage(suggestions, sType) {
+    console.log('sendSuggestionsMessage:', suggestions, sType);
+    let cards = [];
+
+    const fixedCards = Object.keys(suggestions.cards)
+      .map(key => suggestions.cards[key]);
+
+    if (sType === 'accommodation') {
+      cards = fixedCards.map((c) => ({
+        link: c.link,
+        description: c.description,
+      }));
+    }
+
+    if (sType === 'flights') {
+      cards = fixedCards.map((c) => ({
+        link: c.link,
+        title: c.title,
+        description: c.description,
+      }));
+    }
+
     const { relay, user } = this.props;
     try {
+      console.log('commiting: ', {
+        user,
+        type: 'cards',
+        cards: JSON.stringify(cards),
+        senderId: '00agent00',
+        receiverId: user._id,
+        receiverFacebookId: user.facebookId,
+        senderType: 'bot',
+        receiverType: 'user',
+        sType,
+      });
       relay.commitUpdate(
         new SendMessageMutation({
           user,
           type: 'cards',
-          cards: Object.keys(suggestions.cards).map(k => suggestions.cards[k].link),
+          cards: JSON.stringify(cards),
           senderId: '00agent00',
           receiverId: user._id,
           receiverFacebookId: user.facebookId,
           senderType: 'bot',
           receiverType: 'user',
+          sType,
         }),
       );
     } catch (ex) {

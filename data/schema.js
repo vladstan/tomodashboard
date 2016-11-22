@@ -539,13 +539,14 @@ const SendMessageMutation = mutationWithClientMutationId({
     type: { type: new GraphQLNonNull(GraphQLString) },
     text: { type: new GraphQLNonNull(GraphQLString) },
     imageUrl: { type: new GraphQLNonNull(GraphQLString) },
-    cards: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },
+    cards: { type: new GraphQLNonNull(GraphQLString) },
     senderId: { type: new GraphQLNonNull(GraphQLString) },
     receiverId: { type: new GraphQLNonNull(GraphQLString) },
     receiverFacebookId: { type: new GraphQLNonNull(GraphQLString) },
     senderType: { type: new GraphQLNonNull(GraphQLString) },
     receiverType: { type: new GraphQLNonNull(GraphQLString) },
     userId: { type: new GraphQLNonNull(GraphQLString) },
+    sType: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     messageEdge: {
@@ -568,38 +569,62 @@ const SendMessageMutation = mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async (props) => {
-    console.log('send message mutateAndGetPayload');
-    const session = await getSessionOfUser(props.userId);
-    let cards = [];
+    try {
+      console.log('send message mutateAndGetPayload');
+      const session = await getSessionOfUser(props.userId);
+      let cards = [];
 
-    if (props.type === 'cards') {
-      for (const link of props.cards) {
-        try {
-          const resp = await superagent('GET', link); // eslint-disable-line babel/no-await-in-loop
-          const text = resp.res.text;
-          // console.log('resp for ', link, ':', text);
-          const ogImage = text.match(/property="og:image" content="(.*?\.(png|jpe?g))"/)[1];
-          const ogTitle = text.match(/property="og:title" content="(.*?)"/)[1]
-            .replace(/\&\#x2605\;/g, '★');
-          const ogDescription = text.match(/property="og:description" content="(.*?)"/)[1];
-          cards.push({
-            link: link,
-            pictureUrl: ogImage,
-            title: ogTitle,
-            description: ogDescription,
-            buttons: [
-              {title: 'I like this', payload: 'I_LIKE_THIS_' + (cards.length + 1)},
-              {title: 'More details', url: link},
-            ]
-          });
-        } catch (ex) {
-          console.error(ex);
-          throw new Error('invalid url');
+      if (props.type === 'cards') {
+        const propsCards = JSON.parse(props.cards);
+
+        if (props.sType === 'accommodation') {
+          for (const c of propsCards) {
+            try {
+              const resp = await superagent('GET', c.link); // eslint-disable-line babel/no-await-in-loop
+              const text = resp.res.text;
+              // console.log('resp for ', link, ':', text);
+              const ogImage = text.match(/property="og:image" content="(.*?\.(png|jpe?g))"/)[1];
+              const ogTitle = text.match(/property="og:title" content="(.*?)"/)[1]
+                .replace(/\&\#x2605\;/g, '★');
+              // const ogDescription = text.match(/property="og:description" content="(.*?)"/)[1];
+              cards.push({
+                link: c.link,
+                pictureUrl: ogImage,
+                title: ogTitle,
+                // description: (c.description && (c.description + ' | ') || '') + ogDescription,
+                description: 'Price per night: ' + c.description,
+                buttons: [
+                  {title: 'I like this', payload: 'I_LIKE_THIS_ACCOMMODATION_' + (cards.length + 1)},
+                  {title: 'More details', url: c.link},
+                ]
+              });
+            } catch (ex) {
+              console.error(ex);
+              throw new Error('invalid url');
+            }
+          }
+        } else if (props.sType === 'flights') {
+          for (const c of propsCards) {
+            try {
+              cards.push({
+                link: c.link,
+                pictureUrl: c.link,
+                title: c.title,
+                description: c.description,
+                buttons: [
+                  {title: 'This flight', payload: 'I_LIKE_THIS_FLIGHT_' + (cards.length + 1)},
+                ]
+              });
+            } catch (ex) {
+              console.error(ex);
+              throw new Error('invalid url');
+            }
+          }
+        } else {
+          console.log('errrrr cards');
         }
       }
-    }
 
-    try {
       await sendMessage({
         type: props.type,
         text: props.text,

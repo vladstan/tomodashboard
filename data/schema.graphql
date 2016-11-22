@@ -192,13 +192,14 @@ input SendMessageInput {
   type: String!
   text: String!
   imageUrl: String!
-  cards: [String]!
+  cards: String!
   senderId: String!
   receiverId: String!
   receiverFacebookId: String!
   senderType: String!
   receiverType: String!
   userId: String!
+  sType: String!
   clientMutationId: String
 }
 

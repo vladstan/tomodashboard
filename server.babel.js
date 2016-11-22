@@ -52,7 +52,7 @@ function logResponseBody(req, res, next) {
         chunks.push(chunk);
 
       var body = Buffer.concat(chunks).toString('utf8');
-      console.log('response body for:', req.path, body.substr(0, 400));
+      console.log('response body for:', req.path, body.substr(0, 1000));
 
       oldEnd.apply(res, arguments);
     };
