@@ -546,7 +546,7 @@ const SendMessageMutation = mutationWithClientMutationId({
     senderType: { type: new GraphQLNonNull(GraphQLString) },
     receiverType: { type: new GraphQLNonNull(GraphQLString) },
     userId: { type: new GraphQLNonNull(GraphQLString) },
-    sType: { type: new GraphQLNonNull(GraphQLString) },
+    sType: { type: GraphQLString },
   },
   outputFields: {
     messageEdge: {

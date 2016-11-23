@@ -199,7 +199,7 @@ input SendMessageInput {
   senderType: String!
   receiverType: String!
   userId: String!
-  sType: String!
+  sType: String
   clientMutationId: String
 }
 

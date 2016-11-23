@@ -52,7 +52,9 @@ function logResponseBody(req, res, next) {
         chunks.push(chunk);
 
       var body = Buffer.concat(chunks).toString('utf8');
-      console.log('response body for:', req.path, body.substr(0, 1000));
+      if (body.includes('error')) {
+        console.log('response body for:', req.path, body.substr(0, 1000));
+      }
 
       oldEnd.apply(res, arguments);
     };
@@ -62,7 +64,7 @@ function logResponseBody(req, res, next) {
 }
 
 let app = express();
-// app.use(logResponseBody);
+app.use(logResponseBody);
 app.use(morgan('short'));
 app.use(compression());
 app.use(cookieParser());
