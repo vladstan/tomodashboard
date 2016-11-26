@@ -792,6 +792,18 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
           sessionId: session._id,
           timestamp: Date.now(),
         });
+      } else {
+        await sendMessage({
+          type: 'image',
+          imageUrl: 'https://s3-us-west-1.amazonaws.com/img.hellotomo.com/HiTomo.jpeg',
+          senderId: '00agent00',
+          receiverId: props.userId,
+          receiverFacebookId: props.userFbId,
+          senderType: 'bot',
+          receiverType: 'user',
+          sessionId: session._id,
+          timestamp: Date.now(),
+        });
       }
     } catch (ex) {
       console.error('switch agent mutateAndGetPayload error:', ex);
