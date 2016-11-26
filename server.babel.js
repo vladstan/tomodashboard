@@ -110,6 +110,15 @@ app.post('/auth', async (req, res) => {
   }
 });
 
+// app.get('/logout', async (req, res) => {
+//   try {
+//     res.cookie('auth_token', '', { expires: new Date() });
+//     res.redirect('/login');
+//   } catch (ex) {
+//     console.error(ex);
+//   }
+// });
+
 function renderHTML(req, res) {
   renderHTMLString(routes, req, (error, redirectLocation, data) => {
     if (error) {
