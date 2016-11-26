@@ -4,7 +4,7 @@ import {
   GraphQLBoolean,
   GraphQLSchema,
   GraphQLString,
-  GraphQLList,
+  // GraphQLList,
   GraphQLInt,
   // GraphQLID
 } from 'graphql';
@@ -47,6 +47,9 @@ import {
   getTotalUnpaidMoneyForAgent,
   getAveragePayPerTripForAgent,
   getTotalPaidMoneyForAgent,
+  getTrip,
+  getTripsForUser,
+  createTrip,
 } from './database';
 
 import {
@@ -75,6 +78,8 @@ const { nodeInterface, nodeField } = nodeDefinitions(
       return getWithType(getUser(_id), 'User');
     } else if (type === 'Agent') {
       return getWithType(getAgent(_id), 'Agent');
+    } else if (type === 'Trip') {
+      return getWithType(getTrip(_id), 'Trip');
     } else if (type === 'Summary') {
       return getWithType(getSummary(_id), 'Summary');
     } else if (type === 'Profile') {
@@ -94,6 +99,8 @@ const { nodeInterface, nodeField } = nodeDefinitions(
       return Agent;
     } else if (isType(obj, 'Summary')) {
       return Summary;
+    } else if (isType(obj, 'Trip')) {
+      return Trip;
     } else if (isType(obj, 'Profile')) {
       return Profile;
     } else if (isType(obj, 'IncomingReq')) {
@@ -183,6 +190,38 @@ const Message = new GraphQLObjectType({
     timestamp: {
       type: GraphQLString,
       resolve: (doc) => '' + (doc.timestamp || 0),
+    },
+    // createdAt: {
+    //   type: GraphQLString,
+    //   resolve: (doc) => doc.type,
+    // },
+  },
+  interfaces: [nodeInterface],
+});
+
+const Trip = new GraphQLObjectType({
+  name: 'Trip',
+  fields: {
+    id: globalIdField('Trip', (doc) => doc._id),
+    _id: {
+      type: GraphQLString,
+      resolve: (doc) => doc._id,
+    },
+    status: {
+      type: GraphQLString,
+      resolve: (doc) => doc.status,
+    },
+    userId: {
+      type: GraphQLString,
+      resolve: (doc) => doc.userId,
+    },
+    agentId: {
+      type: GraphQLString,
+      resolve: (doc) => doc.agentId,
+    },
+    name: {
+      type: GraphQLString,
+      resolve: (doc) => doc.name,
     },
     // createdAt: {
     //   type: GraphQLString,
@@ -324,6 +363,11 @@ const User = new GraphQLObjectType({
       type: MessagesConnection,
       args: connectionArgs,
       resolve: (doc, args) => connectionFromPromisedArray(getMessagesForUser(doc._id), args),
+    },
+    trips: {
+      type: TripsConnection,
+      args: connectionArgs,
+      resolve: (doc, args) => connectionFromPromisedArray(getTripsForUser(doc._id), args),
     },
     botMuted: {
       type: GraphQLBoolean,
@@ -516,8 +560,16 @@ const {
 });
 
 const {
+  connectionType: TripsConnection,
+  edgeType: TripEdge
+} = connectionDefinitions({
+  name: 'trips',
+  nodeType: Trip
+});
+
+const {
   connectionType: UsersConnection,
-  edgeType: UserEdge
+  // edgeType: UserEdge
 } = connectionDefinitions({
   name: 'users',
   nodeType: User
@@ -525,7 +577,7 @@ const {
 
 const {
   connectionType: SummaryFieldsConnection,
-  edgeType: SummaryFieldEdge
+  // edgeType: SummaryFieldEdge
 } = connectionDefinitions({
   name: 'summaryFields',
   nodeType: SummaryField
@@ -637,6 +689,50 @@ const SendMessageMutation = mutationWithClientMutationId({
         receiverType: props.receiverType,
         sessionId: session._id,
         timestamp: Date.now(),
+      });
+    } catch (ex) {
+      console.error(ex);
+      throw ex;
+    }
+  }
+});
+
+const CreateTripMutation = mutationWithClientMutationId({
+  name: 'CreateTrip',
+  inputFields: {
+    userId: { type: new GraphQLNonNull(GraphQLString) },
+    agentId: { type: new GraphQLNonNull(GraphQLString) },
+    tripName: { type: new GraphQLNonNull(GraphQLString) },
+    status: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    tripEdge: {
+      type: TripEdge,
+      resolve: async (doc) => {
+        const trips = await getTripsForUser(doc.userId);
+        console.log('trips vs doc', '\n\n\n', trips, '\n\n\n', doc);
+        const offset = trips.length - 1;
+        const cursor = offsetToCursor(offset);
+
+        return {
+          cursor: cursor,
+          node: doc,
+        };
+      },
+    },
+    user: {
+      type: User,
+      resolve: (doc) => getUser(doc.userId),
+    },
+  },
+  mutateAndGetPayload: async (props) => {
+    try {
+      // console.log('create trip mutateAndGetPayload');
+      return await createTrip({
+        status: props.status,
+        agentId: props.agentId,
+        userId: props.userId,
+        name: props.tripName,
       });
     } catch (ex) {
       console.error(ex);
@@ -1055,6 +1151,7 @@ const Mutation = new GraphQLObjectType({
     updateAgentWatermarks: UpdateAgentWatermarksMutation,
     updateAgentTypingStatus: UpdateAgentTypingStatusMutation,
     getSummaryLink: GetSummaryLinkMutation,
+    createTrip: CreateTripMutation,
   }),
 });
 

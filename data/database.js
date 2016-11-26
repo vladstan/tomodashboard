@@ -16,6 +16,7 @@ const db = pmongo(MONGO_URL, {
   'summaries',
   'charges',
   'agent_credits',
+  'trips',
 ]);
 
 // export function getActionMessagesCursor() {
@@ -29,6 +30,10 @@ export function getUser(_id) {
 
 export function getAgent(_id) {
   return db.agents.findOne({ _id: pmongo.ObjectId(_id) });
+}
+
+export function getTrip(_id) {
+  return db.trips.findOne({ _id: pmongo.ObjectId(_id) });
 }
 
 export async function getLastCreditForAgent(_id) {
@@ -131,6 +136,11 @@ export async function getMessagesForUser(_idUser) {
   return allMessages.filter(m => m.sessionId == session._id);
 }
 
+export async function getTripsForUser(_idUser) {
+  const allTrips = await db.trips.find({}).sort({$natural: 1});
+  return allTrips.filter(m => m.userId == _idUser);
+}
+
 export async function getUsersForAgent(/*_idAgent*/) {
   return await db.users.find({});
 }
@@ -172,6 +182,12 @@ export async function insertAndGetSummary(summary) {
   });
 
   return summaryDoc;
+}
+
+export async function createTrip(data) {
+  // console.log('db createTrip', data);
+  const tripDoc = await db.trips.insert(data);
+  return tripDoc;
 }
 
 export async function addCharge(charge) {

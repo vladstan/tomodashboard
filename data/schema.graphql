@@ -43,6 +43,20 @@ type Agent implements Node {
   averagePayPerTrip: Int
 }
 
+input CreateTripInput {
+  userId: String!
+  agentId: String!
+  tripName: String!
+  status: String!
+  clientMutationId: String
+}
+
+type CreateTripPayload {
+  tripEdge: tripsEdge
+  user: User
+  clientMutationId: String
+}
+
 input GetSummaryLinkInput {
   summary: String!
   agentId: String!
@@ -123,6 +137,7 @@ type Mutation {
   updateAgentWatermarks(input: UpdateAgentWatermarksInput!): UpdateAgentWatermarksPayload
   updateAgentTypingStatus(input: UpdateAgentTypingStatusInput!): UpdateAgentTypingStatusPayload
   getSummaryLink(input: GetSummaryLinkInput!): GetSummaryLinkPayload
+  createTrip(input: CreateTripInput!): CreateTripPayload
 }
 
 # An object with an ID
@@ -277,6 +292,34 @@ type SwitchBotAgentPayload {
   clientMutationId: String
 }
 
+type Trip implements Node {
+  # The ID of an object
+  id: ID!
+  _id: String
+  status: String
+  userId: String
+  agentId: String
+  name: String
+}
+
+# A connection to a list of items.
+type tripsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [tripsEdge]
+}
+
+# An edge in a connection.
+type tripsEdge {
+  # The item at the end of the edge
+  node: Trip
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
 input UpdateAgentTypingStatusInput {
   userFacebookId: String!
   agentId: String!
@@ -345,6 +388,7 @@ type User implements Node {
   facebookId: String
   profile: Profile
   messages(after: String, first: Int, before: String, last: Int): messagesConnection
+  trips(after: String, first: Int, before: String, last: Int): tripsConnection
   botMuted: Boolean
   stripe: StripeCredentials
   lastReadWatermark: String
