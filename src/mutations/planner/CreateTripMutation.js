@@ -47,8 +47,8 @@ class CreateTripMutation extends Relay.Mutation {
     return {
       userId: this.props.user._id,
       agentId: this.props.agent._id,
-      tripName: this.props.data.name,
-      status: this.props.data.status,
+      tripName: this.props.name,
+      status: this.props.status,
     };
   }
 

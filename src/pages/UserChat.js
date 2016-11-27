@@ -13,7 +13,6 @@ import SwitchBotAgentMutation from '../mutations/SwitchBotAgentMutation';
 import GetSummaryLinkMutation from '../mutations/GetSummaryLinkMutation';
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
 import UpdateAgentTypingStatusMutation from '../mutations/UpdateAgentTypingStatusMutation';
-import CreateTripMutation from '../mutations/CreateTripMutation';
 
 import {
   Row,
@@ -32,7 +31,7 @@ import {
 
 import ChatConversation from '../components/ChatConversation';
 import ChatUserProfileSidebar from '../components/ChatUserProfileSidebar';
-import AgentPlannerSidebar from '../components/AgentPlannerSidebar';
+import AgentPlannerSidebar from '../components/planner/AgentPlannerSidebar';
 
 @withRouter
 class UserChat extends React.Component {
@@ -278,8 +277,6 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         ${UpdateAgentWatermarksMutation.getFragment('user')}
         ${UpdateAgentTypingStatusMutation.getFragment('user')}
 
-        ${CreateTripMutation.getFragment('user')}
-
         profile {
           name
           pictureUrl
@@ -319,18 +316,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
           }
         }
 
-        trips(first: 1000) {
-          edges {
-            node {
-              id
-              _id
-              status
-              name
-              agentId
-              userId
-            }
-          }
-        }
+        ${AgentPlannerSidebar.getFragment('user')}
       }
     `,
     agent: () => Relay.QL`
@@ -343,8 +329,7 @@ const UserChatContainer = RelaySubscriptions.createContainer(UserChat, {
         ${GetSummaryLinkMutation.getFragment('agent')}
         ${UpdateAgentWatermarksMutation.getFragment('agent')}
         ${UpdateAgentTypingStatusMutation.getFragment('agent')}
-
-        ${CreateTripMutation.getFragment('agent')}
+        ${AgentPlannerSidebar.getFragment('agent')}
       }
     `,
   },

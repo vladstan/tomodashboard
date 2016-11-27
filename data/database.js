@@ -190,6 +190,10 @@ export async function createTrip(data) {
   return tripDoc;
 }
 
+export async function updateTrip(_id, newFields) {
+  return db.trips.update({ _id: pmongo.ObjectId(_id) }, { $set: newFields });
+}
+
 export async function addCharge(charge) {
   // console.log('db addCharge', charge);
   const chargeDoc = await db.charges.insert(charge);

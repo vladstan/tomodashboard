@@ -138,6 +138,7 @@ type Mutation {
   updateAgentTypingStatus(input: UpdateAgentTypingStatusInput!): UpdateAgentTypingStatusPayload
   getSummaryLink(input: GetSummaryLinkInput!): GetSummaryLinkPayload
   createTrip(input: CreateTripInput!): CreateTripPayload
+  updateTrip(input: UpdateTripInput!): UpdateTripPayload
 }
 
 # An object with an ID
@@ -368,6 +369,17 @@ input UpdateStripeDetailsInput {
 
 type UpdateStripeDetailsPayload {
   user: User
+  clientMutationId: String
+}
+
+input UpdateTripInput {
+  tripId: String!
+  name: String!
+  clientMutationId: String
+}
+
+type UpdateTripPayload {
+  trip: Trip
   clientMutationId: String
 }
 

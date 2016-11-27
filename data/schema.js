@@ -50,6 +50,7 @@ import {
   getTrip,
   getTripsForUser,
   createTrip,
+  updateTrip,
 } from './database';
 
 import {
@@ -741,6 +742,34 @@ const CreateTripMutation = mutationWithClientMutationId({
   }
 });
 
+const UpdateTripMutation = mutationWithClientMutationId({
+  name: 'UpdateTrip',
+  inputFields: {
+    tripId: { type: new GraphQLNonNull(GraphQLString) },
+    name: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  outputFields: {
+    trip: {
+      type: Trip,
+      resolve: (payload) => getTrip(payload.tripId),
+    },
+  },
+  mutateAndGetPayload: async (props) => {
+    try {
+      await updateTrip(props.tripId, {
+        name: props.name,
+      });
+    } catch (ex) {
+      console.error(ex);
+      throw ex;
+    }
+
+    return {
+      tripId: props.tripId,
+    };
+  }
+});
+
 const SwitchBotAgentMutation = mutationWithClientMutationId({
   name: 'SwitchBotAgent',
   inputFields: {
@@ -1164,6 +1193,7 @@ const Mutation = new GraphQLObjectType({
     updateAgentTypingStatus: UpdateAgentTypingStatusMutation,
     getSummaryLink: GetSummaryLinkMutation,
     createTrip: CreateTripMutation,
+    updateTrip: UpdateTripMutation,
   }),
 });
 
