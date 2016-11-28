@@ -51,6 +51,7 @@ const SendMessageMutation = mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async (props) => {
+    console.log('>> SEND MESSAGE PAYLOAD');
     try {
       console.log('send message mutateAndGetPayload');
       const session = await db.getSessionOfUser(props.userId);

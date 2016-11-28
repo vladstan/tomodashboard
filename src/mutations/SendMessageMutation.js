@@ -18,6 +18,10 @@ class SendMessageMutation extends Relay.Mutation {
     return Relay.QL`
       fragment on SendMessagePayload {
         messageEdge
+        user {
+          id
+          _id
+        }
       }
     `;
   }

@@ -37,6 +37,7 @@ import AgentPlannerSidebar from '../components/planner/AgentPlannerSidebar';
 class UserChat extends React.Component {
 
   sendMessage(messageText) {
+    console.log('new SendMessageMutation({');
     const { relay, user } = this.props;
     relay.commitUpdate(
       new SendMessageMutation({
@@ -49,6 +50,7 @@ class UserChat extends React.Component {
         senderType: 'bot',
         receiverType: 'user',
       }),
+      {onFailure: ::console.error}
     );
   }
 
@@ -66,6 +68,7 @@ class UserChat extends React.Component {
         senderType: 'bot',
         receiverType: 'user',
       }),
+      {onFailure: ::console.error}
     );
   }
 
@@ -116,6 +119,7 @@ class UserChat extends React.Component {
           receiverType: 'user',
           sType,
         }),
+        {onFailure: ::console.error}
       );
     } catch (ex) {
       console.error(ex);
