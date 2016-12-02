@@ -1,3 +1,39 @@
+# A connection to a list of items.
+type accommodationConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [accommodationEdge]
+}
+
+# An edge in a connection.
+type accommodationEdge {
+  # The item at the end of the edge
+  node: TripAccommodation
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# A connection to a list of items.
+type activitiesConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [activitiesEdge]
+}
+
+# An edge in a connection.
+type activitiesEdge {
+  # The item at the end of the edge
+  node: TripActivity
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
 input AddIncomingReqSubscriptionInput {
   agentId: String!
   clientSubscriptionId: String
@@ -55,6 +91,24 @@ type CreateTripPayload {
   tripEdge: tripsEdge
   user: User
   clientMutationId: String
+}
+
+# A connection to a list of items.
+type flightsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [flightsEdge]
+}
+
+# An edge in a connection.
+type flightsEdge {
+  # The item at the end of the edge
+  node: TripFlight
+
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 input GetSummaryLinkInput {
@@ -215,6 +269,7 @@ input SendMessageInput {
   senderType: String!
   receiverType: String!
   userId: String!
+  tripId: String
   sType: String
   clientMutationId: String
 }
@@ -301,6 +356,34 @@ type Trip implements Node {
   userId: String
   agentId: String
   name: String
+  flights(after: String, first: Int, before: String, last: Int): flightsConnection
+  accommodation(after: String, first: Int, before: String, last: Int): accommodationConnection
+  activities(after: String, first: Int, before: String, last: Int): activitiesConnection
+}
+
+type TripAccommodation implements Node {
+  # The ID of an object
+  id: ID!
+  link: String
+  pictureUrl: String
+  name: String
+  price: String
+}
+
+type TripActivity implements Node {
+  # The ID of an object
+  id: ID!
+  pictureUrl: String
+  name: String
+  price: String
+}
+
+type TripFlight implements Node {
+  # The ID of an object
+  id: ID!
+  pictureUrl: String
+  airline: String
+  price: String
 }
 
 # A connection to a list of items.

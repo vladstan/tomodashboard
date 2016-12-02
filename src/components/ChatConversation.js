@@ -15,8 +15,6 @@ import {
 } from '@sketchpixy/rubix';
 
 import SummaryModal from './SummaryModal';
-import FlightsSuggestionsModal from './FlightsSuggestionsModal';
-import AccommodationSuggestionsModal from './AccommodationSuggestionsModal';
 import ImageModal from './ImageModal';
 
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
@@ -106,6 +104,19 @@ class ChatConversationItem extends React.Component {
         </span>
       );
     } else {
+      let {text} = this.props;
+
+      function checkPayload(prefix, genText) {
+        if (text.startsWith(prefix)) {
+          const data = JSON.parse(text.substr(prefix.length));
+          text = genText(data);
+        }
+      }
+
+      checkPayload('@BOOK_FLIGHT:', (data) => 'Booked flight with ' + data.airline + ' for ' + data.price);
+      checkPayload('@BOOK_ACCOMMODATION:', (data) => 'Booked accommodation at ' + data.name + ' for ' + data.price);
+      checkPayload('@BOOK_ACTIVITY:', (data) => 'Booked activity ' + data.name + ' for ' + data.price);
+
       return (
         <span
           className='body'
@@ -118,7 +129,7 @@ class ChatConversationItem extends React.Component {
             marginLeft: '10px',
             marginRight: '10px'
           }}
-          >{this.props.text}</span>
+          >{text}</span>
       );
     }
   }
@@ -131,7 +142,6 @@ class ChatConversation extends React.Component {
     messageInputText: '',
     showSummaryModal: false,
     showImageModal: false,
-    showSuggestionsModal: false,
   }
 
   closeSummaryModal() {
@@ -160,34 +170,6 @@ class ChatConversation extends React.Component {
       ...this.state,
       showImageModal: true,
     });
-  }
-
-  closeSuggestionsModal(suggestionsType) {
-		if (suggestionsType === 'f') {
-      this.setState({
-        ...this.state,
-        showFSuggestionsModal: false,
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        showASuggestionsModal: false,
-      });
-    }
-  }
-
-  openSuggestionsModal(suggestionsType) {
-		if (suggestionsType === 'f') {
-      this.setState({
-        ...this.state,
-        showFSuggestionsModal: true,
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        showASuggestionsModal: true,
-      });
-    }
   }
 
   onSend() {
@@ -369,6 +351,8 @@ class ChatConversation extends React.Component {
         }
       }
 
+      // console.log('CHAT_CONV_msgs=', this.props.messages);
+
       return (
         <div>
           <Grid>
@@ -378,15 +362,17 @@ class ChatConversation extends React.Component {
                   padding: 0,
                   marginTop: '50px'
                 }}>
-                  {this.props.messages.map(m => (
-                    <ChatConversationItem
-                      key={m.id}
-                      position={m.senderType === 'user' ? 'left' : 'right'}
-                      avatarUrl={m.senderType === 'user' ? this.props.profile.pictureUrl : this.props.agent.pictureUrl}
-                      imageUrl={m.imageUrl}
-                      cards={m.cards && JSON.parse(m.cards)}
-                      text={m.text} />
-                  ))}
+                  {this.props.messages
+                    .filter(m => m.type)
+                    .map(m => (
+                      <ChatConversationItem
+                        key={m.id}
+                        position={m.senderType === 'user' ? 'left' : 'right'}
+                        avatarUrl={m.senderType === 'user' ? this.props.profile.pictureUrl : this.props.agent.pictureUrl}
+                        imageUrl={m.imageUrl}
+                        cards={m.cards && JSON.parse(m.cards)}
+                        text={m.text} />
+                    ))}
                 </ul>
                 <div className="status" style={{textAlign: 'right'}}>
                   {status}
@@ -424,10 +410,6 @@ class ChatConversation extends React.Component {
                           </a>
                         </Col>
                         <Col xs={6} className='text-right' collapseLeft collapseRight>
-                          <DropdownButton title="Suggest" dropup id="dropdown-suggestions">
-                            <MenuItem onClick={this.openSuggestionsModal.bind(this, 'f')} eventKey="1">Flights</MenuItem>
-                            <MenuItem onClick={this.openSuggestionsModal.bind(this, 'a')} eventKey="2">Accommodation</MenuItem>
-                          </DropdownButton>
                           <Button bsStyle='darkgreen45' onClick={::this.onSend}>send</Button>
                         </Col>
                       </Row>
@@ -448,16 +430,6 @@ class ChatConversation extends React.Component {
             show={this.state.showImageModal}
             onClose={::this.closeImageModal}
             sendImage={this.props.sendImageMessage} />
-
-          <AccommodationSuggestionsModal
-            show={this.state.showASuggestionsModal}
-            onClose={this.closeSuggestionsModal.bind(this, 'a')}
-            sendSuggestionsMessage={this.props.sendSuggestionsMessage} />
-
-          <FlightsSuggestionsModal
-            show={this.state.showFSuggestionsModal}
-            onClose={this.closeSuggestionsModal.bind(this, 'f')}
-            sendSuggestionsMessage={this.props.sendSuggestionsMessage} />
         </div>
       );
     } catch (ex) {

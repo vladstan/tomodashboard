@@ -28,6 +28,7 @@ const SendMessageMutation = mutationWithClientMutationId({
     senderType: { type: new GraphQLNonNull(GraphQLString) },
     receiverType: { type: new GraphQLNonNull(GraphQLString) },
     userId: { type: new GraphQLNonNull(GraphQLString) },
+    tripId: { type: GraphQLString },
     sType: { type: GraphQLString },
   },
   outputFields: {
@@ -35,7 +36,7 @@ const SendMessageMutation = mutationWithClientMutationId({
       type: Message.edgeType,
       resolve: async (doc) => {
         const messages = await db.getMessagesForUser(doc.userId);
-        console.log('messages vs doc', '\n\n\n', messages, '\n\n\n', doc);
+        // console.log('messages vs doc', '\n\n\n', messages, '\n\n\n', doc);
         const offset = messages.length - 1;
         const cursor = offsetToCursor(offset);
 
@@ -61,50 +62,13 @@ const SendMessageMutation = mutationWithClientMutationId({
         const propsCards = JSON.parse(props.cards);
 
         if (props.sType === 'accommodation') {
-          for (const c of propsCards) {
-            try {
-              const resp = await superagent('GET', c.link); // eslint-disable-line babel/no-await-in-loop
-              const text = resp.res.text;
-              // console.log('resp for ', link, ':', text);
-              const ogImage = text.match(/property="og:image" content="(.*?\.(png|jpe?g))"/)[1];
-              const ogTitle = text.match(/property="og:title" content="(.*?)"/)[1]
-                .replace(/\&\#x2605\;/g, '★');
-              // const ogDescription = text.match(/property="og:description" content="(.*?)"/)[1];
-              cards.push({
-                link: c.link,
-                pictureUrl: ogImage,
-                title: ogTitle,
-                // description: (c.description && (c.description + ' | ') || '') + ogDescription,
-                description: 'Price per night: ' + c.description,
-                buttons: [
-                  {title: 'I like this', payload: 'I_LIKE_THIS_ACCOMMODATION_' + (cards.length + 1)},
-                  {title: 'More details', url: c.link},
-                ]
-              });
-            } catch (ex) {
-              console.error(ex);
-              throw new Error('invalid url');
-            }
-          }
+          cards = await getAccommodationCards(propsCards, props.tripId);
         } else if (props.sType === 'flights') {
-          for (const c of propsCards) {
-            try {
-              cards.push({
-                link: c.link,
-                pictureUrl: c.link,
-                title: c.title,
-                description: c.description,
-                buttons: [
-                  {title: 'This flight', payload: 'I_LIKE_THIS_FLIGHT_' + (cards.length + 1)},
-                ]
-              });
-            } catch (ex) {
-              console.error(ex);
-              throw new Error('invalid url');
-            }
-          }
+          cards = await getFlightsCards(propsCards, props.tripId);
+        } else if (props.sType === 'activities') {
+          cards = await getActivitiesCards(propsCards, props.tripId);
         } else {
-          console.log('errrrr cards');
+          throw new Error('errrrr cards');
         }
       }
 
@@ -125,7 +89,109 @@ const SendMessageMutation = mutationWithClientMutationId({
       console.error(ex);
       throw ex;
     }
+
+    return {
+      userId: props.userId,
+    };
   }
 });
+
+async function getFlightsCards(propsCards, tripId) {
+  const cards = [];
+
+  for (const c of propsCards) {
+    const payloadData = {
+      pictureUrl: c.link,
+      airline: c.title,
+      price: c.description,
+      sType: 'flight',
+      tripId: tripId,
+    };
+    const payloadJson = JSON.stringify(payloadData);
+
+    cards.push({
+      link: c.link,
+      pictureUrl: c.link,
+      title: c.title,
+      description: c.description,
+      buttons: [
+        {title: 'Book this flight 👍', payload: 'BOOK_FLIGHT:' + payloadJson},
+        {title: 'Tell me more ℹ️', payload: 'MORE_INFO_FLIGHT:' + payloadJson},
+      ]
+    });
+  }
+
+  return cards;
+}
+
+async function getAccommodationCards(propsCards, tripId) {
+  const cards = [];
+
+  for (const c of propsCards) {
+    try {
+      const resp = await superagent('GET', c.link); // eslint-disable-line babel/no-await-in-loop
+      const text = resp.res.text;
+      // console.log('resp for ', link, ':', text);
+      const ogImage = text.match(/property="og:image" content="(.*?\.(png|jpe?g))"/)[1];
+      const ogTitle = text.match(/property="og:title" content="(.*?)"/)[1]
+        .replace(/\&\#x2605\;/g, '★');
+      // const ogDescription = text.match(/property="og:description" content="(.*?)"/)[1];
+      const payloadData = {
+        link: c.link,
+        pictureUrl: ogImage,
+        name: ogTitle,
+        price: c.description,
+        sType: 'accommodation',
+        tripId: tripId,
+      };
+      const payloadJson = JSON.stringify(payloadData);
+
+      cards.push({
+        link: c.link,
+        pictureUrl: ogImage,
+        title: ogTitle,
+        // description: (c.description && (c.description + ' | ') || '') + ogDescription,
+        description: 'Price per night: ' + c.description,
+        buttons: [
+          {title: 'Book this place 👍', payload: 'BOOK_ACCOMMODATION:' + payloadJson},
+          {title: 'Tell me more ℹ️', payload: 'MORE_INFO_ACCOMMODATION:' + payloadJson},
+        ]
+      });
+    } catch (ex) {
+      console.error(ex);
+      throw new Error('invalid url');
+    }
+  }
+
+  return cards;
+}
+
+async function getActivitiesCards(propsCards, tripId) {
+  const cards = [];
+
+  for (const c of propsCards) {
+    const payloadData = {
+      pictureUrl: c.link,
+      name: c.title,
+      price: c.description,
+      sType: 'activity',
+      tripId: tripId,
+    };
+    const payloadJson = JSON.stringify(payloadData);
+
+    cards.push({
+      link: c.link,
+      pictureUrl: c.link,
+      title: c.title,
+      description: c.description,
+      buttons: [
+        {title: 'Book this activity 👍', payload: 'BOOK_ACTIVITY:' + payloadJson},
+        {title: 'Tell me more ℹ️', payload: 'MORE_INFO_ACTIVITY:' + payloadJson},
+      ]
+    });
+  }
+
+  return cards;
+}
 
 export default SendMessageMutation;

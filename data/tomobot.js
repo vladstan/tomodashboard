@@ -10,7 +10,7 @@ export function sendMessage(msg) {
     .send({messages: [msg]})
     .set('Content-Type', 'application/json')
     .then((res) => {
-      console.log('sent', msg, 'to TomoBot:');
+      console.log('sent', JSON.stringify(msg), 'to TomoBot:');
       return res;
     });
 }

@@ -51,6 +51,7 @@ class SendMessageMutation extends Relay.Mutation {
       senderType: this.props.senderType,
       receiverType: this.props.receiverType,
       sType: this.props.sType,
+      tripId: this.props.tripId,
     };
   }
 

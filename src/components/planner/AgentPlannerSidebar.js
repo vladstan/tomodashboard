@@ -55,6 +55,7 @@ class AgentPlannerSidebar extends React.Component {
             <EditTripSidebar
               goToTripsList={::this.goToTripsList}
               trip={this.state.trip}
+              user={this.props.user}
               relay={this.props.relay} />}
         </div>
       );
@@ -71,6 +72,7 @@ const AgentPlannerSidebarContainer = RelaySubscriptions.createContainer(AgentPla
       fragment on User {
         ${NewTripSidebar.getFragment('user')}
         ${TripsListSidebar.getFragment('user')}
+        ${EditTripSidebar.getFragment('user')}
       }
     `,
     agent: () => Relay.QL`

@@ -5,8 +5,14 @@ import {
 
 import {
   globalIdField,
+  connectionArgs,
   connectionDefinitions,
+  connectionFromArray,
 } from 'graphql-relay';
+
+import TripFlight from './TripFlight';
+import TripAccommodation from './TripAccommodation';
+import TripActivity from './TripActivity';
 
 import {nodeInterface} from '../nodeDefinitions';
 
@@ -33,6 +39,21 @@ const Trip = new GraphQLObjectType({
     name: {
       type: GraphQLString,
       resolve: (doc) => doc.name,
+    },
+    flights: {
+      type: TripFlight.connectionType,
+      args: connectionArgs,
+      resolve: (doc, args) => connectionFromArray(doc.flights || [], args),
+    },
+    accommodation: {
+      type: TripAccommodation.connectionType,
+      args: connectionArgs,
+      resolve: (doc, args) => connectionFromArray(doc.accommodation || [], args),
+    },
+    activities: {
+      type: TripActivity.connectionType,
+      args: connectionArgs,
+      resolve: (doc, args) => connectionFromArray(doc.activities || [], args),
     },
     // createdAt: {
     //   type: GraphQLString,

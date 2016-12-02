@@ -6,7 +6,7 @@ import {
 	Modal,
 } from '@sketchpixy/rubix';
 
-class FlightsSuggestionsModal extends React.Component {
+class ActivitiesSuggestionsModal extends React.Component {
 
   state = {
     cards: [
@@ -35,53 +35,48 @@ class FlightsSuggestionsModal extends React.Component {
     });
   }
 
-  onLinkChange(cardKey, event) {
-    this.updateCard(cardKey, 'link', event.target.value);
-  }
-
-  onTitleChange(cardKey, event) {
-    this.updateCard(cardKey, 'title', event.target.value);
-  }
-
-  onDescChange(cardKey, event) {
-    this.updateCard(cardKey, 'description', event.target.value);
+  onFieldChange(fieldKey, cardKey, event) {
+    this.updateCard(cardKey, fieldKey, event.target.value);
   }
 
   onSend() {
-    // this.setState({
-    //   ...this.state,
-    //   loading: true,
-    // });
-
     const suggestions = {
       cards: {...this.state.cards},
     };
 
-    this.props.sendSuggestionsMessage(suggestions, 'flights');
+    this.props.sendSuggestionsMessage(suggestions);
     this.props.onClose();
-      // .then(() => {
-      //   this.props.onClose();
-      //   this.setState({
-      //     ...this.state,
-      //     loading: false,
-      //   });
-      // })
-      // .catch(err => this.setState({...this.state, loading: false, error: err}));
+
+    this.setState({
+      ...this.state,
+      cards: [
+        {key: Date.now(), link: '', title: '', description: ''},
+      ],
+    });
   }
 
   render() {
     return (
 			<Modal show={this.props.show} onHide={this.props.onClose}>
 			  <Modal.Header closeButton>
-					<Modal.Title>Send flights suggestions</Modal.Title>
+					<Modal.Title>Send activities suggestions</Modal.Title>
 			  </Modal.Header>
 			  <Modal.Body>
 					{
             this.state.cards.map(card => (
               <div key={card.key}>
-                <FormControl type="text" placeholder="Screenshot link..." onChange={this.onLinkChange.bind(this, card.key)} />
-                <FormControl type="text" placeholder="Airline" onChange={this.onTitleChange.bind(this, card.key)} />
-                <FormControl type="text" placeholder="Price per person" onChange={this.onDescChange.bind(this, card.key)} />
+                <FormControl
+                  type="text"
+                  placeholder="Screenshot link..."
+                  onChange={this.onFieldChange.bind(this, 'link', card.key)} />
+                <FormControl
+                  type="text"
+                  placeholder="Activity name"
+                  onChange={this.onFieldChange.bind(this, 'title', card.key)} />
+                <FormControl
+                  type="text"
+                  placeholder="Price per person"
+                  onChange={this.onFieldChange.bind(this, 'description', card.key)} />
               </div>
             ))
           }
@@ -105,4 +100,4 @@ class FlightsSuggestionsModal extends React.Component {
 
 }
 
-export default FlightsSuggestionsModal;
+export default ActivitiesSuggestionsModal;
