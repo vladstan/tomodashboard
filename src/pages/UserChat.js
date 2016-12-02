@@ -161,7 +161,7 @@ class UserChat extends React.Component {
               </Grid>
               <hr style={{margin: 0}}/>
               <Panel horizontal>
-                <PanelLeft className='panel-sm-3 inbox-nav hidden-xs'>
+                <PanelLeft className='panel-sm-3 inbox-nav'>
                   <Grid>
                     <Row>
                       <Col xs={12}>
@@ -187,7 +187,7 @@ class UserChat extends React.Component {
                     </Row>
                   </Grid>
                 </PanelBody>
-                <PanelRight className='panel-sm-3 inbox-nav hidden-xs'>
+                <PanelRight className='panel-sm-3 inbox-nav'>
                   <Grid>
                     <Row>
                       <Col xs={12}>
