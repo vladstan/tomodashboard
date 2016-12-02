@@ -17,24 +17,13 @@ class SendMessageMutation extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on SendMessagePayload {
-        messageEdge
-        user {
-          id
-          _id
-        }
+        nothing
       }
     `;
   }
 
   getConfigs() {
-    return [{
-      type: 'RANGE_ADD',
-      parentName: 'user',
-      parentID: this.props.user.id,
-      connectionName: 'messages',
-      edgeName: 'messageEdge',
-      rangeBehaviors: () => 'append',
-    }];
+    return [];
   }
 
   getVariables() {

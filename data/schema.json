@@ -3273,24 +3273,12 @@
           "description": null,
           "fields": [
             {
-              "name": "messageEdge",
+              "name": "nothing",
               "description": null,
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "messagesEdge",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "user",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4506,18 +4494,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "messagesEdge",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "user",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,

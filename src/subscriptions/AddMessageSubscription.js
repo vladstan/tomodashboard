@@ -31,10 +31,6 @@ class AddMessageSubscription extends Subscription {
               imageUrl
             }
           }
-          user {
-            id
-            _id
-          }
         }
       }
     `; // AppSidebar/ App

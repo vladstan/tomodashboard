@@ -30,6 +30,7 @@ const CreateTripMutation = mutationWithClientMutationId({
         const offset = trips.length - 1;
         const cursor = offsetToCursor(offset);
 
+        // TODO use cursorForObjectInConnection
         return {
           cursor: cursor,
           node: doc,

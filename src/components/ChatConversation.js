@@ -105,6 +105,7 @@ class ChatConversationItem extends React.Component {
       );
     } else {
       let {text} = this.props;
+      text = text || '<no text>';
 
       function checkPayload(prefix, genText) {
         if (text.startsWith(prefix)) {

@@ -21,7 +21,7 @@ const db = pmongo(MONGO_URL, {
 
 // export function getActionMessagesCursor() {
 //   const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
-//   return db.actionmessages.find({}, {}, options).sort({$natural: 1});
+//   return db.actionmessages.find({}, {}, options);
 // }
 
 export function getUser(_id) {
@@ -113,7 +113,7 @@ export function updateAgent(_id, newFields) {
 }
 
 export function getIncomingReqs() {
-  return db.actionmessages.find({}).sort({$natural: 1}).toArray();
+  return db.actionmessages.find({}).toArray();
 }
 
 export function getIncomingReq(_id) {
@@ -122,7 +122,7 @@ export function getIncomingReq(_id) {
 
 export function getMessagesCursor() {
   const options = {tailable: true, awaitdata: true, numberOfRetries: -1};
-  return db.messages.find({}, {}, options).sort({$natural: 1});
+  return db.messages.find({}, {}, options);
 }
 
 export async function getMessagesForUser(_idUser) {
@@ -132,12 +132,12 @@ export async function getMessagesForUser(_idUser) {
     console.error('no session found for user with id', _idUser);
     return [];
   }
-  const allMessages = await db.messages.find({}).sort({$natural: 1});
+  const allMessages = await db.messages.find({});
   return allMessages.filter(m => m.sessionId == session._id);
 }
 
 export async function getTripsForUser(_idUser) {
-  const allTrips = await db.trips.find({}).sort({$natural: 1});
+  const allTrips = await db.trips.find({});
   return allTrips.filter(m => m.userId == _idUser);
 }
 

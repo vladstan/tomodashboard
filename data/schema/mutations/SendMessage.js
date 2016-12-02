@@ -4,12 +4,8 @@ import {
 } from 'graphql';
 
 import {
-  offsetToCursor,
   mutationWithClientMutationId,
 } from 'graphql-relay';
-
-import Message from '../types/Message';
-import User from '../types/User';
 
 import * as db from '../../database';
 import * as bot from '../../tomobot';
@@ -32,23 +28,9 @@ const SendMessageMutation = mutationWithClientMutationId({
     sType: { type: GraphQLString },
   },
   outputFields: {
-    messageEdge: {
-      type: Message.edgeType,
-      resolve: async (doc) => {
-        const messages = await db.getMessagesForUser(doc.userId);
-        // console.log('messages vs doc', '\n\n\n', messages, '\n\n\n', doc);
-        const offset = messages.length - 1;
-        const cursor = offsetToCursor(offset);
-
-        return {
-          cursor: cursor,
-          node: doc,
-        };
-      },
-    },
-    user: {
-      type: User,
-      resolve: (doc) => db.getUser(doc.userId),
+    nothing: {
+      type: GraphQLString,
+      resolve: () => 'nada',
     },
   },
   mutateAndGetPayload: async (props) => {
@@ -90,9 +72,7 @@ const SendMessageMutation = mutationWithClientMutationId({
       throw ex;
     }
 
-    return {
-      userId: props.userId,
-    };
+    return {};
   }
 });
 

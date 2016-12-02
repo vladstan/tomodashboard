@@ -53,7 +53,6 @@ input AddMessageSubscriptionInput {
 type AddMessageSubscriptionPayload {
   message: Message
   messageEdge: messagesEdge
-  user: User
   clientSubscriptionId: String
 }
 
@@ -275,8 +274,7 @@ input SendMessageInput {
 }
 
 type SendMessagePayload {
-  messageEdge: messagesEdge
-  user: User
+  nothing: String
   clientMutationId: String
 }
 

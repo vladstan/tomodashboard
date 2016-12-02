@@ -39,6 +39,7 @@ const AddIncomingReqSubscription = subscriptionWithClientId({
         const cursor = offsetToCursor(offset);
         console.log('cursor', cursor, offset);
 
+        // TODO use cursorForObjectInConnection
         return {
           cursor: cursor,
           node: doc,

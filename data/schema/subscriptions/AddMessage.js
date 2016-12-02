@@ -3,10 +3,9 @@ import {
 } from 'graphql';
 
 import {
-  offsetToCursor,
+  cursorForObjectInConnection,
 } from 'graphql-relay';
 
-import User from '../types/User';
 import Message from '../types/Message';
 
 import * as db from '../../database';
@@ -27,20 +26,12 @@ const AddMessageSubscription = subscriptionWithClientId({
       resolve: async (doc) => {
         const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
         const messages = await db.getMessagesForUser(userId);
-        const offset = messages.length - 1;
-        const cursor = offsetToCursor(offset);
+        const msgDoc = messages.find(m => ('' + m._id) == ('' + doc._id));
 
         return {
-          cursor: cursor,
-          node: doc,
+          cursor: cursorForObjectInConnection(messages, msgDoc),
+          node: msgDoc,
         };
-      },
-    },
-    user: {
-      type: User,
-      resolve: (doc) => {
-        const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
-        return db.getUser(userId);
       },
     },
   },
