@@ -64,10 +64,10 @@ class Login extends React.Component {
                     <Panel>
                       <PanelBody style={{padding: 0}}>
                         <div className='text-center bg-darkblue fg-white'>
-                          <h3 style={{margin: 0, padding: 25}}>Sign in to Rubix</h3>
+                          <h3 style={{margin: 0, padding: 25}}>Sign in Tomo Dashboard</h3>
                         </div>
                         <div className='bg-hoverblue fg-black50 text-center' style={{padding: 12.5}}>
-                          <div>You need to sign in for those awesome features</div>
+                          <div>Please sign if you are an accredited travel mate for Tomo</div>
                           <div style={{marginTop: 12.5, marginBottom: 12.5}}>
                             <FacebookLogin
                               appId="203339813420668"
