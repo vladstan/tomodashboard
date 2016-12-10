@@ -75,7 +75,7 @@ class SummaryModal extends React.Component {
           throw new Error('no summary link');
         }
         const summaryId = summaryLink;
-        this.props.sendLink('https://tomo.mod.bz/summary/' + summaryId);
+        this.props.sendLink('https://dashboard.hellotomo.com/summary/' + summaryId);
         this.props.onClose();
         this.setState({
           ...this.state,
