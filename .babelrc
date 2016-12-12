@@ -5,8 +5,8 @@
     "react"
   ],
   "plugins": [
+    "./tools/babel-relay-plugin",
     "transform-decorators-legacy",
-    "babel-relay-plugin-loader",
     "react-hot-loader/babel",
     "transform-runtime"
   ]
