@@ -1,6 +1,7 @@
 const express = require('express');
 const socketIO = require('socket.io');
 const webpack = require('webpack');
+const fs = require('fs');
 
 const morgan = require('morgan');
 const compression = require('compression');
@@ -26,7 +27,14 @@ graphql(schema, introspectionQuery)
       throw new Error('Invalid schema, see errors above');
     }
 
-    onSchemaCompiled(result.data);
+    // write the schema json
+    fs.writeFile('../schema.json', JSON.stringify(result, null, 2), (err) => {
+      if (err) {
+        throw err;
+      }
+
+      onSchemaCompiled();
+    });
   })
   .catch((err) => { throw err; });
 

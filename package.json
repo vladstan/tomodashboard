@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Tomo Dashboard",
   "scripts": {
-    "watch": "nodemon -w server -x 'node --harmony' server/dev.js",
+    "watch": "nodemon -w server/ -x 'node --harmony' server/dev.js",
     "start": "node --harmony server/dev.js"
   },
   "devDependencies": {
