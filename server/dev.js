@@ -48,6 +48,7 @@ function onSchemaCompiled() {
   app.use(webpackDev(compiler, {
     publicPath: config.output.publicPath,
     historyApiFallback: true,
+    stats: {colors: true},
     noInfo: true,
   }));
   app.use(webpackHot(compiler));

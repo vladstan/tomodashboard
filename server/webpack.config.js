@@ -1,30 +1,21 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const HappyPackPlugin = require('happypack');
+
 module.exports = {
-  devtool: 'inline-source-map',
-  entry: {
-    app: [
-      'react-hot-loader/patch',
-      'webpack-hot-middleware/client',
-      './src/main.js',
-    ],
-    styles: [
-      'react-hot-loader/patch',
-      'webpack-hot-middleware/client',
-      './sass/main.scss',
-    ],
-  },
+  devtool: 'eval',
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client',
+    './sass/main.scss',
+    './src/main.js',
+  ],
   output: {
-    path: __dirname,
-    filename: '[name].js',
+    path: path.join(__dirname, '../public'),
+    filename: 'bundle.js',
     publicPath: '/static/',
   },
-  plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-  ],
   module: {
     loaders: [
       {
@@ -34,23 +25,30 @@ module.exports = {
       {
         test: /\.jsx?$/,
         include: path.join(__dirname, '../src'),
-        loader: 'babel',
+        loader: 'happypack/loader?id=babel',
       },
       {
         test: /\.(ico|gif|png|jpe?g|svg|webp)$/,
         exclude: /node_modules/,
-        loader: 'file?context=public&name=/[path][name].[ext]',
+        loader: 'file?context=public',
       },
       {
         test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff&name=./fonts/[hash].[ext]',
+        loader: 'url?limit=10000&mimetype=application/font-woff',
       },
       {
         test: /\.scss$/,
-        loader: 'style!css?importLoaders=1&root=../public&sourcemap!postcss!sass?sourcemap',
+        loader: 'happypack/loader?id=scss',
       },
     ],
   },
+  plugins: [
+    new HappyPackPlugin({id: 'babel', loaders: ['babel']}),
+    new HappyPackPlugin({id: 'scss', loaders: ['style!raw!sass']}),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
   },

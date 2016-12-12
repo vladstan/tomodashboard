@@ -1,7 +1,5 @@
 import React, {PropTypes} from 'react';
-import { withRouter } from 'react-router';
 
-@withRouter
 class PaymentSuccessPage extends React.Component {
 
   render() {

@@ -1,8 +1,6 @@
 import React, {PropTypes} from 'react';
 import DATA from '../offers.json';
-import { withRouter } from 'react-router';
 
-@withRouter
 class LandingPage extends React.Component {
   render() {
     const offerItaly = DATA[1];

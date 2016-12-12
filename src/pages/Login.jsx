@@ -14,7 +14,6 @@ import {
 
 import agent from 'superagent';
 
-@withRouter
 class Login extends React.Component {
 
   onFacebookLogin(response) {
@@ -89,4 +88,4 @@ class Login extends React.Component {
 
 }
 
-export default Login;
+export default withRouter(Login);

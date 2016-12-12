@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 
 import Relay from 'react-relay';
 import RelaySubscriptions from 'relay-subscriptions';
@@ -31,7 +30,6 @@ import ChatConversation from '../components/ChatConversation';
 import ChatUserProfileSidebar from '../components/ChatUserProfileSidebar';
 import AgentPlannerSidebar from '../components/planner/AgentPlannerSidebar';
 
-@withRouter
 class UserChat extends React.Component {
 
   sendMessage(messageText) {

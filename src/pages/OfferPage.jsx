@@ -1,9 +1,6 @@
 import React, {PropTypes} from 'react';
-
-import { withRouter } from 'react-router';
 import DATA from '../offers.json';
 
-@withRouter
 class OfferPage extends React.Component {
   render() {
     const id = this.props.params.id;

@@ -5,8 +5,10 @@
     "react"
   ],
   "plugins": [
+    ["react-transform", {"transforms": [
+      {"transform": "react-transform-catch-errors", "imports": ["react", "redbox-react"]}
+    ]}],
     "./tools/babel-relay-plugin",
-    "transform-decorators-legacy",
     "react-hot-loader/babel",
     "transform-runtime"
   ]

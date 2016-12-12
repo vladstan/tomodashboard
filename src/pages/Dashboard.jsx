@@ -13,7 +13,6 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AppSidebar from '../components/AppSidebar';
 
-@withRouter
 class Dashboard extends React.Component {
   render() {
     // console.log('this.props.agent=', this.props.agent);
@@ -36,7 +35,7 @@ class Dashboard extends React.Component {
   }
 }
 
-const DashboardContainer = RelaySubscriptions.createContainer(Dashboard, {
+const DashboardContainer = RelaySubscriptions.createContainer(withRouter(Dashboard), {
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {

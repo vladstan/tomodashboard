@@ -9,7 +9,6 @@ import {
   Icon,
 } from '@sketchpixy/rubix';
 
-@withRouter
 class SummaryPage extends React.Component {
 
   onToken = (token) => {
@@ -133,7 +132,7 @@ class SummaryPage extends React.Component {
 
 }
 
-const SummaryPageContainer = Relay.createContainer(SummaryPage, {
+const SummaryPageContainer = Relay.createContainer(withRouter(SummaryPage), {
   fragments: {
     summary: () => Relay.QL`
       fragment on Summary {
