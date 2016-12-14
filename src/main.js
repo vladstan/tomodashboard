@@ -15,7 +15,7 @@ function loadEnv() {
 }
 
 function render() {
-  ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+  ReactDOM.unmountComponentAtNode(document.getElementById('app-container'));
   ReactDOM.render(
     React.createElement(
       ReactHotLoader.AppContainer,
@@ -28,7 +28,7 @@ function render() {
         environment,
       }),
     ),
-    document.getElementById('root')
+    document.getElementById('app-container')
   );
 }
 

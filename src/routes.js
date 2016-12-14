@@ -53,7 +53,7 @@ function isLoggedIn() {
 
 function requireAuth(nextState, replace) {
   if (!isLoggedIn()) {
-    const prevLoc = window.location.pathname;
+    const prevLoc = nextState.location.pathname;
     replace({pathname: '/login', query: {prevLoc}});
   }
 }
@@ -62,14 +62,14 @@ function onRender({error, props, routerProps, element}) { // eslint-disable-line
   // known errors
   if (error instanceof SessionExpiredError) {
     // force the user to log in again
-    routerProps.router.push('/logout');
+    const prevLoc = routerProps.location.pathname;
+    routerProps.router.push({pathname: '/logout', query: {prevLoc}});
     return;
   }
 
   // unknown error
   if (error) {
     console.error(error);
-    alert('ERR: ' + error.message);
     return;
   }
 

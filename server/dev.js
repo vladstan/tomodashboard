@@ -16,10 +16,8 @@ const {introspectionQuery} = require('graphql/utilities');
 const QueriesManager = require('./socket/QueriesManager');
 const SubscriptionsManager = require('./socket/SubscriptionsManager');
 
-const schema = require('./data/schema');
-const config = require('./webpack.config.js');
-
-const PORT = process.env.PORT || 8080;
+const schema = require('./schema');
+const config = require('../webpack.config.js');
 
 // compile the graphql schema
 graphql(schema, introspectionQuery)
@@ -46,6 +44,16 @@ graphql(schema, introspectionQuery)
   })
   .catch((err) => { throw err; });
 
+// connect to the database
+require('./mongodb').connect((err) => {
+  if (err) {
+    throw err;
+  }
+
+  console.log('successfully connected to MongoDB');
+});
+
+// continue server startup
 function onSchemaCompiled() {
   const compiler = webpack(config);
   const app = express();
@@ -68,7 +76,8 @@ function onSchemaCompiled() {
   });
 
   // start listening
-  const server = app.listen(PORT, () => console.log(`server listening on port ${PORT}`));
+  const PORT = process.env.PORT || 8080;
+  const server = app.listen(PORT, () => console.log('server listening on port', PORT));
   const io = socketIO(server, {serveClient: false});
 
   // handle socket connections

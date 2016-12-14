@@ -1,16 +1,14 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 // import Relay from 'react-relay';
 
 class DashboardHome extends React.Component {
-  static propTypes = {
-    user: PropTypes.object
-  }
 
   render() {
     return (
       <div>This is the Dashboard. Still work in Progress.</div>
     );
   }
+
 }
 
 // const Container = Relay.createContainer(DashboardHome, {

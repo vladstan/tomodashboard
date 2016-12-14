@@ -1,6 +1,6 @@
 const {graphql} = require('graphql');
 
-const schema = require('../data/schema');
+const schema = require('../schema');
 
 class QueriesManager {
 

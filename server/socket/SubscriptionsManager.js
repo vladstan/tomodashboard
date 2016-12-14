@@ -1,8 +1,8 @@
 const {graphql} = require('graphql');
 const {graphqlSubscribe} = require('graphql-relay-subscription');
 
-const db = require('../data/database');
-const schema = require('../data/schema');
+// const db = require('../data/database');
+const schema = require('../schema');
 
 const SUBSCRIPTIONS_BY_TOPIC = new Map(); // topicName -> [subscriptionObj]
 const UNSUBSCRIBERS_BY_SUBID = new Map(); // subscriptionId -> unsubscribeFn
