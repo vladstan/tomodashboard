@@ -4,6 +4,7 @@ node_modules
 # temporary folders
 .happypack
 .graphql
+.public
 
 # npm logs
 npm-debug*.log
