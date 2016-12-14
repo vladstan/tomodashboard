@@ -38,7 +38,7 @@ class SubscriptionsManager {
     for (const subscription of subscriptions) {
       const {id, query, variables} = subscription;
       graphql(schema, query, data, null, variables)
-        .then((result) => this.socket.emit('subscription_update', Object.assign({id}, result)))
+        .then((result) => this.socket.emit('subscription_updated', Object.assign({id}, result)))
         .catch((err) => this.socket.emit('error', err));
     }
   }
@@ -96,7 +96,7 @@ class SubscriptionsManager {
     };
 
     graphqlSubscribe({schema, query, variables, context})
-      .then((result) => this.socket.emit('subscription_update', Object.assign({id}, result)))
+      .then((result) => this.socket.emit('subscription_updated', Object.assign({id}, result)))
       .catch((err) => this.socket.emit('error', err));
   }
 

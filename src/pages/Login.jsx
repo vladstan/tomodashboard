@@ -1,3 +1,5 @@
+import debug from 'debug';
+
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -14,6 +16,9 @@ import {
 } from '@sketchpixy/rubix';
 
 import LogInAgentMutation from '../mutations/auth/LogInAgentMutation';
+import config from '../config';
+
+const log = debug('tomo:auth:login');
 
 class Login extends React.Component {
 
@@ -23,7 +28,7 @@ class Login extends React.Component {
   }
 
   onFacebookLogin(response) {
-    console.log('facebook login response:', response);
+    log('facebook login response:', response);
 
     const {relay} = this.context;
     const loginMutation = new LogInAgentMutation({response});
@@ -34,7 +39,7 @@ class Login extends React.Component {
   }
 
   onLoginSuccess(response) {
-    console.log('server login success:', response);
+    log('server login success:', response);
 
     // save the token for later
     const {accessToken} = response.logInAgent;
@@ -66,7 +71,7 @@ class Login extends React.Component {
                   <div className='body bg-hoverblue fg-black50 text-center'>
                     <div>Hello, travel mate! This is where the journey begins.</div>
                     <FacebookLogin
-                      appId='203339813420668'
+                      appId={config.facebookAppId}
                       fields='name,email,picture'
                       callback={::this.onFacebookLogin} />
                   </div>

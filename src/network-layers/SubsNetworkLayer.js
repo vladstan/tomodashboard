@@ -1,19 +1,23 @@
+import debug from 'debug';
+
 import SocketIoNetworkLayer from './SocketIoNetworkLayer';
+
+const log = debug('tomo:relay:network:SubsNetworkLayer');
 
 class SubsNetworkLayer extends SocketIoNetworkLayer {
 
   constructor() {
     super();
 
-    this.socket.on('subscription_update', ::this.onSubscriptionUpdate);
+    this.socket.on('subscription_updated', ::this.onSubscriptionUpdated);
     this.socket.on('subscription_closed', ::this.onSubscriptionClosed);
 
     // all the pending requets
     this.requests = new Map(); // subscriptionId -> requestObj
   }
 
-  onSubscriptionUpdate({id, data, errors}) {
-    console.log('on subscription update', id, data, errors);
+  onSubscriptionUpdated({id, data, errors}) {
+    log('on subscription updated', id, data, errors);
 
     const request = this.requests.get(id);
     if (!request) return;
@@ -26,32 +30,21 @@ class SubsNetworkLayer extends SocketIoNetworkLayer {
   }
 
   onSubscriptionClosed({id}) {
-    console.log('on subscription closed', id);
+    log('on subscription closed', id);
 
     const request = this.requests.get(id);
-    if (!request) {
-      console.log('!request');
-      return;
-    }
+    if (!request) return;
 
-    console.log(`Subscription ${id} is completed`);
+    log(`subscription ${id} is completed`);
     request.onCompleted();
     this.requests.delete(id);
-  }
-
-  onError(error) {
-    // notify every pending request
-    for (const request of this.requests.values()) {
-      request.onError(error);
-    }
-
-    super.onError(error);
   }
 
   sendSubscription(request) {
     const id = request.getClientSubscriptionId();
     this.requests.set(id, request);
 
+    log(`subscribing ${request.getDebugName()}:${id}`);
     this.socket.emit('subscribe', {
       id,
       query: request.getQueryString(),
@@ -59,19 +52,21 @@ class SubsNetworkLayer extends SocketIoNetworkLayer {
     });
 
     return {
-      dispose() {
-        console.log(`disposing ${request.getDebugName()}:${id}`);
+      dispose: () => {
+        log(`disposing ${request.getDebugName()}:${id}`);
         this.socket.emit('unsubscribe', {id});
       },
     };
   }
 
   disconnect() {
+    log('disconnecting...');
     this.socket.disconnect();
 
     // complete every pending request
-    for (const request of this.requests.values()) {
+    for (const [id, request] of this.requests.entries()) {
       request.onCompleted();
+      this.requests.delete(id);
     }
   }
 

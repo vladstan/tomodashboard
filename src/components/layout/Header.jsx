@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {routerShape} from 'react-router';
 
 import {
   SidebarBtn,
@@ -13,6 +13,15 @@ import {
 } from '@sketchpixy/rubix';
 
 class Header extends React.Component {
+
+  static contextTypes = {
+    router: routerShape.isRequired,
+  }
+
+  handleLogOut() {
+    this.context.router.push('/logout');
+  }
+
   render() {
     return (
       <Grid id='navbar'>
@@ -33,11 +42,9 @@ class Header extends React.Component {
                 <Col xs={3} sm={8} collapseRight className='text-right'>
                   <Nav pullRight>
                     <Nav>
-                      <Link to='/logout'>
-                        <NavItem className='logout' style={{cursor: 'pointer'}}>
-                          <Icon bundle='fontello' glyph='off-1' />
-                        </NavItem>
-                      </Link>
+                      <NavItem className='logout' style={{cursor: 'pointer'}} onClick={::this.handleLogOut}>
+                        <Icon bundle='fontello' glyph='off-1' />
+                      </NavItem>
                     </Nav>
                   </Nav>
                 </Col>
@@ -48,6 +55,7 @@ class Header extends React.Component {
       </Grid>
     );
   }
+
 }
 
 export default Header;

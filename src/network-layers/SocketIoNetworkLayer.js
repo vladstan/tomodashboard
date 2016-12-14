@@ -1,3 +1,5 @@
+import debug from 'debug';
+
 import timeout from 'callback-timeout';
 import io from 'socket.io-client';
 
@@ -5,6 +7,8 @@ import SessionExpiredError from '../errors/SessionExpiredError';
 import SocketAckTimeoutError from '../errors/SocketAckTimeoutError';
 
 import BaseNetworkLayer from './BaseNetworkLayer';
+
+const log = debug('tomo:relay:network:SocketIoNetworkLayer');
 
 class SocketIoNetworkLayer extends BaseNetworkLayer {
 
@@ -19,6 +23,7 @@ class SocketIoNetworkLayer extends BaseNetworkLayer {
       query: mutationRequest.getQueryString(),
       variables: mutationRequest.getVariables(),
     };
+    log('sending mutation request', payload);
     this.askQuery(payload, mutationRequest);
   }
 
@@ -29,6 +34,7 @@ class SocketIoNetworkLayer extends BaseNetworkLayer {
         variables: request.getVariables(),
       };
 
+      log('sending query request', payload);
       this.askQuery(payload, request);
     }
   }
