@@ -1,7 +1,9 @@
+const path = require('path');
+const fs = require('fs');
+
 const express = require('express');
 const socketIO = require('socket.io');
 const webpack = require('webpack');
-const fs = require('fs');
 
 const morgan = require('morgan');
 const compression = require('compression');
@@ -27,14 +29,20 @@ graphql(schema, introspectionQuery)
       throw new Error('Invalid schema, see errors above');
     }
 
-    // write the schema json
-    fs.writeFile('../schema.json', JSON.stringify(result, null, 2), (err) => {
-      if (err) {
-        throw err;
-      }
+    const folderPath = path.join(__dirname, '../.graphql');
+    const jsonPath = path.join(folderPath, 'schema.json');
+    const jsonData = JSON.stringify(result, null, 2);
 
-      onSchemaCompiled();
-    });
+    // ensure the folder exists
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath);
+    }
+
+    // write the schema json
+    fs.writeFileSync(jsonPath, jsonData);
+
+    console.log('finished writing schema.json');
+    onSchemaCompiled();
   })
   .catch((err) => { throw err; });
 

@@ -5,8 +5,8 @@ class SubsNetworkLayer extends SocketIoNetworkLayer {
   constructor() {
     super();
 
-    this.socket.on('subscription_update', this.onSubscriptionUpdate.bind(this));
-    this.socket.on('subscription_closed', this.onSubscriptionClosed.bind(this));
+    this.socket.on('subscription_update', ::this.onSubscriptionUpdate);
+    this.socket.on('subscription_closed', ::this.onSubscriptionClosed);
 
     // all the pending requets
     this.requests = new Map(); // subscriptionId -> requestObj
@@ -16,10 +16,7 @@ class SubsNetworkLayer extends SocketIoNetworkLayer {
     console.log('on subscription update', id, data, errors);
 
     const request = this.requests.get(id);
-    if (!request) {
-      console.log('!request');
-      return;
-    }
+    if (!request) return;
 
     if (errors) {
       request.onError(errors);

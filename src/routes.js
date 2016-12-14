@@ -1,115 +1,101 @@
 import React from 'react';
+import {IndexRoute, IndexRedirect, Route} from 'react-router';
 
-import { IndexRoute, Route } from 'react-router';
+import dashboardQueries from './queries/dashboard';
+import userChatQueries from './queries/user-chat';
+import summaryPageQueries from './queries/summary-page';
 
-// import AppQueries from './queries/AppQueries';
-import DashboardQueries from './queries/DashboardQueries';
-import UserChatQueries from './queries/UserChatQueries';
-import SummaryPageQueries from './queries/SummaryPageQueries';
+import SessionExpiredError from './errors/SessionExpiredError';
 
 import App from './pages/App';
-import Home from './pages/Home';
+import Login from './pages/Login';
+
+import Dashboard from './pages/Dashboard';
+import DashboardHome from './pages/DashboardHome';
+import UserChat from './pages/UserChat';
+
 import LandingPage from './pages/LandingPage';
 import OfferPage from './pages/OfferPage';
 import SummaryPage from './pages/SummaryPage';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
-import LoginPage from './pages/Login';
-import UserChat from './pages/UserChat';
-import Dashboard from './pages/Dashboard';
-import DashboardHome from './pages/DashboardHome';
 
-export default {
-  get(req) {
-    function requireAuth(nextState, replace) {
-      const loggedIn = !!(typeof window != 'undefined' && window.localStorage.auth_token)
-        || !!(req && req.cookies.auth_token)
-        || false;
+export default (
+  <Route path='/' component={App}>
+    <IndexRedirect to='dashboard' />
 
-      const prevLoc = (typeof window != 'undefined' && window.location.pathname)
-        || (req && req.url)
-        || '';
+    <Route path='dashboard' component={Dashboard} queries={dashboardQueries}
+        render={onRender} onEnter={requireAuth} prepareParams={prepParams}>
+      <IndexRoute component={DashboardHome} />
+      <Route path='chat/:uid' component={UserChat} queries={userChatQueries} prepareParams={prepParams} />
+    </Route>
 
-      if (!loggedIn) {
-        // console.log('redir to login', typeof window != 'undefined' && window.location);
-        replace({
-          pathname: '/login',
-          state: { nextPathname: nextState.location.pathname },
-          query: { prevLoc },
-        });
-      }
-    }
+    <Route path='landing' component={LandingPage} />
+    <Route path='summary/:sid' component={SummaryPage} queries={summaryPageQueries} prepareParams={prepParams} />
+    <Route path='success/:id' component={PaymentSuccessPage} />
+    <Route path='offers/:id' component={OfferPage} />
 
-    function toDashboardIfLoggedIn(nextState, replace) {
-      const loggedIn = !!(typeof window != 'undefined' && window.localStorage.auth_token)
-        || !!(req && req.cookies.auth_token)
-        || false;
+    <Route path='login' component={Login} onEnter={onLogIn} />
+    <Route path='logout' onEnter={onLogOut} />
+  </Route>
+);
 
-      if (loggedIn) {
-        replace({
-          pathname: '/dashboard',
-          state: { nextPathname: nextState.location.pathname },
-        });
-      }
-    }
+function getAccessToken() {
+  return localStorage.getItem('access_token');
+}
 
-    function getAgentToken() {
-      return (typeof window != 'undefined' && window.localStorage.auth_token)
-        || (req && req.cookies.auth_token)
-        || null;
-    }
+function removeAccessToken() {
+  return localStorage.removeItem('access_token');
+}
 
-    function prepAgentParams(params) {
-      return {
-        ...params,
-        authToken: getAgentToken(),
-      };
-    }
+function isLoggedIn() {
+  return !!getAccessToken();
+}
 
-    function prepParams(params) {
-      console.log('prepParams', params);
-      return {
-        ...params,
-      };
-    }
-
-    return (
-      <Route path='/' component={App}>
-        <IndexRoute component={Home} />
-        <Route path='dashboard' component={Dashboard} queries={DashboardQueries} onEnter={requireAuth} prepareParams={prepAgentParams}>
-          <IndexRoute component={DashboardHome} />
-          <Route path='chat/:uid' component={UserChat} queries={UserChatQueries} prepareParams={prepAgentParams} />
-        </Route>
-        <Route path='landing' component={LandingPage} />
-        <Route path='summary/:sid' component={SummaryPage} queries={SummaryPageQueries} prepareParams={prepParams} />
-        <Route path='success/:id' component={PaymentSuccessPage} />
-        <Route path='offers/:id' component={OfferPage} />
-        <Route path='login' component={LoginPage} />
-      </Route>
-    );
+function requireAuth(nextState, replace) {
+  if (!isLoggedIn()) {
+    const prevLoc = window.location.pathname;
+    replace({pathname: '/login', query: {prevLoc}});
   }
-}; //  onEnter={toDashboardIfLoggedIn} TODO
+}
 
-// /**
-//    * Please keep routes in alphabetical order
-//    */
-//   return (
-//     <Route path="/" component={App}>
-//       { /* Home (main) route */ }
-//       <IndexRoute component={Home}/>
-//
-//       { /* Routes requiring login */ }
-//       <Route onEnter={requireLogin}>
-//         <Route path="chat" component={Chat}/>
-//         <Route path="loginSuccess" component={LoginSuccess}/>
-//       </Route>
-//
-//       { /* Routes */ }
-//       <Route path="about" component={About}/>
-//       <Route path="login" component={Login}/>
-//       <Route path="survey" component={Survey}/>
-//       <Route path="widgets" component={Widgets}/>
-//
-//       { /* Catch all route */ }
-//       <Route path="*" component={NotFound} status={404} />
-//     </Route>
-//   );
+function onRender({error, props, routerProps, element}) { // eslint-disable-line react/prop-types
+  // known errors
+  if (error instanceof SessionExpiredError) {
+    // force the user to log in again
+    routerProps.router.push('/logout');
+    return;
+  }
+
+  // unknown error
+  if (error) {
+    console.error(error);
+    alert('ERR: ' + error.message);
+    return;
+  }
+
+  // still loading
+  if (!props) {
+    // don't show anything new
+    return;
+  }
+
+  return React.cloneElement(element, props);
+}
+
+function onLogIn(nextState, replace) {
+  if (isLoggedIn()) {
+    replace('/dashboard');
+  }
+}
+
+function onLogOut(nextState, replace) {
+  removeAccessToken();
+  replace('/login');
+}
+
+function prepParams(params) {
+  return {
+    ...params,
+    accessToken: getAccessToken(),
+  };
+}

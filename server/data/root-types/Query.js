@@ -3,47 +3,40 @@ const {
   GraphQLString,
 } = require('graphql');
 
-const User = require('../types/User');
+const jwt = require('jsonwebtoken');
+
+const {nodeField} = require('../node-definitions');
+
 const Agent = require('../types/Agent');
 const Summary = require('../types/Summary');
 
 const db = require('../database');
-const {nodeField} = require('../node-definitions');
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const Query = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     node: nodeField,
-    user: {
-      type: User,
-      args: {
-        _id: {
-          type: GraphQLString,
-        },
-      },
-      resolve: (id, args) => db.getUser(args._id),
-    },
     agent: {
       type: Agent,
       args: {
         token: {type: GraphQLString},
       },
       async resolve(id, args) {
-        try {
-          // const payload = jsonwebtoken.verify(args.token, jwtSecret);
-          // return await db.getAgent(payload._id);
-          return await db.getAgent(args.token);
-        } catch (ex) {
-          console.error('getAgent', ex);
-        }
+        const payload = await new Promise((resolve, reject) => {
+          jwt.verify(args.token, JWT_SECRET, (err, payload) => {
+            if (err) reject(err);
+            else resolve(payload);
+          });
+        });
+        return await db.getAgent(payload.agentId);
       },
     },
     summary: {
       type: Summary,
       args: {
-        _id: {
-          type: GraphQLString,
-        },
+        _id: {type: GraphQLString},
       },
       resolve: (id, args) => db.getSummary(args._id),
     },

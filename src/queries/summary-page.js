@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
 
-const SummaryPageQueries = {
+export default {
   summary: (Component, variables) => Relay.QL`
     query {
       summary(_id: $sid) {
@@ -9,5 +9,3 @@ const SummaryPageQueries = {
     }
   `,
 };
-
-export default SummaryPageQueries;

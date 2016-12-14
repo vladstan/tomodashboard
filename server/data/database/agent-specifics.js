@@ -3,18 +3,17 @@ module.exports = function(db) {
     return await db.collection('users').find({}).toArray();
   }
 
-  async function signUpInAgent(fbResp) {
-    const existingAgent = await db.collection('agents').findOne({ fbUserId: fbResp.userID });
+  async function logInAgent({uid, name, email, pictureUrl}) {
+    const existingAgent = await db.collection('agents').findOne({ fbUserId: uid });
     if (existingAgent) {
       return existingAgent;
     }
 
     const newAgentDoc = await db.collection('agents').insert({
-      name: fbResp.name,
-      email: fbResp.email,
-      pictureUrl: fbResp.picture.data.url,
-      fbAccessToken: fbResp.accessToken,
-      fbUserId: fbResp.userID,
+      name,
+      email,
+      pictureUrl,
+      fbUserId: uid,
     });
 
     return newAgentDoc;
@@ -22,6 +21,6 @@ module.exports = function(db) {
 
   return {
     getUsersForAgent,
-    signUpInAgent,
+    logInAgent,
   };
 };

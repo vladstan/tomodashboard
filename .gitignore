@@ -1,4 +1,12 @@
+# node dependencies
 node_modules
+
+# temporary folders
 .happypack
+.graphql
+
+# npm logs
 npm-debug*.log
-schema.json
+
+# generated files
+bundle.js

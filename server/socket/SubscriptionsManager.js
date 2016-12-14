@@ -22,6 +22,7 @@ class SubscriptionsManager {
     // set listeners
     socket.on('subscribe', this.onSubscribe.bind(this));
     socket.on('unsubscribe', this.onUnsubscribe.bind(this));
+    socket.on('disconnect', this.onDisconnect.bind(this));
 
     // listen to database notifications
     // this.removeDatabaseNotifier = db.addNotifier(this.onNotification.bind(this));
@@ -37,7 +38,7 @@ class SubscriptionsManager {
     for (const subscription of subscriptions) {
       const {id, query, variables} = subscription;
       graphql(schema, query, data, null, variables)
-        .then((resp) => this.socket.emit('subscription_update', Object.assign({id}, resp)))
+        .then((result) => this.socket.emit('subscription_update', Object.assign({id}, result)))
         .catch((err) => this.socket.emit('error', err));
     }
   }
@@ -57,7 +58,7 @@ class SubscriptionsManager {
         subscriptions.splice(foundIndex, 1);
 
         console.log(
-          'Removed subscription for topic %s. Total subscriptions for topic: %d',
+          'removed subscription for topic %s (total: %d)',
           topic,
           SUBSCRIPTIONS_BY_TOPIC.get(topic).length
         );
@@ -83,7 +84,7 @@ class SubscriptionsManager {
       this.subscriptionIdsSet.add(subscription.id);
 
       console.log(
-        'New subscription for topic %s. Total subscriptions for topic: %d',
+        'new subscription for topic %s (total: %d)',
         topic,
         SUBSCRIPTIONS_BY_TOPIC.get(topic).length
       );
@@ -95,7 +96,7 @@ class SubscriptionsManager {
     };
 
     graphqlSubscribe({schema, query, variables, context})
-      .then((resp) => this.socket.emit('subscription_update', Object.assign({id}, resp)))
+      .then((result) => this.socket.emit('subscription_update', Object.assign({id}, result)))
       .catch((err) => this.socket.emit('error', err));
   }
 

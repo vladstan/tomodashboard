@@ -33,7 +33,7 @@ class TripsListSidebar extends React.Component {
                 </ListGroupItem>
               ))
             }
-        	</ListGroup>
+          </ListGroup>
           <Button bsStyle="primary" onClick={this.props.goToNewTrip}>New Trip</Button>
         </div>
       );

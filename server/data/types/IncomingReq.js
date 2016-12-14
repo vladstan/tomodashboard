@@ -8,9 +8,7 @@ const {
   connectionDefinitions,
 } = require('graphql-relay');
 
-const {
-  getUser,
-} = require('../database');
+const db = require('../database');
 
 const User = require('./User');
 
@@ -38,7 +36,7 @@ const IncomingReq = new GraphQLObjectType({
     },
     user: {
       type: User,
-      resolve: (doc) => getUser(doc.userId),
+      resolve: (doc) => db.getUser(doc.userId),
     },
     // createdAt: {
     //   type: GraphQLString,

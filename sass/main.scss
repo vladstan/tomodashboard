@@ -1,20 +1,13 @@
 @import "variables";
-@import "~@sketchpixy/rubix/sass/rubix";
-@import "~@sketchpixy/rubix/sass/vendor";
-@import "colors";
-@import "theme";
-
-@import "fonts/dripicons/dripicons";
-@import "fonts/flatline/flatline";
-@import "fonts/fontello/fontello";
-@import "fonts/glyphicons/glyphicons";
 
 @import "components/offer";
 @import "components/sidebar";
 @import "components/chat";
 @import "components/planner";
 
+@import "pages/root";
+@import "pages/login";
+
 @import "pages/chat";
 @import "pages/home";
 @import "pages/landing";
-@import "pages/auth";

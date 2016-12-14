@@ -8,11 +8,12 @@ module.exports = {
   entry: [
     'react-hot-loader/patch',
     'webpack-hot-middleware/client',
+    './sass/vendor.scss',
     './sass/main.scss',
     './src/main.js',
   ],
   output: {
-    path: path.join(__dirname, '../public'),
+    path: __dirname,
     filename: 'bundle.js',
     publicPath: '/static/',
   },
@@ -30,7 +31,7 @@ module.exports = {
       {
         test: /\.(ico|gif|png|jpe?g|svg|webp)$/,
         exclude: /node_modules/,
-        loader: 'file?context=public',
+        loader: 'file',
       },
       {
         test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
@@ -44,7 +45,7 @@ module.exports = {
   },
   plugins: [
     new HappyPackPlugin({id: 'babel', loaders: ['babel']}),
-    new HappyPackPlugin({id: 'scss', loaders: ['style!raw!sass']}),
+    new HappyPackPlugin({id: 'scss', loaders: ['style!css!sass']}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),

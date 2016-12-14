@@ -9,19 +9,12 @@ class QueriesManager {
 
     // set listeners
     socket.on('query', this.onQuery.bind(this));
-    socket.on('queries', this.onQueries.bind(this));
   }
 
-  onQuery({id, query, variables}) {
+  onQuery({query, variables}, callback) {
     graphql(schema, query, null, null, variables)
-      .then((resp) => this.socket.emit('query_response:' + id, {data: resp}))
-      .catch((err) => this.socket.emit('error', err));
-  }
-
-  onQueries(queries) {
-    for (const query of queries) {
-      this.onQuery(query);
-    }
+      .catch((err) => this.socket.emit('error', err)) // emit error when there is one
+      .then((result) => callback(result)); // always call the callback
   }
 
 }

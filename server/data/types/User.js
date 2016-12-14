@@ -11,11 +11,7 @@ const {
   connectionDefinitions,
 } = require('graphql-relay');
 
-const {
-  getProfileOfUser,
-  getMessagesForUser,
-  getTripsForUser,
-} = require('../database');
+const db = require('../database');
 
 const Profile = require('./Profile');
 const Trip = require('./Trip');
@@ -38,21 +34,21 @@ const User = new GraphQLObjectType({
     },
     profile: {
       type: Profile,
-      resolve: (doc) => getProfileOfUser(doc._id),
+      resolve: (doc) => db.getProfileOfUser(doc._id),
     },
     messages: {
       type: Message.connectionType,
       args: connectionArgs,
-      resolve: (doc, args) => connectionFromPromisedArray(getMessagesForUser(doc._id), args),
+      resolve: (doc, args) => connectionFromPromisedArray(db.getMessagesForUser(doc._id), args),
     },
     trips: {
       type: Trip.connectionType,
       args: connectionArgs,
-      resolve: (doc, args) => connectionFromPromisedArray(getTripsForUser(doc._id), args),
+      resolve: (doc, args) => connectionFromPromisedArray(db.getTripsForUser(doc._id), args),
     },
     botMuted: {
       type: GraphQLBoolean,
-      resolve: (doc) => !!doc.botMuted
+      resolve: (doc) => !!doc.botMuted,
     },
     stripe: {
       type: StripeCredentials,

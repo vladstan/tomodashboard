@@ -1,25 +1,30 @@
-import RelaySubscriptions from 'relay-subscriptions';
-import SubsNetworkLayer from './network-layers/SubsNetworkLayer';
-
-import useRelay from 'react-router-relay';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactHotLoader from 'react-hot-loader';
+import RelaySubscriptions from 'relay-subscriptions';
 import {Router, applyRouterMiddleware, browserHistory} from 'react-router';
+import useRelay from 'react-router-relay';
 
-const environment = new RelaySubscriptions.Environment();
-environment.injectNetworkLayer(new SubsNetworkLayer());
+// preserve environment between hot reloads
+let environment = null;
+
+function loadEnv() {
+  const SubsNetworkLayer = require('./network-layers/SubsNetworkLayer').default;
+  environment = new RelaySubscriptions.Environment();
+  environment.injectNetworkLayer(new SubsNetworkLayer());
+}
 
 function render() {
+  ReactDOM.unmountComponentAtNode(document.getElementById('root'));
   ReactDOM.render(
     React.createElement(
       ReactHotLoader.AppContainer,
       null,
       React.createElement(Router, {
         history: browserHistory,
-        routes: require('./routes').default.get(),
+        routes: require('./routes').default,
         render: applyRouterMiddleware(useRelay),
+        onError: onRouterError,
         environment,
       }),
     ),
@@ -27,12 +32,20 @@ function render() {
   );
 }
 
+function onRouterError(err) {
+  console.error('router error:', err);
+}
+
+loadEnv();
 render();
 
 if (module.hot) {
   module.hot.accept('./routes', () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('root'));
-    // reload routes again
+    render();
+  });
+
+  module.hot.accept('./network-layers/SubsNetworkLayer', () => {
+    loadEnv();
     render();
   });
 }

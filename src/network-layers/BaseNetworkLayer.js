@@ -1,10 +1,16 @@
 class BaseNetworkLayer {
 
-  sendMutation(mutationRequest) {}
+  sendMutation(mutationRequest) {
+    throw new Error('not implemented');
+  }
 
-  sendQueries(queryRequests) {}
+  sendQueries(queryRequests) {
+    throw new Error('not implemented');
+  }
 
-  supports(...options) {}
+  supports(...options) {
+    throw new Error('not implemented');
+  }
 
 }
 
