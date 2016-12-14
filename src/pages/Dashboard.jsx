@@ -8,7 +8,7 @@ import {
   MainContainer,
 } from '@sketchpixy/rubix';
 
-import AgentSidebar from '../components/agent/AgentSidebar';
+import AgentSidebar from '../components/agent-sidebar/AgentSidebar';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 
@@ -44,7 +44,6 @@ const DashboardContainer = Relay.createContainer(Dashboard, {
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {
-        name
         ${AgentSidebar.getFragment('agent')}
       }
     `,

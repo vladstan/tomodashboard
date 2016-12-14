@@ -8,9 +8,9 @@ import {
   Col,
 } from '@sketchpixy/rubix';
 
-const IncomingRequest = require('./IncomingRequest');
+import IncomingRequest from './IncomingRequest';
 
-const NewIncomingRequestSubscription = require('../../subscriptions/NewIncomingRequestSubscription');
+import NewIncomingRequestSubscription from '../../subscriptions/NewIncomingRequestSubscription';
 
 class IncomingRequestsSidebar extends React.Component {
 
@@ -40,6 +40,7 @@ const IncomingRequestsSidebarContainer = RelaySubscriptions.createContainer(Inco
         incomingRequests(first: 100) {
           edges {
             node {
+              id
               ${IncomingRequest.getFragment('incomingRequest')}
             }
           }

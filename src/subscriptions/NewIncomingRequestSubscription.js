@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
 import {Subscription} from 'relay-subscriptions';
 
-const IncomingRequest = require('../components/agent/IncomingRequest');
+import IncomingRequest from '../components/agent-sidebar/IncomingRequest';
 
 class NewIncomingRequestSubscription extends Subscription {
 
