@@ -24,19 +24,14 @@ const UpdateTripMutation = mutationWithClientMutationId({
     },
   },
   async mutateAndGetPayload(props) {
-    try {
-      await db.updateTrip(props.tripId, {
-        name: props.name,
-      });
-    } catch (ex) {
-      console.error(ex);
-      throw ex;
-    }
+    await db.updateTrip(props.tripId, {
+      name: props.name,
+    });
 
     return {
       tripId: props.tripId,
     };
-  }
+  },
 });
 
 module.exports = UpdateTripMutation;

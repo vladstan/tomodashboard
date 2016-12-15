@@ -18,7 +18,7 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-// import ChatConversation from '../components/chat/ChatConversation';
+import ChatConversation from '../components/chat/ChatConversation';
 import ChatUserProfileSidebar from '../components/chat/ChatUserProfileSidebar';
 import AgentPlannerSidebar from '../components/planner/AgentPlannerSidebar';
 
@@ -78,7 +78,7 @@ class UserChat extends React.Component {
             <hr style={{margin: 0}}/>
             <Panel horizontal>
               <PanelLeft className='panel-sm-3 inbox-nav'>
-                <Grid>
+                <Grid style={{maxHeight: 'calc(100vh - 240px)', overflow: 'scroll'}}>
                   <Row>
                     <Col xs={12}>
                       <ChatUserProfileSidebar user={this.props.agent.user} />
@@ -87,16 +87,19 @@ class UserChat extends React.Component {
                 </Grid>
               </PanelLeft>
               <PanelBody className='panel-sm-6 panel-xs-12' style={{ paddingTop: 0 }}>
-                <Grid>
+                <Grid ref={(grid) => { this.conversationList = grid; }}
+                    style={{maxHeight: 'calc(100vh - 240px)', overflow: 'scroll'}}>
                   <Row>
                     <Col xs={12}>
-                      {/* <ChatConversation user={this.props.agent.user} agent={this.props.agent} /> */}
+                      <ChatConversation
+                        user={this.props.agent.user}
+                        agent={this.props.agent} />
                     </Col>
                   </Row>
                 </Grid>
               </PanelBody>
               <PanelRight className='panel-sm-3 inbox-nav'>
-                <Grid>
+                <Grid style={{maxHeight: 'calc(100vh - 240px)', overflow: 'scroll'}}>
                   <Row>
                     <Col xs={12}>
                       <AgentPlannerSidebar
@@ -125,104 +128,16 @@ const UserChatContainer = Relay.createContainer(UserChat, {
       fragment on Agent {
         user(_id: $userId) {
           ${ChatUserProfileSidebar.getFragment('user')}
+          ${ChatConversation.getFragment('user')}
           ${AgentPlannerSidebar.getFragment('user', {plannerTripId})}
         }
 
         ${SwitchBotAgentMutation.getFragment('agent')}
+        ${ChatConversation.getFragment('agent')}
         ${AgentPlannerSidebar.getFragment('agent', {plannerTripId})}
       }
     `,
   },
 });
 
-//
-// ${ChatConversation.getFragment('user')}
-//
-//         ${ChatConversation.getFragment('agent')}
-
 export default UserChatContainer;
-
-// fragment on Agent {
-//   _id
-//   name
-//   pictureUrl
-//   lastReadWatermark
-//   lastDeliveredWatermark
-//   ${SwitchBotAgentMutation.getFragment('agent')}
-//   ${UpdateAgentWatermarksMutation.getFragment('agent')}
-//   ${UpdateAgentTypingStatusMutation.getFragment('agent')}
-
-// user: () => Relay.QL`
-//   fragment on User {
-//     id
-//     _id
-//     facebookId
-//     botMuted
-//     lastReadWatermark
-//     lastDeliveredWatermark
-//     ${AddMessageSubscription.getFragment('user')}
-//     ${UpdateUserSubscription.getFragment('user')}
-//     ${SendMessageMutation.getFragment('user')}
-//     ${SwitchBotAgentMutation.getFragment('user')}
-//     ${UpdateAgentWatermarksMutation.getFragment('user')}
-//     ${UpdateAgentTypingStatusMutation.getFragment('user')}
-//
-
-//
-//     messages(first: 1000) {
-//       edges {
-//         node {
-//           id
-//           _id
-//           type
-//           text
-//           cards
-//           senderId
-//           receiverId
-//           senderType
-//           receiverType
-//           timestamp
-//           imageUrl
-//         }
-//       }
-//     }
-//
-//     ${AgentPlannerSidebar.getFragment('user')}
-//   }
-// `,
-
-// sendMessage(messageText) {
-//   console.log('new SendMessageMutation({');
-//   const { relay, user, agent } = this.props;
-//   relay.commitUpdate(
-//     new SendMessageMutation({
-//       user,
-//       type: 'text',
-//       text: messageText,
-//       senderId: agent._id,
-//       receiverId: user._id,
-//       receiverFacebookId: user.facebookId,
-//       senderType: 'agent',
-//       receiverType: 'user',
-//     }),
-//     {onFailure: ::console.error}
-//   );
-// }
-//
-// sendImageMessage(link) {
-//   // console.log('sendImageMessage:', link);
-//   const { relay, user, agent } = this.props;
-//   relay.commitUpdate(
-//     new SendMessageMutation({
-//       user,
-//       type: 'image',
-//       imageUrl: link,
-//       senderId: agent._id,
-//       receiverId: user._id,
-//       receiverFacebookId: user.facebookId,
-//       senderType: 'agent',
-//       receiverType: 'user',
-//     }),
-//     {onFailure: ::console.error}
-//   );
-// }
