@@ -16,7 +16,7 @@ import {
 	Modal,
 } from '@sketchpixy/rubix';
 
-class SummaryModal extends React.Component {
+class ImageModal extends React.Component {
 
   state = {
     link: '',
@@ -24,7 +24,7 @@ class SummaryModal extends React.Component {
 
   updateField(fieldKey, prop, newVal) {
     const newFields = [...this.state.fields];
-    newFields.find(f => f.key == fieldKey)[prop] = newVal;
+    newFields.find(f => f.key === fieldKey)[prop] = newVal;
     this.setState({
       ...this.state,
       fields: newFields,
@@ -65,4 +65,4 @@ class SummaryModal extends React.Component {
 
 }
 
-export default SummaryModal;
+export default ImageModal;

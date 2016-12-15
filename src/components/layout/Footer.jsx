@@ -15,7 +15,7 @@ class Footer extends React.Component {
         <Grid id='footer' className='text-center'>
           <Row>
             <Col xs={12}>
-              <div>&copy; {year} Futuristico / Tomo</div>
+              <div>&copy; {year} Futuristico & Tomo</div>
             </Col>
           </Row>
         </Grid>

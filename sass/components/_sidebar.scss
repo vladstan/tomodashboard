@@ -9,3 +9,7 @@
     }
   }
 }
+
+html.default body #sidebar #sidebar-container .sidebar {
+  overflow: scroll;
+}

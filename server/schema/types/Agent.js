@@ -56,6 +56,13 @@ const Agent = new GraphQLObjectType({
         return connectionFromArray(requests, args);
       },
     },
+    user: {
+      type: require('./User'),
+      args: {
+        _id: {type: GraphQLString},
+      },
+      resolve: (doc, args) => UserModel.findOne({_id: args._id}),
+    },
     users: {
       type: require('./User').connectionType,
       args: connectionArgs,

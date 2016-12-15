@@ -9,7 +9,6 @@ import {
   Grid,
   Row,
   Col,
-  Progress,
 } from '@sketchpixy/rubix';
 
 import ActiveChatsSidebar from './ActiveChatsSidebar';
@@ -34,10 +33,10 @@ class AgentSidebar extends React.Component {
                 <img src={pictureUrl} width='40' height='40' />
               </Col>
               <Col xs={8} collapseLeft id='avatar-col'>
-                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>{name}</div>
-                <div>
-                  <Progress id='demo-progress' value={30} color='#ffffff'/>
-                </div>
+                <div style={{top: 20, fontSize: 16, lineHeight: 1, position: 'relative'}}>{name}</div>
+                <p style={{top: 20, position: 'relative'}}>
+                  Travel Mate
+                </p>
               </Col>
             </Row>
           </Grid>

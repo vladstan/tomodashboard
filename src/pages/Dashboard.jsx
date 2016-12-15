@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import {routerShape} from 'react-router';
 
 import {
   Grid,
@@ -14,14 +15,19 @@ import Footer from '../components/layout/Footer';
 
 class Dashboard extends React.Component {
 
+  static contextTypes = {
+    router: routerShape.isRequired,
+  }
+
   static propTypes = {
     children: React.PropTypes.node.isRequired,
     agent: React.PropTypes.object.isRequired,
   }
 
   render() {
+    const {router: {location}} = this.context;
     return (
-      <MainContainer>
+      <MainContainer location={location}>
         <AgentSidebar agent={this.props.agent} />
         <Header />
         <div id='body'>

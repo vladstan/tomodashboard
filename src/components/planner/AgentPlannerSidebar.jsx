@@ -1,91 +1,93 @@
-import React from 'react';
+import debug from 'debug';
 
+import React from 'react';
 import Relay from 'react-relay';
-import RelaySubscriptions from 'relay-subscriptions';
+import {routerShape} from 'react-router';
 
 import NewTripSidebar from './NewTripSidebar';
 import EditTripSidebar from './EditTripSidebar';
 import TripsListSidebar from './TripsListSidebar';
 
+const log = debug('tomo:planner:AgentPlannerSidebar');
+
 class AgentPlannerSidebar extends React.Component {
 
-  state = {
-    pageIndex: 0,
+  static contextTypes = {
+    router: routerShape.isRequired,
   }
 
-  goToNewTrip() {
-    this.setState({
-      ...this.state,
-      pageIndex: 1,
-    });
+  static propTypes = {
+    plannerTripId: React.PropTypes.string, // relay variable
+    user: React.PropTypes.object.isRequired,
+    agent: React.PropTypes.object.isRequired,
   }
 
-  goToEditTrip(trip) {
-    this.setState({
-      ...this.state,
-      pageIndex: 2,
-      trip,
-    });
-  }
-
-  goToTripsList() {
-    this.setState({
-      ...this.state,
-      pageIndex: 0,
-    });
+  goToPage(paneName, extraArgs = {}) {
+    const {router: {location}} = this.context;
+    const nextState = {
+      pathname: location.pathname,
+      query: {
+        plannerPage: paneName,
+        ...extraArgs,
+      },
+    };
+    log('pushing new router:', nextState);
+    this.context.router.replace(nextState);
   }
 
   render() {
-    try {
-      return (
-        <div className="planner-container">
-          {this.state.pageIndex === 0 &&
-            <TripsListSidebar
-              goToNewTrip={::this.goToNewTrip}
-              goToEditTrip={::this.goToEditTrip}
-              user={this.props.user}
-              relay={this.props.relay} />}
-          {this.state.pageIndex === 1 &&
-            <NewTripSidebar
-              goToTripsList={::this.goToTripsList}
-              user={this.props.user}
-              agent={this.props.agent}
-              relay={this.props.relay} />}
-          {this.state.pageIndex === 2 &&
-            <EditTripSidebar
-              goToTripsList={::this.goToTripsList}
-              trip={this.state.trip}
-              user={this.props.user}
-              agent={this.props.agent}
-              relay={this.props.relay} />}
-        </div>
-      );
-    } catch (ex) {
-      console.error('agentPlannerSidebarComp', ex);
-    }
+    const {router} = this.context;
+    const {plannerPage} = router.location.query;
+
+    const pages = {
+      viewTrips: (
+        <TripsListSidebar
+          goToPage={::this.goToPage}
+          user={this.props.user} />
+      ),
+      newTrip: (
+        <NewTripSidebar
+          goToPage={::this.goToPage}
+          user={this.props.user}
+          agent={this.props.agent} />
+      ),
+      editTrip: (
+        <EditTripSidebar
+          goToPage={::this.goToPage}
+          tripId={this.props.plannerTripId}
+          user={this.props.user}
+          agent={this.props.agent} />
+      ),
+    };
+
+    return (
+      <div className="planner-container">
+        {pages[plannerPage] || pages.viewTrips}
+      </div>
+    );
   }
 
 }
 
-const AgentPlannerSidebarContainer = RelaySubscriptions.createContainer(AgentPlannerSidebar, {
+const AgentPlannerSidebarContainer = Relay.createContainer(AgentPlannerSidebar, {
+  initialVariables: {
+    plannerTripId: null,
+  },
   fragments: {
-    user: () => Relay.QL`
+    user: ({plannerTripId}) => Relay.QL`
       fragment on User {
-        ${NewTripSidebar.getFragment('user')}
-        ${EditTripSidebar.getFragment('user')}
         ${TripsListSidebar.getFragment('user')}
+        ${NewTripSidebar.getFragment('user')}
+        ${EditTripSidebar.getFragment('user', {tripId: plannerTripId})}
       }
     `,
-    agent: () => Relay.QL`
+    agent: ({plannerTripId}) => Relay.QL`
       fragment on Agent {
         ${NewTripSidebar.getFragment('agent')}
-        ${EditTripSidebar.getFragment('agent')}
+        ${EditTripSidebar.getFragment('agent', {tripId: plannerTripId})}
       }
     `,
   },
-  subscriptions: [
-    // TODO subscribe to changes to user.trips?
-  ],
 });
 
 export default AgentPlannerSidebarContainer;

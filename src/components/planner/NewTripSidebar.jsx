@@ -14,6 +14,16 @@ import CreateTripMutation from '../../mutations/planner/CreateTripMutation';
 
 class NewTripSidebar extends React.Component {
 
+  static contextTypes = {
+    relay: Relay.PropTypes.Environment,
+  }
+
+  static propTypes = {
+    goToPage: React.PropTypes.func.isRequired,
+    agent: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object.isRequired,
+  }
+
   state = {
     isLoading: false,
     tripName: 'Awesome Adventure',
@@ -35,10 +45,11 @@ class NewTripSidebar extends React.Component {
         ...this.state,
         isLoading: false,
       });
-      this.props.goToTripsList();
+      this.props.goToPage('viewTrips');
     };
 
-    const { relay, agent, user } = this.props;
+    const {relay} = this.context;
+    const {agent, user} = this.props;
     relay.commitUpdate(
       new CreateTripMutation({
         agent,
@@ -50,43 +61,38 @@ class NewTripSidebar extends React.Component {
     );
   }
 
-  onFieldChange(fieldKey, event) {
+  onFieldChange(event) {
     this.setState({
       ...this.state,
-      [fieldKey]: event.target.value,
+      [event.target.name]: event.target.value,
     });
   }
 
+  onBackClick() {
+    this.props.goToPage('viewTrips');
+  }
+
   render() {
-    try {
-      return (
-        <div className="new-trip">
-          <p className="page-title"><a onClick={this.props.goToTripsList}>&lt;</a> New Trip</p>
-          <Form horizontal>
-          	<FormGroup controlId="formHorizontalEmail">
-              <p>Trip name</p>
-          	  <FormControl
-                type="text"
-                value={this.state.tripName}
-                onChange={this.onFieldChange.bind(this, 'tripName')} />
-          	</FormGroup>
-
-          	{/* <FormGroup controlId="formHorizontalPassword">
-              <p>Trip nickname</p>
-          	  <FormControl type="text" value="Awesome Adventure 2" />
-          	</FormGroup> */}
-
-          	<FormGroup>
-              <Button bsStyle="success" onClick={::this.handleSave} disabled={this.state.isLoading}>
-                {this.state.isLoading ? 'Saving...' : 'Save'}
-              </Button>
-          	</FormGroup>
-          </Form>
-        </div>
-      );
-    } catch (ex) {
-      console.error('NewTrip', ex);
-    }
+    return (
+      <div className="new-trip">
+        <p className="page-title"><a onClick={::this.onBackClick}>&lt;</a> New Trip</p>
+        <Form horizontal>
+          <FormGroup controlId="formHorizontalEmail">
+            <p>Trip name</p>
+            <FormControl
+              type="text"
+              value={this.state.tripName}
+              name='tripName'
+              onChange={::this.onFieldChange} />
+            </FormGroup>
+          <FormGroup>
+            <Button bsStyle="success" onClick={::this.handleSave} disabled={this.state.isLoading}>
+              {this.state.isLoading ? 'Saving...' : 'Save'}
+            </Button>
+          </FormGroup>
+        </Form>
+      </div>
+    );
   }
 
 }

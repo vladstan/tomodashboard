@@ -36,6 +36,7 @@ const LogInAgentMutation = mutationWithClientMutationId({
     const payload = {
       agentId: agent._id,
       facebookAccessToken: props.accessToken,
+      type: 'agent',
     };
 
     const JWT_SECRET = process.env.JWT_SECRET;

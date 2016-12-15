@@ -15,8 +15,10 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-import LogInAgentMutation from '../mutations/auth/LogInAgentMutation';
-import config from '../config';
+import LogInAgentMutation from '../../mutations/auth/LogInAgentMutation';
+
+import auth from '../../auth';
+import config from '../../config';
 
 const log = debug('tomo:auth:login');
 
@@ -25,6 +27,13 @@ class Login extends React.Component {
   static contextTypes = {
     relay: Relay.PropTypes.Environment,
     router: routerShape.isRequired,
+  }
+
+  componentWillMount() {
+    if (auth.isLoggedIn()) {
+      log('componentWillMount: already logged in, redirecting to /dashboard');
+      this.context.router.replace('/dashboard');
+    }
   }
 
   onFacebookLogin(response) {
@@ -48,7 +57,7 @@ class Login extends React.Component {
     // redirect
     const {router} = this.context;
     const {query} = router.location;
-    router.push(query.prevLoc || '/dashboard');
+    router.replace(query.prevLoc || '/dashboard');
   }
 
   onLoginFailure(tx) {
@@ -58,6 +67,7 @@ class Login extends React.Component {
   }
 
   render() {
+    const {logoutReason} = this.context.router.location.query;
     return (
       <Grid className='login-page'>
         <Row>
@@ -70,6 +80,7 @@ class Login extends React.Component {
                   </div>
                   <div className='body bg-hoverblue fg-black50 text-center'>
                     <div>Hello, travel mate! This is where the journey begins.</div>
+                    {logoutReason && <div style={{color: 'red', paddingTop: 5}}>{logoutReason}</div>}
                     <FacebookLogin
                       appId={config.facebookAppId}
                       fields='name,email,picture'

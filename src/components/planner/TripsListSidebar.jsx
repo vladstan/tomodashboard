@@ -9,37 +9,40 @@ import {
   Button,
 } from '@sketchpixy/rubix';
 
-import EditTripSidebar from './EditTripSidebar';
-
 class TripsListSidebar extends React.Component {
 
+  static propTypes = {
+    goToPage: React.PropTypes.func.isRequired,
+    user: React.PropTypes.object.isRequired,
+  }
+
   onTripClick(trip) {
-    this.props.goToEditTrip(trip);
+    this.props.goToPage('editTrip', {plannerTripId: trip._id});
+  }
+
+  onNewTripClick() {
+    this.props.goToPage('newTrip');
   }
 
   render() {
-    try {
-      const trips = this.props.user.trips.edges.map(e => e.node);
-      return (
-        <div className="trips-list">
-          <p className="page-title">Trips</p>
-          <ListGroup>
-            {
-              trips.map(trip => (
-                <ListGroupItem key={trip.id} onClick={this.onTripClick.bind(this, trip)}>
-                  {trip.name}
-                  <br/>
-                  <small>{trip.status}</small>
-                </ListGroupItem>
-              ))
-            }
-          </ListGroup>
-          <Button bsStyle="primary" onClick={this.props.goToNewTrip}>New Trip</Button>
-        </div>
-      );
-    } catch (ex) {
-      console.error('TripsList', ex);
-    }
+    const trips = this.props.user.trips.edges.map((e) => e.node);
+    return (
+      <div className="trips-list">
+        <p className="page-title">Trips</p>
+        <ListGroup>
+          {
+            trips.map((trip) => (
+              <ListGroupItem key={trip.id} onClick={this.onTripClick.bind(this, trip)}>
+                <span>{trip.name}</span>
+                <br/>
+                <small>{trip.status}</small>
+              </ListGroupItem>
+            ))
+          }
+        </ListGroup>
+        <Button bsStyle="primary" onClick={::this.onNewTripClick}>New Trip</Button>
+      </div>
+    );
   }
 
 }
@@ -55,10 +58,6 @@ const TripsListSidebarContainer = RelaySubscriptions.createContainer(TripsListSi
               _id
               status
               name
-              agentId
-              userId
-
-              ${EditTripSidebar.getFragment('trip')}
             }
           }
         }

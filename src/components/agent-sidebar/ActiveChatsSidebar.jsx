@@ -8,7 +8,7 @@ import {
   Col,
 } from '@sketchpixy/rubix';
 
-class UserChatItem extends React.PureComponent {
+class UserChatItem extends React.Component {
 
   static propTypes = {
     id: React.PropTypes.string.isRequired,

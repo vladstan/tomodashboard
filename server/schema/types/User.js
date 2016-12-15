@@ -46,6 +46,13 @@ const User = new GraphQLObjectType({
         return connectionFromArray(messages, args);
       },
     },
+    trip: {
+      type: require('./Trip'),
+      args: {
+        _id: {type: GraphQLString},
+      },
+      resolve: (doc, args) => TripModel.findOne({_id: args._id}),
+    },
     trips: {
       type: require('./Trip').connectionType,
       args: connectionArgs,

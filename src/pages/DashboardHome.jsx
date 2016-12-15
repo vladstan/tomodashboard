@@ -5,7 +5,9 @@ class DashboardHome extends React.Component {
 
   render() {
     return (
-      <div>This is the Dashboard. Still work in Progress.</div>
+      <p style={{marginLeft: 30}}>
+        Welcome to your dashboard! Have a look at the requests on the left sidebar :)
+      </p>
     );
   }
 

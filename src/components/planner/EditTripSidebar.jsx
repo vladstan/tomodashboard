@@ -1,8 +1,7 @@
-import React from 'react';
+import debug from 'debug';
 
+import React from 'react';
 import Relay from 'react-relay';
-import RelaySubscriptions from 'relay-subscriptions';
-import Promise from 'bluebird';
 
 import {
   Icon,
@@ -20,10 +19,21 @@ import SummaryModal from './modals/SummaryModal';
 
 import UpdateTripMutation from '../../mutations/planner/UpdateTripMutation';
 import GetSummaryLinkMutation from '../../mutations/planner/GetSummaryLinkMutation';
-
 import SendMessageMutation from '../../mutations/SendMessageMutation';
 
+const log = debug('tomo:planner:EditTripSidebar');
+
 class EditTripSidebar extends React.Component {
+
+  static contextTypes = {
+    relay: Relay.PropTypes.Environment,
+  }
+
+  static propTypes = {
+    goToPage: React.PropTypes.func.isRequired,
+    agent: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object.isRequired,
+  }
 
   state = {
     isLoading: false,
@@ -49,10 +59,11 @@ class EditTripSidebar extends React.Component {
         ...this.state,
         isLoading: false,
       });
-      this.props.goToTripsList();
+      this.props.goToPage('viewTrips');
     };
 
-    const { relay, trip } = this.props;
+    const {relay} = this.context;
+    const {trip} = this.props.user;
     relay.commitUpdate(
       new UpdateTripMutation({
         trip,
@@ -62,10 +73,10 @@ class EditTripSidebar extends React.Component {
     );
   }
 
-  onFieldChange(fieldKey, event) {
+  onFieldChange(event) {
     this.setState({
       ...this.state,
-      [fieldKey]: event.target.value,
+      [event.target.name]: event.target.value,
     });
   }
 
@@ -85,44 +96,30 @@ class EditTripSidebar extends React.Component {
 
   getSummaryLink(summary) {
     return new Promise((resolve, reject) => {
-      try {
-        const onFailure = (transaction) => {
-          // console.log('getSummaryLink FAILURE:', transaction);
-          reject(transaction.getError());
-        };
-
-        const onSuccess = (response) => {
-          // console.log('getSummaryLink SUCCESS', response);
-          resolve(response.getSummaryLink.link);
-        };
-
-        const { relay, agent, user } = this.props;
-        relay.commitUpdate(
-          new GetSummaryLinkMutation({
-            summary,
-            agent,
-            user,
-          }),
-          {onSuccess, onFailure}
-        );
-      } catch (ex) {
-        console.error('unexpected error 👀', ex);
-      }
-    }).catch(console.error.bind(console, 'grrrr promise err'));
+      const {relay} = this.context;
+      const {agent, user} = this.props;
+      const linkMutation = new GetSummaryLinkMutation({summary, agent, user});
+      relay.commitUpdate(linkMutation, {
+        onSuccess: (transaction) => reject(transaction.getError()),
+        onFailure: (response) => resolve(response.getSummaryLink.link),
+      });
+    });
   }
 
   sendFlightsSuggestionsMessage(suggestions) {
-    console.log('sendFlightsSuggestionsMessage:', suggestions);
+    log('sendFlightsSuggestionsMessage:', suggestions);
 
     const fixedCards = Object.keys(suggestions.cards)
-      .map(key => suggestions.cards[key]);
+      .map((key) => suggestions.cards[key]);
     const cards = fixedCards.map((c) => ({
       link: c.link,
       title: c.title,
       description: c.description,
     }));
 
-    const { relay, user, agent, trip } = this.props;
+    const {relay} = this.context;
+    const {user, agent} = this.props;
+    const {trip} = user;
     relay.commitUpdate(
       new SendMessageMutation({
         user,
@@ -141,16 +138,18 @@ class EditTripSidebar extends React.Component {
   }
 
   sendAccommodationSuggestionsMessage(suggestions) {
-    console.log('sendAccommodationSuggestionsMessage:', suggestions);
+    log('sendAccommodationSuggestionsMessage:', suggestions);
 
     const fixedCards = Object.keys(suggestions.cards)
-      .map(key => suggestions.cards[key]);
+      .map((key) => suggestions.cards[key]);
     const cards = fixedCards.map((c) => ({
       link: c.link,
       description: c.description,
     }));
 
-    const { relay, user, agent, trip } = this.props;
+    const {relay} = this.context;
+    const {user, agent} = this.props;
+    const {trip} = user;
     relay.commitUpdate(
       new SendMessageMutation({
         user,
@@ -169,18 +168,20 @@ class EditTripSidebar extends React.Component {
   }
 
   sendActivitiesSuggestionsMessage(suggestions) {
-    console.log('sendActivitiesSuggestionsMessage:', suggestions);
+    log('sendActivitiesSuggestionsMessage:', suggestions);
 
     const fixedCards = Object.keys(suggestions.cards)
-      .map(key => suggestions.cards[key]);
+      .map((key) => suggestions.cards[key]);
     const cards = fixedCards.map((c) => ({
       link: c.link,
       title: c.title,
       description: c.description,
     }));
 
-    const { relay, user, agent, trip } = this.props;
-    console.log('sending activity suggestion for tripId:', trip._id);
+    const {relay} = this.context;
+    const {user, agent} = this.props;
+    const {trip} = user;
+    log('sending activity suggestion for tripId:', trip._id);
     relay.commitUpdate(
       new SendMessageMutation({
         user,
@@ -199,7 +200,8 @@ class EditTripSidebar extends React.Component {
   }
 
   sendSummaryLink(link) {
-    const { relay, user, agent } = this.props;
+    const {relay} = this.context;
+    const {user, agent} = this.props;
     relay.commitUpdate(
       new SendMessageMutation({
         user,
@@ -231,170 +233,131 @@ class EditTripSidebar extends React.Component {
     this.openModal('showSummaryModal');
   }
 
+  onBackClick() {
+    this.props.goToPage('viewTrips');
+  }
+
   render() {
-    try {
-      const trip = this.props.trip;
-      console.log('trrrrrrip', trip);
+    const {trip} = this.props.user;
 
-      const flights = trip.flights.edges.map(e => e.node);
-      const accommodation = trip.accommodation.edges.map(e => e.node);
-      const activities = trip.activities.edges.map(e => e.node);
+    const flights = trip.flights.edges.map((e) => e.node);
+    const accommodation = trip.accommodation.edges.map((e) => e.node);
+    const activities = trip.activities.edges.map((e) => e.node);
 
-      return (
-        <div className="new-trip">
-          <p className="page-title"><a onClick={this.props.goToTripsList}>&lt;</a> Edit Trip</p>
-          <Form horizontal>
-          	<FormGroup>
-              <p>Trip name</p>
-              <FormControl
-                type="text"
-                value={this.state.tripName || trip.name}
-                onChange={this.onFieldChange.bind(this, 'tripName')} />
-          	</FormGroup>
+    return (
+      <div className="new-trip">
+        <p className="page-title"><a onClick={::this.onBackClick}>&lt;</a> Edit Trip</p>
+        <Form horizontal>
+          <FormGroup>
+            <p>Trip name</p>
+            <FormControl
+              type="text"
+              value={this.state.tripName || trip.name}
+              name="tripName"
+              onChange={::this.onFieldChange} />
+          </FormGroup>
 
-            <FormGroup>
-              <p>Flights</p>
+          <FormGroup>
+            <p>Flights</p>
 
-              {flights.map(flight => (
-                <Media key={flight.id}>
-              	  <Media.Left>
-              		  <img width={64} height={64} src={flight.pictureUrl} />
-              	  </Media.Left>
-              	  <Media.Body>
-              		  <Media.Heading>{flight.airline}</Media.Heading>
-              		  <p>{flight.price}</p>
-              	  </Media.Body>
-              	</Media>
-              ))}
+            {flights.map((flight) => (
+              <Media key={flight.id}>
+                <Media.Left>
+                  <img width={64} height={64} src={flight.pictureUrl} />
+                </Media.Left>
+                <Media.Body>
+                  <Media.Heading>{flight.airline}</Media.Heading>
+                  <p>{flight.price}</p>
+                </Media.Body>
+              </Media>
+            ))}
 
-              <div style={{textAlign: 'center'}}>
-                <Button onClick={::this.newFlight}>+</Button>
-              </div>
-          	</FormGroup>
+            <div style={{textAlign: 'center'}}>
+              <Button onClick={::this.newFlight}>+</Button>
+            </div>
+          </FormGroup>
 
-            <FormGroup>
-              <p>Accommodation</p>
+          <FormGroup>
+            <p>Accommodation</p>
 
-              {accommodation.map(place => (
-                <Media key={place.id}>
-              	  <Media.Left>
-              		  <img width={64} height={64} src={place.pictureUrl} />
-              	  </Media.Left>
-              	  <Media.Body>
-              		  <Media.Heading>{place.name}</Media.Heading>
-              		  <p>{place.price} | <a href={place.link}>link</a></p>
-              	  </Media.Body>
-              	</Media>
-              ))}
+            {accommodation.map((place) => (
+              <Media key={place.id}>
+                <Media.Left>
+                  <img width={64} height={64} src={place.pictureUrl} />
+                </Media.Left>
+                <Media.Body>
+                  <Media.Heading>{place.name}</Media.Heading>
+                  <p>{place.price} | <a href={place.link}>link</a></p>
+                </Media.Body>
+              </Media>
+            ))}
 
-              <div style={{textAlign: 'center'}}>
-                <Button onClick={::this.newAccommodation}>+</Button>
-              </div>
-          	</FormGroup>
+            <div style={{textAlign: 'center'}}>
+              <Button onClick={::this.newAccommodation}>+</Button>
+            </div>
+          </FormGroup>
 
-            <FormGroup>
-              <p>Activities</p>
+          <FormGroup>
+            <p>Activities</p>
 
-              {activities.map(activity => (
-                <Media key={activity.id}>
-              	  <Media.Left>
-              		  <img width={64} height={64} src={activity.pictureUrl} />
-              	  </Media.Left>
-              	  <Media.Body>
-              		  <Media.Heading>{activity.name}</Media.Heading>
-              		  <p>{activity.price}</p>
-              	  </Media.Body>
-              	</Media>
-              ))}
+            {activities.map((activity) => (
+              <Media key={activity.id}>
+                <Media.Left>
+                  <img width={64} height={64} src={activity.pictureUrl} />
+                </Media.Left>
+                <Media.Body>
+                  <Media.Heading>{activity.name}</Media.Heading>
+                  <p>{activity.price}</p>
+                </Media.Body>
+              </Media>
+            ))}
 
-              <div style={{textAlign: 'center'}}>
-                <Button onClick={::this.newActivity}>+</Button>
-              </div>
-          	</FormGroup>
+            <div style={{textAlign: 'center'}}>
+              <Button onClick={::this.newActivity}>+</Button>
+            </div>
+          </FormGroup>
 
-          	<FormGroup>
-              <a onClick={::this.newSummary} style={{cursor: 'pointer'}} title="Send summary">
-                <Icon glyph='icon-dripicons-align-justify icon-1-and-quarter-x fg-text' />
-              </a>
-              <Button bsStyle="success" onClick={::this.handleSave} disabled={this.state.isLoading}>
-                {this.state.isLoading ? 'Saving...' : 'Save'}
-              </Button>
-          	</FormGroup>
-          </Form>
+          <FormGroup>
+            <a onClick={::this.newSummary} style={{cursor: 'pointer'}} title="Send summary">
+              <Icon glyph='icon-dripicons-align-justify icon-1-and-quarter-x fg-text' />
+            </a>
+            <Button bsStyle="success" onClick={::this.handleSave} disabled={this.state.isLoading}>
+              {this.state.isLoading ? 'Saving...' : 'Save'}
+            </Button>
+          </FormGroup>
+        </Form>
 
-          <FlightsSuggestionsModal
-            show={this.state.showFlightsSuggestionsModal}
-            onClose={this.closeModal.bind(this, 'showFlightsSuggestionsModal')}
-            sendSuggestionsMessage={::this.sendFlightsSuggestionsMessage} />
+        <FlightsSuggestionsModal
+          show={this.state.showFlightsSuggestionsModal}
+          onClose={this.closeModal.bind(this, 'showFlightsSuggestionsModal')}
+          sendSuggestionsMessage={::this.sendFlightsSuggestionsMessage} />
 
-          <AccommodationSuggestionsModal
-            show={this.state.showAccommodationSuggestionsModal}
-            onClose={this.closeModal.bind(this, 'showAccommodationSuggestionsModal')}
-            sendSuggestionsMessage={::this.sendAccommodationSuggestionsMessage} />
+        <AccommodationSuggestionsModal
+          show={this.state.showAccommodationSuggestionsModal}
+          onClose={this.closeModal.bind(this, 'showAccommodationSuggestionsModal')}
+          sendSuggestionsMessage={::this.sendAccommodationSuggestionsMessage} />
 
-          <ActivitiesSuggestionsModal
-            show={this.state.showActivitiesSuggestionsModal}
-            onClose={this.closeModal.bind(this, 'showActivitiesSuggestionsModal')}
-            sendSuggestionsMessage={::this.sendActivitiesSuggestionsMessage} />
+        <ActivitiesSuggestionsModal
+          show={this.state.showActivitiesSuggestionsModal}
+          onClose={this.closeModal.bind(this, 'showActivitiesSuggestionsModal')}
+          sendSuggestionsMessage={::this.sendActivitiesSuggestionsMessage} />
 
-          <SummaryModal
-            show={this.state.showSummaryModal}
-            onClose={this.closeModal.bind(this, 'showSummaryModal')}
-            sendLink={this.props.sendMessage}
-            getSummaryLink={::this.getSummaryLink} />
-        </div>
-      );
-    } catch (ex) {
-      console.error('EditTrip', ex);
-    }
+        <SummaryModal
+          show={this.state.showSummaryModal}
+          onClose={this.closeModal.bind(this, 'showSummaryModal')}
+          sendLink={::this.sendSummaryLink}
+          getSummaryLink={::this.getSummaryLink} />
+      </div>
+    );
   }
 
 }
 
-const EditTripSidebarContainer = RelaySubscriptions.createContainer(EditTripSidebar, {
+const EditTripSidebarContainer = Relay.createContainer(EditTripSidebar, {
+  initialVariables: {
+    tripId: null,
+  },
   fragments: {
-    trip: () => Relay.QL`
-      fragment on Trip {
-        _id
-        name
-
-        ${UpdateTripMutation.getFragment('trip')}
-
-        activities(first: 1000) {
-          edges {
-            node {
-              id
-              pictureUrl
-              name
-              price
-            }
-          }
-        }
-
-        accommodation(first: 1000) {
-          edges {
-            node {
-              id
-              link
-              pictureUrl
-              name
-              price
-            }
-          }
-        }
-
-        flights(first: 1000) {
-          edges {
-            node {
-              id
-              pictureUrl
-              airline
-              price
-            }
-          }
-        }
-      }
-    `,
     user: () => Relay.QL`
       fragment on User {
         _id
@@ -402,19 +365,56 @@ const EditTripSidebarContainer = RelaySubscriptions.createContainer(EditTripSide
 
         ${SendMessageMutation.getFragment('user')}
         ${GetSummaryLinkMutation.getFragment('user')}
+
+        trip(_id: $tripId) {
+          _id
+          name
+
+          ${UpdateTripMutation.getFragment('trip')}
+
+          activities(first: 1000) {
+            edges {
+              node {
+                id
+                pictureUrl
+                name
+                price
+              }
+            }
+          }
+
+          accommodation(first: 1000) {
+            edges {
+              node {
+                id
+                link
+                pictureUrl
+                name
+                price
+              }
+            }
+          }
+
+          flights(first: 1000) {
+            edges {
+              node {
+                id
+                pictureUrl
+                airline
+                price
+              }
+            }
+          }
+        }
       }
     `,
     agent: () => Relay.QL`
       fragment on Agent {
         _id
-
         ${GetSummaryLinkMutation.getFragment('agent')}
       }
     `,
   },
-  subscriptions: [
-    // subscribe to changes?
-  ],
 });
 
 export default EditTripSidebarContainer;

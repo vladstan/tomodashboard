@@ -12,7 +12,7 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-import ImageModal from './ImageModal';
+import ImageModal from './modals/ImageModal';
 
 import UpdateAgentWatermarksMutation from '../mutations/UpdateAgentWatermarksMutation';
 import UpdateAgentTypingStatusMutation from '../mutations/UpdateAgentTypingStatusMutation';
