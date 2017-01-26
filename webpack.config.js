@@ -46,7 +46,6 @@ module.exports = {
   plugins: [
     new HappyPackPlugin({id: 'babel', loaders: ['babel']}),
     new HappyPackPlugin({id: 'scss', loaders: ['style!css!sass']}),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
   ],
