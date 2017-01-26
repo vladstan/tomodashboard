@@ -245,10 +245,10 @@ class ChatConversation extends React.Component {
   }
 
   hasAgentReadLastMesage() {
-    const {agent} = this.props;
+    const {user} = this.props;
 
     const lastUserMessage = this.getLastMessage('user');
-    const lastReadWatermark = parseInt(agent.lastReadWatermark || '0', 10) || 0;
+    const lastReadWatermark = parseInt(user.lastReadWatermark || '0', 10) || 0;
 
     if (lastUserMessage) {
       console.log('lastReadWatermark', lastReadWatermark);
