@@ -72,7 +72,7 @@ function onSchemaCompiled() {
 
   // routes
   app.get('*', (req, res) => {
-    res.sendFile('index.html', {root: __dirname});
+    res.sendFile('index.html', {root: path.join(__dirname, '..', 'public')});
   });
 
   // start listening

@@ -3,8 +3,8 @@ const {GraphQLObjectType} = require('graphql');
 // const SendMessageMutation = require('../mutations/SendMessage');
 // const SwitchBotAgentMutation = require('../mutations/SwitchBotAgent');
 // const UpdateStripeDetailsMutation = require('../mutations/UpdateStripeDetails');
-// const UpdateAgentWatermarksMutation = require('../mutations/UpdateAgentWatermarks');
-// const UpdateAgentTypingStatusMutation = require('../mutations/UpdateAgentTypingStatus');
+const UpdateAgentWatermarksMutation = require('../mutations/UpdateAgentWatermarks');
+const UpdateAgentTypingStatusMutation = require('../mutations/UpdateAgentTypingStatus');
 
 const LogInAgentMutation = require('../mutations/auth/LogInAgent');
 
@@ -18,8 +18,9 @@ const Mutation = new GraphQLObjectType({
     // sendMessage: SendMessageMutation,
     // switchBotAgent: SwitchBotAgentMutation,
     // updateStripeDetails: UpdateStripeDetailsMutation,
-    // updateAgentWatermarks: UpdateAgentWatermarksMutation,
-    // updateAgentTypingStatus: UpdateAgentTypingStatusMutation,
+
+    updateAgentWatermarks: UpdateAgentWatermarksMutation,
+    updateAgentTypingStatus: UpdateAgentTypingStatusMutation,
 
     logInAgent: LogInAgentMutation,
 

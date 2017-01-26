@@ -135,6 +135,10 @@ class ChatConversation extends React.Component {
         user,
         isTyping,
       }),
+      {
+        onSuccess: () => log('updated agent typing status to isTyping=' + isTyping),
+        onFailure: (err) => console.error(err),
+      }
     );
   }
 
@@ -169,16 +173,17 @@ class ChatConversation extends React.Component {
 
   sendMarkAsReadLastMessage() {
     log('marking messages as read');
+    const lastReadWatermark = Date.now() + '';
     const {relay} = this.context;
     const {agent, user} = this.props;
     relay.commitUpdate(
       new UpdateAgentWatermarksMutation({
         agent,
         user,
-        lastReadWatermark: Date.now() + '',
+        lastReadWatermark,
       }),
       {
-        onSuccess: () => log('marked messages as read'),
+        onSuccess: () => log('marked messages as read at ' + lastReadWatermark),
         onFailure: (err) => console.error(err),
       }
     );

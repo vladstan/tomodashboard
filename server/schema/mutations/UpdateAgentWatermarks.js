@@ -8,9 +8,9 @@ const {
 } = require('graphql-relay');
 
 const Agent = require('../types/Agent');
+const AgentModel = require('../../models/Agent');
 
-const db = require('../database');
-const bot = require('../tomobot');
+const bot = require('../../tomobot');
 
 const UpdateAgentWatermarksMutation = mutationWithClientMutationId({
   name: 'UpdateAgentWatermarks',
@@ -22,21 +22,17 @@ const UpdateAgentWatermarksMutation = mutationWithClientMutationId({
   outputFields: {
     agent: {
       type: Agent,
-      resolve: (payload) => db.getAgent(payload.agentId),
+      resolve: (payload) => AgentModel.findOne({_id: payload.agentId}),
     },
   },
   async mutateAndGetPayload(props) {
-    try {
-      await db.updateAgent(props.agentId, {
-        lastReadWatermark: props.lastReadWatermark,
-      });
-      await bot.markConvAsRead(props.userFacebookId);
-    } catch (ex) {
-      console.error(ex);
-    }
+    await Promise.all([
+      AgentModel.update({_id: props.agentId}, {lastReadWatermark: props.lastReadWatermark}),
+      bot.markConvAsRead(props.userFacebookId),
+    ]);
 
     return {
-      agentId: props.agentId
+      agentId: props.agentId,
     };
   },
 });

@@ -36,7 +36,7 @@ class UpdateAgentTypingStatusMutation extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-        // agent: this.props.agent.id,
+        agent: this.props.agent.id,
       },
     }];
   }

@@ -9,6 +9,7 @@ import SocketAckTimeoutError from '../errors/SocketAckTimeoutError';
 import BaseNetworkLayer from './BaseNetworkLayer';
 
 const log = debug('tomo:relay:network:SocketIoNetworkLayer');
+const SOCKETIO_ACK_TIMEOUT = 10 * 1000; // 10s
 
 class SocketIoNetworkLayer extends BaseNetworkLayer {
 
@@ -61,7 +62,7 @@ class SocketIoNetworkLayer extends BaseNetworkLayer {
       } else {
         request.reject(new Error('Empty result, check the emitted error(s)'));
       }
-    }, 10 * 1000);
+    }, SOCKETIO_ACK_TIMEOUT);
     this.socket.emit('query', payload, ackCallback);
   }
 

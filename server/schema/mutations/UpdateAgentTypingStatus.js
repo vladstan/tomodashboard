@@ -9,9 +9,9 @@ const {
 } = require('graphql-relay');
 
 const Agent = require('../types/Agent');
+const AgentModel = require('../../models/Agent');
 
-const db = require('../database');
-const bot = require('../tomobot');
+const bot = require('../../tomobot');
 
 const UpdateAgentTypingStatusMutation = mutationWithClientMutationId({
   name: 'UpdateAgentTypingStatus',
@@ -23,21 +23,14 @@ const UpdateAgentTypingStatusMutation = mutationWithClientMutationId({
   outputFields: {
     agent: {
       type: Agent,
-      resolve: (payload) => db.getAgent(payload.agentId),
+      resolve: (payload) => AgentModel.findOne({_id: payload.agentId}),
     },
   },
   async mutateAndGetPayload(props) {
-    try {
-      // await updateAgent(props.agentId, {
-      //   lastReadWatermark: props.lastReadWatermark,
-      // });
-      await bot.sendTypingStatus(props.userFacebookId, props.isTyping);
-    } catch (ex) {
-      console.error('error inside mutation UpdateAgentTypingStatusMutation:', ex);
-    }
+    await bot.sendTypingStatus(props.userFacebookId, props.isTyping);
 
     return {
-      agentId: props.agentId
+      agentId: props.agentId,
     };
   },
 });
