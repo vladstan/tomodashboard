@@ -1,7 +1,5 @@
 import debug from 'debug';
-
 import timeout from 'callback-timeout';
-import io from 'socket.io-client';
 
 import SessionExpiredError from '../errors/SessionExpiredError';
 import SocketAckTimeoutError from '../errors/SocketAckTimeoutError';
@@ -13,9 +11,9 @@ const SOCKETIO_ACK_TIMEOUT = 10 * 1000; // 10s
 
 class SocketIoNetworkLayer extends BaseNetworkLayer {
 
-  constructor() {
+  constructor(socket) {
     super();
-    this.socket = io();
+    this.socket = socket;
     this.socket.on('error', ::this.onError);
   }
 

@@ -8,10 +8,10 @@ const {
   mutationWithClientMutationId,
 } = require('graphql-relay');
 
-const Agent = require('../types/Agent');
-const AgentModel = require('../../models/Agent');
+const Agent = require('../../types/Agent');
+const AgentModel = require('../../../models/Agent');
 
-const bot = require('../../tomobot');
+const bot = require('../../../tomobot');
 
 const UpdateAgentTypingStatusMutation = mutationWithClientMutationId({
   name: 'UpdateAgentTypingStatus',

@@ -18,9 +18,9 @@ import {
 import ImageModal from './modals/ImageModal';
 import ChatConversationItem from './ChatConversationItem';
 
-import UpdateAgentWatermarksMutation from '../../mutations/UpdateAgentWatermarksMutation';
-import UpdateAgentTypingStatusMutation from '../../mutations/UpdateAgentTypingStatusMutation';
-import SendMessageMutation from '../../mutations/SendMessageMutation';
+import UpdateUserWatermarksMutation from '../../mutations/chat/UpdateUserWatermarksMutation';
+import UpdateAgentTypingStatusMutation from '../../mutations/chat/UpdateAgentTypingStatusMutation';
+import SendMessageMutation from '../../mutations/chat/SendMessageMutation';
 
 const log = debug('tomo:chat:ChatConversation');
 
@@ -177,7 +177,7 @@ class ChatConversation extends React.Component {
     const {relay} = this.context;
     const {agent, user} = this.props;
     relay.commitUpdate(
-      new UpdateAgentWatermarksMutation({
+      new UpdateUserWatermarksMutation({
         agent,
         user,
         lastReadWatermark,
@@ -190,12 +190,14 @@ class ChatConversation extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const newLastMessage = nextProps.messages[nextProps.messages.length - 1];
     const currentMessages = this.props.user.messages.edges.map((e) => e.node);
-    const lastMessage = currentMessages && currentMessages[currentMessages.length - 1] || {};
+    const nextMessages = nextProps.user.messages.edges.map((e) => e.node);
 
-    const hasNewMessage = lastMessage.text !== newLastMessage.text;
-    const lastMessageIsFromUser = newLastMessage.senderType === 'user';
+    const lastMessage = currentMessages[currentMessages.length - 1];
+    const newLastMessage = nextMessages[nextMessages.length - 1];
+
+    const hasNewMessage = lastMessage && newLastMessage && lastMessage.text !== newLastMessage.text;
+    const lastMessageIsFromUser = newLastMessage && newLastMessage.senderType === 'user';
 
     if (hasNewMessage && lastMessageIsFromUser) {
       log('focus: new message from user');
@@ -231,9 +233,8 @@ class ChatConversation extends React.Component {
   getLastMessage(type) {
     const messages = this.props.user.messages.edges.map((e) => e.node);
 
-    // agent <=> both agent and bot
     if (type === 'agent') {
-      const agentMessages = messages.filter((m) => m.senderType !== 'user');
+      const agentMessages = messages.filter((m) => m.senderType !== 'user'); // agent <=> both agent and bot
       return agentMessages.length && agentMessages[agentMessages.length - 1];
     }
 
@@ -250,16 +251,19 @@ class ChatConversation extends React.Component {
     const lastReadWatermark = parseInt(agent.lastReadWatermark || '0', 10) || 0;
 
     if (lastUserMessage) {
+      console.log('lastReadWatermark', lastReadWatermark);
+      console.log('parseInt(lastUserMessage.timestamp, 10)', parseInt(lastUserMessage.timestamp, 10));
       if (lastReadWatermark && lastReadWatermark >= parseInt(lastUserMessage.timestamp, 10)) {
         // agent has read all messages
         return true;
+      } else {
+        // agent hasn't read last message(s)
+        return false;
       }
     } else {
       // no messages sent by the user, assume true
       return true;
     }
-
-    return false;
   }
 
   render() {
@@ -368,7 +372,7 @@ const ChatConversationContainer = Relay.createContainer(ChatConversation, {
         lastDeliveredWatermark
 
         ${SendMessageMutation.getFragment('user')}
-        ${UpdateAgentWatermarksMutation.getFragment('user')}
+        ${UpdateUserWatermarksMutation.getFragment('user')}
         ${UpdateAgentTypingStatusMutation.getFragment('user')}
 
         profile {
@@ -399,9 +403,7 @@ const ChatConversationContainer = Relay.createContainer(ChatConversation, {
       fragment on Agent {
         _id
         pictureUrl
-        lastReadWatermark
 
-        ${UpdateAgentWatermarksMutation.getFragment('agent')}
         ${UpdateAgentTypingStatusMutation.getFragment('agent')}
       }
     `,

@@ -20,9 +20,8 @@ import {
 
 import ChatConversation from '../components/chat/ChatConversation';
 import ChatUserProfileSidebar from '../components/chat/ChatUserProfileSidebar';
+import SwitchBotAgentMutation from '../mutations/chat/SwitchBotAgentMutation';
 import AgentPlannerSidebar from '../components/planner/AgentPlannerSidebar';
-
-import SwitchBotAgentMutation from '../mutations/SwitchBotAgentMutation';
 
 const log = debug('tomo:chat:UserChat');
 

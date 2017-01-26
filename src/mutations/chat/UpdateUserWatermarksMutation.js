@@ -1,14 +1,8 @@
 import Relay from 'react-relay';
 
-class UpdateAgentWatermarksMutation extends Relay.Mutation {
+class UpdateUserWatermarksMutation extends Relay.Mutation {
 
   static fragments = {
-    agent: () => Relay.QL`
-      fragment on Agent {
-        id
-        _id
-      }
-    `,
     user: () => Relay.QL`
       fragment on User {
         id
@@ -19,13 +13,13 @@ class UpdateAgentWatermarksMutation extends Relay.Mutation {
   };
 
   getMutation() {
-    return Relay.QL`mutation { updateAgentWatermarks }`;
+    return Relay.QL`mutation { updateUserWatermarks }`;
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on UpdateAgentWatermarksPayload {
-        agent {
+      fragment on UpdateUserWatermarksPayload {
+        user {
           lastReadWatermark
           lastDeliveredWatermark
         }
@@ -37,7 +31,7 @@ class UpdateAgentWatermarksMutation extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-        agent: this.props.agent.id,
+        user: this.props.user.id,
       },
     }];
   }
@@ -45,11 +39,11 @@ class UpdateAgentWatermarksMutation extends Relay.Mutation {
   getVariables() {
     return {
       userFacebookId: this.props.user.facebookId,
-      agentId: this.props.agent._id,
+      userId: this.props.user._id,
       lastReadWatermark: this.props.lastReadWatermark, // string
     };
   }
 
 }
 
-export default UpdateAgentWatermarksMutation;
+export default UpdateUserWatermarksMutation;

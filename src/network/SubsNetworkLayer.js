@@ -6,13 +6,13 @@ const log = debug('tomo:relay:network:SubsNetworkLayer');
 
 class SubsNetworkLayer extends SocketIoNetworkLayer {
 
-  constructor() {
-    super();
+  constructor(socket) {
+    super(socket);
 
     this.socket.on('subscription_updated', ::this.onSubscriptionUpdated);
     this.socket.on('subscription_closed', ::this.onSubscriptionClosed);
 
-    // all the pending requets
+    // all pending requets
     this.requests = new Map(); // subscriptionId -> requestObj
   }
 

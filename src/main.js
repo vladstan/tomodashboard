@@ -4,32 +4,45 @@ import ReactHotLoader from 'react-hot-loader';
 import RelaySubscriptions from 'relay-subscriptions';
 import {Router, applyRouterMiddleware, browserHistory} from 'react-router';
 import useRelay from 'react-router-relay';
+import io from 'socket.io-client';
 
 // preserve environment between hot reloads
+let socket = null;
 let environment = null;
 
 function loadEnv() {
-  const SubsNetworkLayer = require('./network-layers/SubsNetworkLayer').default;
+  // disconnect the previous socket
+  if (socket) {
+    socket.disconnect();
+  }
+
+  // create a new socket connection
+  socket = io();
+
+  // Relay environment
+  const SubsNetworkLayer = require('./network/SubsNetworkLayer').default;
   environment = new RelaySubscriptions.Environment();
-  environment.injectNetworkLayer(new SubsNetworkLayer());
+  environment.injectNetworkLayer(new SubsNetworkLayer(socket));
 }
 
 function render() {
-  ReactDOM.unmountComponentAtNode(document.getElementById('app-container'));
-  ReactDOM.render(
-    React.createElement(
-      ReactHotLoader.AppContainer,
-      null,
-      React.createElement(Router, {
-        history: browserHistory,
-        routes: require('./routes').default,
-        render: applyRouterMiddleware(useRelay),
-        onError: onRouterError,
-        environment,
-      }),
-    ),
-    document.getElementById('app-container')
+  const routerElem = React.createElement(Router, {
+    history: browserHistory,
+    routes: require('./routes').default,
+    render: applyRouterMiddleware(useRelay),
+    onError: onRouterError,
+    environment,
+  });
+
+  const rootElem = React.createElement(
+    ReactHotLoader.AppContainer,
+    null,
+    routerElem,
   );
+
+  const appContainer = document.getElementById('app-container');
+  ReactDOM.unmountComponentAtNode(appContainer);
+  ReactDOM.render(rootElem, appContainer);
 }
 
 function onRouterError(err) {
@@ -44,7 +57,7 @@ if (module.hot) {
     render();
   });
 
-  module.hot.accept('./network-layers/SubsNetworkLayer', () => {
+  module.hot.accept('./network/SubsNetworkLayer', () => {
     loadEnv();
     render();
   });

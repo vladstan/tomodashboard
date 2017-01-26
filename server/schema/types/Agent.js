@@ -71,14 +71,6 @@ const Agent = new GraphQLObjectType({
         return connectionFromArray(users, args);
       },
     },
-    lastReadWatermark: {
-      type: GraphQLString,
-      resolve: (doc) => '' + (doc.lastReadWatermark || 0),
-    },
-    lastDeliveredWatermark: {
-      type: GraphQLString,
-      resolve: (doc) => '' + (doc.lastDeliveredWatermark || 0),
-    },
     lastCreditAmount: {
       type: GraphQLInt,
       async resolve(doc) {

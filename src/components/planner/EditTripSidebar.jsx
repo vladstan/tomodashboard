@@ -19,7 +19,7 @@ import SummaryModal from './modals/SummaryModal';
 
 import UpdateTripMutation from '../../mutations/planner/UpdateTripMutation';
 import GetSummaryLinkMutation from '../../mutations/planner/GetSummaryLinkMutation';
-import SendMessageMutation from '../../mutations/SendMessageMutation';
+import SendMessageMutation from '../../mutations/chat/SendMessageMutation';
 
 const log = debug('tomo:planner:EditTripSidebar');
 
@@ -106,9 +106,7 @@ class EditTripSidebar extends React.Component {
     });
   }
 
-  sendFlightsSuggestionsMessage(suggestions) {
-    log('sendFlightsSuggestionsMessage:', suggestions);
-
+  sendSuggestionsMessage(sType, suggestions) {
     const fixedCards = Object.keys(suggestions.cards)
       .map((key) => suggestions.cards[key]);
     const cards = fixedCards.map((c) => ({
@@ -117,104 +115,33 @@ class EditTripSidebar extends React.Component {
       description: c.description,
     }));
 
-    const {relay} = this.context;
     const {user, agent} = this.props;
-    const {trip} = user;
-    relay.commitUpdate(
-      new SendMessageMutation({
-        user,
-        type: 'cards',
-        cards: JSON.stringify(cards),
-        senderId: agent._id,
-        receiverId: user._id,
-        receiverFacebookId: user.facebookId,
-        senderType: 'agent',
-        receiverType: 'user',
-        sType: 'flights',
-        tripId: trip._id,
-      }),
-      {onFailure: ::console.error}
-    );
-  }
-
-  sendAccommodationSuggestionsMessage(suggestions) {
-    log('sendAccommodationSuggestionsMessage:', suggestions);
-
-    const fixedCards = Object.keys(suggestions.cards)
-      .map((key) => suggestions.cards[key]);
-    const cards = fixedCards.map((c) => ({
-      link: c.link,
-      description: c.description,
-    }));
-
-    const {relay} = this.context;
-    const {user, agent} = this.props;
-    const {trip} = user;
-    relay.commitUpdate(
-      new SendMessageMutation({
-        user,
-        type: 'cards',
-        cards: JSON.stringify(cards),
-        senderId: agent._id,
-        receiverId: user._id,
-        receiverFacebookId: user.facebookId,
-        senderType: 'agent',
-        receiverType: 'user',
-        sType: 'accommodation',
-        tripId: trip._id,
-      }),
-      {onFailure: ::console.error}
-    );
-  }
-
-  sendActivitiesSuggestionsMessage(suggestions) {
-    log('sendActivitiesSuggestionsMessage:', suggestions);
-
-    const fixedCards = Object.keys(suggestions.cards)
-      .map((key) => suggestions.cards[key]);
-    const cards = fixedCards.map((c) => ({
-      link: c.link,
-      title: c.title,
-      description: c.description,
-    }));
-
-    const {relay} = this.context;
-    const {user, agent} = this.props;
-    const {trip} = user;
-    log('sending activity suggestion for tripId:', trip._id);
-    relay.commitUpdate(
-      new SendMessageMutation({
-        user,
-        type: 'cards',
-        cards: JSON.stringify(cards),
-        senderId: agent._id,
-        receiverId: user._id,
-        receiverFacebookId: user.facebookId,
-        senderType: 'agent',
-        receiverType: 'user',
-        sType: 'activities',
-        tripId: trip._id,
-      }),
-      {onFailure: ::console.error}
-    );
+    this.context.backendApi.sendMessage({ // TODO: use mutation
+      userId: user._id,
+      type: 'cards',
+      cards: JSON.stringify(cards),
+      senderId: agent._id,
+      receiverId: user._id,
+      receiverFacebookId: user.facebookId,
+      senderType: 'agent',
+      receiverType: 'user',
+      tripId: user.trip._id,
+      sType,
+    });
   }
 
   sendSummaryLink(link) {
-    const {relay} = this.context;
     const {user, agent} = this.props;
-    relay.commitUpdate(
-      new SendMessageMutation({
-        user,
-        type: 'text',
-        text: link,
-        senderId: agent._id,
-        receiverId: user._id,
-        receiverFacebookId: user.facebookId,
-        senderType: 'agent',
-        receiverType: 'user',
-      }),
-      {onFailure: ::console.error}
-    );
+    this.context.backendApi.sendMessage({ // TODO: use mutation
+      userId: user._id,
+      type: 'text',
+      text: link,
+      senderId: agent._id,
+      receiverId: user._id,
+      receiverFacebookId: user.facebookId,
+      senderType: 'agent',
+      receiverType: 'user',
+    });
   }
 
   newFlight() {
@@ -330,17 +257,17 @@ class EditTripSidebar extends React.Component {
         <FlightsSuggestionsModal
           show={this.state.showFlightsSuggestionsModal}
           onClose={this.closeModal.bind(this, 'showFlightsSuggestionsModal')}
-          sendSuggestionsMessage={::this.sendFlightsSuggestionsMessage} />
+          sendSuggestionsMessage={this.sendSuggestionsMessage.bind(this, 'flights')} />
 
         <AccommodationSuggestionsModal
           show={this.state.showAccommodationSuggestionsModal}
           onClose={this.closeModal.bind(this, 'showAccommodationSuggestionsModal')}
-          sendSuggestionsMessage={::this.sendAccommodationSuggestionsMessage} />
+          sendSuggestionsMessage={this.sendSuggestionsMessage.bind(this, 'accommodation')} />
 
         <ActivitiesSuggestionsModal
           show={this.state.showActivitiesSuggestionsModal}
           onClose={this.closeModal.bind(this, 'showActivitiesSuggestionsModal')}
-          sendSuggestionsMessage={::this.sendActivitiesSuggestionsMessage} />
+          sendSuggestionsMessage={this.sendSuggestionsMessage.bind(this, 'activities')} />
 
         <SummaryModal
           show={this.state.showSummaryModal}
