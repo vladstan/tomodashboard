@@ -14,8 +14,6 @@ const ActionMessageModel = require('../../models/ActionMessage');
 const AgentCreditModel = require('../../models/AgentCredit');
 const UserModel = require('../../models/User');
 
-const {nodeInterface} = require('../node-definitions');
-
 const Agent = new GraphQLObjectType({
   name: 'Agent',
   fields: () => ({
@@ -49,7 +47,7 @@ const Agent = new GraphQLObjectType({
       resolve: (doc) => doc.fbAccessToken,
     },
     incomingRequests: {
-      type: require('./IncomingRequest').connectionType,
+      type: require('../connections').IncomingRequestsConnection,
       args: connectionArgs,
       async resolve(doc, args) {
         const requests = await ActionMessageModel.find();
@@ -64,7 +62,7 @@ const Agent = new GraphQLObjectType({
       resolve: (doc, args) => UserModel.findOne({_id: args._id}),
     },
     users: {
-      type: require('./User').connectionType,
+      type: require('../connections').UsersConnection,
       args: connectionArgs,
       async resolve(doc, args) {
         const users = await UserModel.find();
@@ -116,7 +114,7 @@ const Agent = new GraphQLObjectType({
       },
     },
   }),
-  interfaces: [nodeInterface],
+  interfaces: [require('../node-definitions').nodeInterface],
 });
 
 module.exports = Agent;

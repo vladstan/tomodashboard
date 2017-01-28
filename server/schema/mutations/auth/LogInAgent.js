@@ -22,9 +22,9 @@ const LogInAgentMutation = mutationWithClientMutationId({
     accessToken: {type: new GraphQLNonNull(GraphQLString)},
     expiresIn: {type: new GraphQLNonNull(GraphQLInt)},
   },
-  outputFields: {
+  outputFields: () => ({
     accessToken: {type: GraphQLString},
-  },
+  }),
   async mutateAndGetPayload(props) {
     const agent = await AgentModel.logIn({
       uid: props.uid,

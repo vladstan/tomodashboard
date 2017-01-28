@@ -22,7 +22,7 @@ const SwitchBotAgentMutation = mutationWithClientMutationId({
     userFbId: {type: new GraphQLNonNull(GraphQLString)},
     agentImageUrl: {type: new GraphQLNonNull(GraphQLString)},
   },
-  outputFields: {
+  outputFields: () => ({
     user: {
       type: User,
       resolve: (payload) => db.getUser(payload.userId),

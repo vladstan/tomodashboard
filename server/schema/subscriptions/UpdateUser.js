@@ -12,7 +12,7 @@ const UpdateUserSubscription = subscriptionWithClientId({
   inputFields: {
     userId: {type: new GraphQLNonNull(GraphQLString)},
   },
-  outputFields: {
+  outputFields: () => ({
     user: {
       type: User,
       resolve: (doc) => doc,

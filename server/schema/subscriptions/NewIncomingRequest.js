@@ -20,7 +20,7 @@ const NewIncomingRequestSubscription = subscriptionWithClientId({
       resolve: (doc) => doc,
     },
     incomingRequestEdge: {
-      type: require('../types/IncomingRequest').edgeType,
+      type: require('../connections').IncomingRequestEdge,
       async resolve(doc) {
         // const ireqs = await db.getIncomingReqs();
         // const ireq = await getIncomingReq(req._id);

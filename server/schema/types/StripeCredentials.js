@@ -7,8 +7,6 @@ const {
   globalIdField,
 } = require('graphql-relay');
 
-const {nodeInterface} = require('../node-definitions');
-
 const StripeCredentials = new GraphQLObjectType({
   name: 'StripeCredentials',
   fields: () => ({
@@ -18,7 +16,7 @@ const StripeCredentials = new GraphQLObjectType({
       resolve: (doc) => doc.customerId,
     },
   }),
-  interfaces: [nodeInterface],
+  interfaces: [require('../node-definitions').nodeInterface],
 });
 
 module.exports = StripeCredentials;

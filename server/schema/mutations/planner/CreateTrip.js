@@ -1,9 +1,6 @@
 const {GraphQLNonNull, GraphQLString} = require('graphql');
 const {mutationWithClientMutationId, offsetToCursor} = require('graphql-relay');
 
-const Trip = require('../../types/Trip');
-const User = require('../../types/User');
-
 const db = require('../../database');
 
 const CreateTripMutation = mutationWithClientMutationId({
@@ -14,9 +11,9 @@ const CreateTripMutation = mutationWithClientMutationId({
     tripName: {type: new GraphQLNonNull(GraphQLString)},
     status: {type: new GraphQLNonNull(GraphQLString)},
   },
-  outputFields: {
+  outputFields: () => ({
     tripEdge: {
-      type: Trip.edgeType,
+      type: require('../../connections').TripEdge,
       async resolve(doc) {
         const trips = await db.getTripsForUser(doc.userId);
 
@@ -31,10 +28,10 @@ const CreateTripMutation = mutationWithClientMutationId({
       },
     },
     user: {
-      type: User,
+      type: require('../../types/User'),
       resolve: (doc) => db.getUser(doc.userId),
     },
-  },
+  }),
   async mutateAndGetPayload(props) {
     const trip = await db.createTrip({
       status: props.status,

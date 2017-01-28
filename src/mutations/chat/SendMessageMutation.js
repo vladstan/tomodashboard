@@ -6,6 +6,13 @@ class SendMessageMutation extends Relay.Mutation {
       fragment on User {
         id
         _id
+        facebookId
+      }
+    `,
+    agent: () => Relay.QL`
+      fragment on Agent {
+        id
+        _id
       }
     `,
   };
@@ -17,30 +24,39 @@ class SendMessageMutation extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on SendMessagePayload {
-        nothing
+        messageEdge
+        user {
+          id
+        }
       }
     `;
   }
 
   getConfigs() {
-    return [];
+    return [{
+      type: 'RANGE_ADD',
+      parentName: 'user',
+      parentID: this.props.user.id,
+      connectionName: 'messages',
+      edgeName: 'messageEdge',
+      rangeBehaviors: () => 'append',
+    }];
   }
 
   getVariables() {
-    console.log('SendMessageMutation.getVars()');
     return {
       userId: this.props.user._id,
       type: this.props.type,
-      text: this.props.text || '',
-      imageUrl: this.props.imageUrl || '',
-      cards: this.props.cards || [],
-      senderId: this.props.senderId,
-      receiverId: this.props.receiverId,
-      receiverFacebookId: this.props.receiverFacebookId,
-      senderType: this.props.senderType,
-      receiverType: this.props.receiverType,
-      sType: this.props.sType,
-      tripId: this.props.tripId,
+      senderId: this.props.agent._id,
+      receiverId: this.props.user._id,
+      receiverFacebookId: this.props.user.facebookId,
+      senderType: 'agent',
+      receiverType: 'user',
+      text: this.props.text,          // required for type=text
+      imageUrl: this.props.imageUrl,  // required for type=image
+      cards: this.props.cards,        // required for type=cards
+      sType: this.props.sType,    // optional
+      tripId: this.props.tripId,  // optional
     };
   }
 

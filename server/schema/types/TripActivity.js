@@ -5,14 +5,11 @@ const {
 
 const {
   globalIdField,
-  connectionDefinitions,
 } = require('graphql-relay');
-
-const {nodeInterface} = require('../node-definitions');
 
 const TripActivity = new GraphQLObjectType({
   name: 'TripActivity',
-  fields: {
+  fields: () => ({
     id: globalIdField('TripActivity', (doc) => doc._id),
     pictureUrl: {
       type: GraphQLString,
@@ -23,16 +20,8 @@ const TripActivity = new GraphQLObjectType({
     price: {
       type: GraphQLString,
     },
-  },
-  interfaces: [nodeInterface],
+  }),
+  interfaces: [require('../node-definitions').nodeInterface],
 });
-
-const defs = connectionDefinitions({
-  name: 'activities',
-  nodeType: TripActivity,
-});
-
-TripActivity.edgeType = defs.edgeType;
-TripActivity.connectionType = defs.connectionType;
 
 module.exports = TripActivity;

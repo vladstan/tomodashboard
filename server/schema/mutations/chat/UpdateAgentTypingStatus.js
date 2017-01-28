@@ -20,12 +20,12 @@ const UpdateAgentTypingStatusMutation = mutationWithClientMutationId({
     agentId: {type: new GraphQLNonNull(GraphQLString)},
     isTyping: {type: new GraphQLNonNull(GraphQLBoolean)},
   },
-  outputFields: {
+  outputFields: () => ({
     agent: {
       type: Agent,
       resolve: (payload) => AgentModel.findOne({_id: payload.agentId}),
     },
-  },
+  }),
   async mutateAndGetPayload(props) {
     await bot.sendTypingStatus(props.userFacebookId, props.isTyping);
 

@@ -100,8 +100,8 @@ class EditTripSidebar extends React.Component {
       const {agent, user} = this.props;
       const linkMutation = new GetSummaryLinkMutation({summary, agent, user});
       relay.commitUpdate(linkMutation, {
-        onSuccess: (transaction) => reject(transaction.getError()),
-        onFailure: (response) => resolve(response.getSummaryLink.link),
+        onSuccess: (response) => resolve(response.getSummaryLink.link),
+        onFailure: (tx) => reject(tx.getError()),
       });
     });
   }

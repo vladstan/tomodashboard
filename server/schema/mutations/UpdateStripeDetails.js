@@ -29,7 +29,7 @@ const UpdateStripeDetailsMutation = mutationWithClientMutationId({
     summaryId: {type: new GraphQLNonNull(GraphQLString)},
     agentId: {type: new GraphQLNonNull(GraphQLString)},
   },
-  outputFields: {
+  outputFields: () => ({
     user: {
       type: User,
       resolve: (payload) => db.getUser(payload.userId),

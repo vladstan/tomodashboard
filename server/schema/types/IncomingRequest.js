@@ -5,10 +5,7 @@ const {
 
 const {
   globalIdField,
-  connectionDefinitions,
 } = require('graphql-relay');
-
-const {nodeInterface} = require('../node-definitions');
 
 const UserModel = require('../../models/User');
 
@@ -37,15 +34,7 @@ const IncomingRequest = new GraphQLObjectType({
       resolve: (doc) => UserModel.findOne({_id: doc.userId}),
     },
   }),
-  interfaces: [nodeInterface],
+  interfaces: [require('../node-definitions').nodeInterface],
 });
-
-const defs = connectionDefinitions({
-  name: 'incomingRequests',
-  nodeType: IncomingRequest,
-});
-
-IncomingRequest.edgeType = defs.edgeType;
-IncomingRequest.connectionType = defs.connectionType;
 
 module.exports = IncomingRequest;

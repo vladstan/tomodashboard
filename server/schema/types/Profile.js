@@ -10,8 +10,6 @@ const {
 
 const ProfilePrefs = require('./ProfilePrefs');
 
-const {nodeInterface} = require('../node-definitions');
-
 const Profile = new GraphQLObjectType({
   name: 'Profile',
   fields: () => ({
@@ -55,9 +53,9 @@ const Profile = new GraphQLObjectType({
     prefs: {
       type: ProfilePrefs,
       resolve: (doc) => doc.prefs,
-    }
+    },
   }),
-  interfaces: [nodeInterface],
+  interfaces: [require('../node-definitions').nodeInterface],
 });
 
 module.exports = Profile;

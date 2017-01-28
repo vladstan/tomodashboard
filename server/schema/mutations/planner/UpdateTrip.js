@@ -17,7 +17,7 @@ const UpdateTripMutation = mutationWithClientMutationId({
     tripId: {type: new GraphQLNonNull(GraphQLString)},
     name: {type: new GraphQLNonNull(GraphQLString)},
   },
-  outputFields: {
+  outputFields: () => ({
     trip: {
       type: Trip,
       resolve: (payload) => db.getTrip(payload.tripId),

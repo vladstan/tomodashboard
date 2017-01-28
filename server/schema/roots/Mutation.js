@@ -1,6 +1,6 @@
 const {GraphQLObjectType} = require('graphql');
 
-// const SendMessageMutation = require('../mutations/chat/SendMessage');
+const SendMessageMutation = require('../mutations/chat/SendMessage');
 // const SwitchBotAgentMutation = require('../mutations/chat/SwitchBotAgent');
 // const UpdateStripeDetailsMutation = require('../mutations/UpdateStripeDetails');
 const UpdateUserWatermarksMutation = require('../mutations/chat/UpdateUserWatermarks');
@@ -15,7 +15,7 @@ const LogInAgentMutation = require('../mutations/auth/LogInAgent');
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
-    // sendMessage: SendMessageMutation,
+    sendMessage: SendMessageMutation,
     // switchBotAgent: SwitchBotAgentMutation,
     // updateStripeDetails: UpdateStripeDetailsMutation,
 

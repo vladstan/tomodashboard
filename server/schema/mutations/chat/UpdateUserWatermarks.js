@@ -18,12 +18,12 @@ const UpdateUserWatermarksMutation = mutationWithClientMutationId({
     userId: {type: new GraphQLNonNull(GraphQLString)},
     lastReadWatermark: {type: new GraphQLNonNull(GraphQLString)},
   },
-  outputFields: {
+  outputFields: () => ({
     agent: {
       type: require('../../types/User'),
       resolve: (payload) => UserModel.findOne({_id: payload.userId}),
     },
-  },
+  }),
   async mutateAndGetPayload(props) {
     await Promise.all([
       UserModel.update({_id: props.userId}, {lastReadWatermark: props.lastReadWatermark}),

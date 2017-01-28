@@ -5,14 +5,13 @@ const {
 
 const {
   globalIdField,
-  connectionDefinitions,
 } = require('graphql-relay');
 
-const {nodeInterface} = require('../node-definitions');
+const AgentModel = require('../../models/Agent');
 
 const Message = new GraphQLObjectType({
   name: 'Message',
-  fields: {
+  fields: () => ({
     id: globalIdField('Message', (doc) => doc._id),
     _id: {
       type: GraphQLString,
@@ -54,20 +53,16 @@ const Message = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (doc) => '' + (doc.timestamp || 0),
     },
+    senderAgent: {
+      type: require('./Agent'),
+      resolve: (doc) => doc.senderType === 'agent' && AgentModel.findOne({_id: doc.senderId}) || null,
+    },
     // createdAt: {
     //   type: GraphQLString,
     //   resolve: (doc) => doc.type,
     // },
-  },
-  interfaces: [nodeInterface],
+  }),
+  interfaces: [require('../node-definitions').nodeInterface],
 });
-
-const defs = connectionDefinitions({
-  name: 'messages',
-  nodeType: Message,
-});
-
-Message.edgeType = defs.edgeType;
-Message.connectionType = defs.connectionType;
 
 module.exports = Message;

@@ -18,7 +18,7 @@ const GetSummaryLinkMutation = mutationWithClientMutationId({
     agentId: {type: new GraphQLNonNull(GraphQLString)},
     userId: {type: new GraphQLNonNull(GraphQLString)},
   },
-  outputFields: {
+  outputFields: () => ({
     link: {
       type: GraphQLString,
       resolve: (payload) => payload.link,

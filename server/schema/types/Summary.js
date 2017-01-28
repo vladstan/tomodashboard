@@ -10,13 +10,8 @@ const {
   connectionArgs,
 } = require('graphql-relay');
 
-const db = require('../database');
-
-const User = require('./User');
-const Agent = require('./Agent');
-const SummaryField = require('./SummaryField');
-
-const {nodeInterface} = require('../node-definitions');
+const UserModel = require('../../models/User');
+const AgentModel = require('../../models/Agent');
 
 const Summary = new GraphQLObjectType({
   name: 'Summary',
@@ -26,11 +21,11 @@ const Summary = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (doc) => doc._id,
     },
-    fields: {
-      type: SummaryField.connectionType,
+    fields: () => ({
+      type: require('../connections').SummaryFieldsConnection,
       args: connectionArgs,
       resolve: (doc, args) => connectionFromArray(doc.fields, args),
-    },
+    }),
     total: {
       type: GraphQLInt,
       resolve: (doc) => {
@@ -61,15 +56,15 @@ const Summary = new GraphQLObjectType({
       },
     },
     user: {
-      type: User,
-      resolve: (doc) => db.getUser(doc.userId),
+      type: require('./User'),
+      resolve: (doc) => UserModel.findOne({_id: doc.userId}),
     },
     agent: {
-      type: Agent,
-      resolve: (doc) => db.getAgent(doc.agentId),
+      type: require('./Agent'),
+      resolve: (doc) => AgentModel.findOne({_id: doc.agentId}),
     },
   }),
-  interfaces: [nodeInterface],
+  interfaces: [require('../node-definitions').nodeInterface],
 });
 
 module.exports = Summary;

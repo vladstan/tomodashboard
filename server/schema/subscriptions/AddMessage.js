@@ -6,8 +6,6 @@ const {
   cursorForObjectInConnection,
 } = require('graphql-relay');
 
-const Message = require('../types/Message');
-
 const db = require('../database');
 const {subscriptionWithClientId} = require('graphql-relay-subscription');
 
@@ -16,17 +14,17 @@ const AddMessageSubscription = subscriptionWithClientId({
   inputFields: {
     userId: {type: GraphQLString},
   },
-  outputFields: {
+  outputFields: () => ({
     message: {
-      type: Message,
+      type: require('../types/Message'),
       resolve: (doc) => doc,
     },
     messageEdge: {
-      type: Message.edgeType,
+      type: require('../connections').MessageEdge,
       async resolve(doc) {
         const userId = doc.senderType === 'user' ? doc.senderId : doc.receiverId;
         const messages = await db.getMessagesForUser(userId);
-        const msgDoc = messages.find(m => ('' + m._id) == ('' + doc._id));
+        const msgDoc = messages.find(m => ('' + m._id) === ('' + doc._id));
 
         return {
           cursor: cursorForObjectInConnection(messages, msgDoc),
@@ -34,8 +32,8 @@ const AddMessageSubscription = subscriptionWithClientId({
         };
       },
     },
-  },
-  subscribe: (input, context) => {
+  }),
+  subscribe(input, context) {
     console.log('subscribing to:', `add_message:${input.userId}`);
     context.subscribe(`add_message:${input.userId}`);
   },

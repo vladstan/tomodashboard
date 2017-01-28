@@ -7,11 +7,9 @@ const {
   globalIdField,
 } = require('graphql-relay');
 
-const {nodeInterface} = require('../node-definitions');
-
 const ProfilePrefs = new GraphQLObjectType({
   name: 'ProfilePrefs',
-  fields: {
+  fields: () => ({
     id: globalIdField('ProfilePrefs'),
     home_airport: {
       type: GraphQLString,
@@ -57,8 +55,8 @@ const ProfilePrefs = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (doc) => doc.next_trip_extra,
     },
-  },
-  interfaces: [nodeInterface],
+  }),
+  interfaces: [require('../node-definitions').nodeInterface],
 });
 
 module.exports = ProfilePrefs;

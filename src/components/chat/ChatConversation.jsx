@@ -68,44 +68,32 @@ class ChatConversation extends React.Component {
     log('sending text message', messageText);
     const {relay} = this.context;
     const {user, agent} = this.props;
-    relay.commitUpdate(
-      new SendMessageMutation({
-        user,
-        type: 'text',
-        text: messageText,
-        senderId: agent._id,
-        receiverId: user._id,
-        receiverFacebookId: user.facebookId,
-        senderType: 'agent',
-        receiverType: 'user',
-      }),
-      {
-        onSuccess: () => log('sending text message `' + messageText + '` failed'),
-        onFailure: (err) => console.error(err),
-      }
-    );
+    const sendMessageMutation = new SendMessageMutation({
+      user,
+      agent,
+      type: 'text',
+      text: messageText,
+    });
+    relay.commitUpdate(sendMessageMutation, {
+      onSuccess: () => log('sent text message: ' + messageText),
+      onFailure: (tx) => console.error(tx.getError()),
+    });
   }
 
   sendImageMessage(link) {
     log('sending image message', link);
     const {relay} = this.context;
     const {user, agent} = this.props;
-    relay.commitUpdate(
-      new SendMessageMutation({
-        user,
-        type: 'image',
-        imageUrl: link,
-        senderId: agent._id,
-        receiverId: user._id,
-        receiverFacebookId: user.facebookId,
-        senderType: 'agent',
-        receiverType: 'user',
-      }),
-      {
-        onSuccess: () => log('sending image message `' + link + '` failed'),
-        onFailure: (err) => console.error(err),
-      }
-    );
+    const sendMessageMutation = new SendMessageMutation({
+      user,
+      agent,
+      type: 'image',
+      imageUrl: link,
+    });
+    relay.commitUpdate(sendMessageMutation, {
+      onSuccess: () => log('sent image message: ' + link),
+      onFailure: (tx) => console.error(tx.getError()),
+    });
   }
 
   onMessageTextChange(event) {
@@ -137,7 +125,7 @@ class ChatConversation extends React.Component {
       }),
       {
         onSuccess: () => log('updated agent typing status to isTyping=' + isTyping),
-        onFailure: (err) => console.error(err),
+        onFailure: (tx) => console.error(tx.getError()),
       }
     );
   }
@@ -184,7 +172,7 @@ class ChatConversation extends React.Component {
       }),
       {
         onSuccess: () => log('marked messages as read at ' + lastReadWatermark),
-        onFailure: (err) => console.error(err),
+        onFailure: (tx) => console.error(tx.getError()),
       }
     );
   }
@@ -251,8 +239,6 @@ class ChatConversation extends React.Component {
     const lastReadWatermark = parseInt(user.lastReadWatermark || '0', 10) || 0;
 
     if (lastUserMessage) {
-      console.log('lastReadWatermark', lastReadWatermark);
-      console.log('parseInt(lastUserMessage.timestamp, 10)', parseInt(lastUserMessage.timestamp, 10));
       if (lastReadWatermark && lastReadWatermark >= parseInt(lastUserMessage.timestamp, 10)) {
         // agent has read all messages
         return true;
@@ -288,6 +274,8 @@ class ChatConversation extends React.Component {
       }
     }
 
+    const tomoAvatarPictureUrl = 'http://graph.facebook.com/hellotomoai/picture?type=square';
+
     return (
       <div>
         <Grid>
@@ -303,7 +291,11 @@ class ChatConversation extends React.Component {
                     <ChatConversationItem
                       key={m.id}
                       position={m.senderType === 'user' ? 'left' : 'right'}
-                      avatarUrl={m.senderType === 'user' ? this.props.user.profile.pictureUrl : this.props.agent.pictureUrl}
+                      avatarUrl={m.senderType === 'user'
+                        ? this.props.user.profile.pictureUrl
+                        : m.senderType === 'agent'
+                        ? m.senderAgent.pictureUrl
+                        : tomoAvatarPictureUrl}
                       imageUrl={m.imageUrl}
                       cards={m.cards && JSON.parse(m.cards)}
                       text={m.text} />
@@ -367,7 +359,6 @@ const ChatConversationContainer = Relay.createContainer(ChatConversation, {
     user: () => Relay.QL`
       fragment on User {
         _id
-        facebookId
         lastReadWatermark
         lastDeliveredWatermark
 
@@ -394,6 +385,9 @@ const ChatConversationContainer = Relay.createContainer(ChatConversation, {
               receiverType
               timestamp
               imageUrl
+              senderAgent {
+                pictureUrl
+              }
             }
           }
         }
@@ -402,8 +396,8 @@ const ChatConversationContainer = Relay.createContainer(ChatConversation, {
     agent: () => Relay.QL`
       fragment on Agent {
         _id
-        pictureUrl
 
+        ${SendMessageMutation.getFragment('agent')}
         ${UpdateAgentTypingStatusMutation.getFragment('agent')}
       }
     `,

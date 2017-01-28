@@ -6,19 +6,12 @@ const {
 const {
   globalIdField,
   connectionArgs,
-  connectionDefinitions,
   connectionFromArray,
 } = require('graphql-relay');
 
-const TripFlight = require('./TripFlight');
-const TripAccommodation = require('./TripAccommodation');
-const TripActivity = require('./TripActivity');
-
-const {nodeInterface} = require('../node-definitions');
-
 const Trip = new GraphQLObjectType({
   name: 'Trip',
-  fields: {
+  fields: () => ({
     id: globalIdField('Trip', (doc) => doc._id),
     _id: {
       type: GraphQLString,
@@ -41,17 +34,17 @@ const Trip = new GraphQLObjectType({
       resolve: (doc) => doc.name,
     },
     flights: {
-      type: TripFlight.connectionType,
+      type: require('../connections').TripFlightsConnection,
       args: connectionArgs,
       resolve: (doc, args) => connectionFromArray(doc.flights || [], args),
     },
     accommodation: {
-      type: TripAccommodation.connectionType,
+      type: require('../connections').TripAccommodationConnection,
       args: connectionArgs,
       resolve: (doc, args) => connectionFromArray(doc.accommodation || [], args),
     },
     activities: {
-      type: TripActivity.connectionType,
+      type: require('../connections').TripActivitiesConnection,
       args: connectionArgs,
       resolve: (doc, args) => connectionFromArray(doc.activities || [], args),
     },
@@ -59,16 +52,8 @@ const Trip = new GraphQLObjectType({
     //   type: GraphQLString,
     //   resolve: (doc) => doc.type,
     // },
-  },
-  interfaces: [nodeInterface],
+  }),
+  interfaces: [require('../node-definitions').nodeInterface],
 });
-
-const defs = connectionDefinitions({
-  name: 'trips',
-  nodeType: Trip,
-});
-
-Trip.edgeType = defs.edgeType;
-Trip.connectionType = defs.connectionType;
 
 module.exports = Trip;

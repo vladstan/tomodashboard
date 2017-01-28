@@ -9,12 +9,12 @@ const UpdatedIncomingRequestSubscription = require('../subscriptions/UpdatedInco
 
 const Subscription = new GraphQLObjectType({
   name: 'Subscription',
-  fields: {
+  fields: () => ({
     newIncomingRequest: NewIncomingRequestSubscription,
     updatedIncomingRequest: UpdatedIncomingRequestSubscription,
     // updateUser: UpdateUserSubscription,
     // addMessage: AddMessageSubscription,
-  },
+  }),
 });
 
 module.exports = Subscription;

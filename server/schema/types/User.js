@@ -8,15 +8,12 @@ const {
   globalIdField,
   connectionArgs,
   connectionFromArray,
-  connectionDefinitions,
 } = require('graphql-relay');
 
 const MessageModel = require('../../models/Message');
 const ProfileModel = require('../../models/Profile');
 const SessionModel = require('../../models/Session');
 const TripModel = require('../../models/Trip');
-
-const {nodeInterface} = require('../node-definitions');
 
 const User = new GraphQLObjectType({
   name: 'User',
@@ -35,7 +32,7 @@ const User = new GraphQLObjectType({
       resolve: (doc) => ProfileModel.findOne({userId: doc._id}),
     },
     messages: {
-      type: require('./Message').connectionType,
+      type: require('../connections').MessagesConnection,
       args: connectionArgs,
       async resolve(doc, args) {
         const session = await SessionModel.findOne({userId: doc._id});
@@ -54,7 +51,7 @@ const User = new GraphQLObjectType({
       resolve: (doc, args) => TripModel.findOne({_id: args._id}),
     },
     trips: {
-      type: require('./Trip').connectionType,
+      type: require('../connections').TripsConnection,
       args: connectionArgs,
       async resolve(doc, args) {
         const trips = await TripModel.find({userId: doc._id});
@@ -78,15 +75,7 @@ const User = new GraphQLObjectType({
       resolve: (doc) => '' + (doc.lastDeliveredWatermark || 0),
     },
   }),
-  interfaces: [nodeInterface],
+  interfaces: [require('../node-definitions').nodeInterface],
 });
-
-const defs = connectionDefinitions({
-  name: 'users',
-  nodeType: User,
-});
-
-User.edgeType = defs.edgeType;
-User.connectionType = defs.connectionType;
 
 module.exports = User;

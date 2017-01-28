@@ -45,10 +45,7 @@ class UserChat extends React.Component {
     const switchMutation = new SwitchBotAgentMutation({user, agent, botMuted});
     relay.commitUpdate(switchMutation, {
       onSuccess: () => log('successfully switched bot to muted=' + botMuted),
-      onFailure: (err) => {
-        alert('Could not switch bot. Please try again.');
-        console.error(err);
-      },
+      onFailure: (tx) => console.error(tx.getError()),
     });
   }
 

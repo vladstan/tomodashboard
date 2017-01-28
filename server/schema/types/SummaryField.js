@@ -6,10 +6,7 @@ const {
 
 const {
   globalIdField,
-  connectionDefinitions,
 } = require('graphql-relay');
-
-const {nodeInterface} = require('../node-definitions');
 
 const SummaryField = new GraphQLObjectType({
   name: 'SummaryField',
@@ -24,15 +21,7 @@ const SummaryField = new GraphQLObjectType({
     segments: {type: GraphQLInt},
     segmentPrice: {type: GraphQLInt},
   }),
-  interfaces: [nodeInterface],
+  interfaces: [require('../node-definitions').nodeInterface],
 });
-
-const defs = connectionDefinitions({
-  name: 'summaryFields',
-  nodeType: SummaryField,
-});
-
-SummaryField.edgeType = defs.edgeType;
-SummaryField.connectionType = defs.connectionType;
 
 module.exports = SummaryField;
